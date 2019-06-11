@@ -26,7 +26,8 @@ def ingestExternalData(butler, products):
     """
 
     for entry in products:
-        dsType = DatasetType(entry.datatype, entry.dimensions, entry.storageClass)
+        dsType = DatasetType(entry.datatype, butler.registry.dimensions.extract(entry.dimensions),
+                             entry.storageClass)
         butler.registry.registerDatasetType(dsType)
         dsRef = butler.registry.addDataset(dsType, entry.dataId, butler.run)
         butler.datastore.ingest(entry.path, dsRef)
