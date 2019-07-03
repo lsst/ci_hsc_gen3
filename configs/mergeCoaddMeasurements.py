@@ -1,0 +1,11 @@
+import os
+
+from lsst.utils import getPackageDir
+
+subaruConfig = os.path.join(getPackageDir("obs_subaru"), "config", "mergeCoaddMeasurements.py")
+if os.path.exists(subaruConfig):
+    config.load(subaruConfig)
+hscConfig = os.path.join(getPackageDir("obs_subaru"), "config", "hsc", "mergeCoaddMeasurements.py")
+if os.path.exists(hscConfig):
+    config.load(hscConfig)
+config.priorityList = ['i', 'r']
