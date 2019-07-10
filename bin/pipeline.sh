@@ -1,4 +1,5 @@
-#!/usr/bin/env sh
+#!/bin/sh
+DYLD_LIBRARY_PATH=$LSST_LIBRARY_PATH
 COLLECTION=shared/ci_hsc_output
 
 pipetask -d "patch.patch = 69" -j "$1" -b "$CI_HSC_GEN3_DIR"/butler.yaml -p lsst.meas.base -p lsst.ip.isr -p \
