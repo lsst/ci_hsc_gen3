@@ -1,6 +1,7 @@
 #!/usr/bin/env sh
 COLLECTION=shared/ci_hsc_output
 
+export DYLD_LIBRARY_PATH=$LSST_LIBRARY_PATH
 pipetask -d "patch.patch = 69" -j "$1" -b "$CI_HSC_GEN3_DIR"/butler.yaml -p lsst.meas.base -p lsst.ip.isr -p \
 lsst.pipe.tasks -i calib,shared/ci_hsc -o "$COLLECTION" run \
 --register-dataset-types \

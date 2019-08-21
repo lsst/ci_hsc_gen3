@@ -66,6 +66,9 @@ pipeline = env.Command("shared/ci_hsc_output", raws, ["bin/pipeline.sh {}".forma
 
 everything = [butler, links, register, sql, hsc, skymap, externalData, raws, pipeline]
 
+# Add a no-op install target to keep Jenkins happy.
+env.Alias("install", "SConstruct")
+
 env.Alias("all", everything)
 Default(everything)
 
