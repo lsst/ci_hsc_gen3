@@ -67,7 +67,7 @@ if __name__ == "__main__":
                                   "patch": 69,
                                   "skymap": "ci_hsc",
                                   "abstract_filter": "r"},
-                                 "brightObjectMasks/0/BrightObjectMask-0-5,4-HSC-I.reg"),
+                                 "brightObjectMasks/0/BrightObjectMask-0-5,4-HSC-R.reg"),
                 ExternalProducts("ref_cat",
                                  ("skypix",),
                                  "SimpleCatalog",
