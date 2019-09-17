@@ -3,7 +3,7 @@ COLLECTION=shared/ci_hsc_output
 
 export DYLD_LIBRARY_PATH=$LSST_LIBRARY_PATH
 pipetask -d "patch.patch = 69" -j "$1" -b "$CI_HSC_GEN3_DIR"/butler.yaml -p lsst.meas.base -p lsst.ip.isr -p \
-lsst.pipe.tasks -i calib,shared/ci_hsc -o "$COLLECTION" run \
+lsst.pipe.tasks -i calib/hsc,raw/hsc,masks/hsc,ref_cats,skymaps -o "$COLLECTION" run \
 --register-dataset-types \
 -t isrTask.IsrTask:isr -C isr:"$CI_HSC_GEN3_DIR"/configs/isr.py \
 -t characterizeImage.CharacterizeImageTask:cit -C cit:"$CI_HSC_GEN3_DIR"/configs/charImage.py \

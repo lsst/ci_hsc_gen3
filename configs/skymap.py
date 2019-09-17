@@ -8,4 +8,4 @@ config.skyMap["discrete"].tractOverlap = 0.0
 config.skyMap["discrete"].pixelScale = 0.168
 config.skyMap["discrete"].patchInnerDimensions = [4000, 4000]
 config.skyMap.name = "discrete"
-config.name = 'ci_hsc'
+config.name = 'discrete/ci_hsc'

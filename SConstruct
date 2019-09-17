@@ -1,5 +1,5 @@
 import os
-from SCons.Script import SConscript
+from SCons.Script import SConscript, Environment, GetOption, Default
 from lsst.sconsUtils.utils import libraryLoaderEnvironment
 from lsst.utils import getPackageDir
 SConscript(os.path.join(".", "bin.src", "SConscript"))
@@ -7,10 +7,8 @@ SConscript(os.path.join(".", "bin.src", "SConscript"))
 env = Environment(ENV=os.environ)
 env["ENV"]["OMP_NUM_THREADS"] = "1"  # Disable threading
 
-location = getPackageDir("ci_hsc_gen3")
 
-
-def getExecutable(package, script, directory=None):
+def getExecutableCmd(package, script, *args, directory=None):
     """
     Given the name of a package and a script or other executable which lies
     within the given subdirectory (defaults to "bin"), return an appropriate
@@ -24,37 +22,40 @@ def getExecutable(package, script, directory=None):
     """
     if directory is None:
         directory = "bin"
-    return "{} python {}".format(libraryLoaderEnvironment(),
-                                 os.path.join(getPackageDir(package), directory, script))
+    cmds = [libraryLoaderEnvironment(), "python", os.path.join(getPackageDir(package), directory, script)]
+    cmds.extend(args)
+    return " ".join(cmds)
 
+
+TESTDATA_ROOT = getPackageDir("testdata_ci_hsc")
+PKG_ROOT = getPackageDir("ci_hsc_gen3")
+REPO_ROOT = os.path.join(PKG_ROOT, "DATA")
 
 # Create butler
-butler = env.Command(["butler.yaml", "gen3.sqlite3"], "bin",
-                     ["{} .".format(getExecutable("daf_butler", "makeButlerRepo.py"))])
-
-# Use name butler to just run making a butler
+butler = env.Command([os.path.join(REPO_ROOT, "butler.yaml"),
+                      os.path.join(REPO_ROOT, "gen3.sqlite3")], "bin",
+                     [getExecutableCmd("daf_butler", "makeButlerRepo.py", REPO_ROOT)])
 env.Alias("butler", butler)
 
-# Run the linker
-links = env.Command(["CALIB", "raw", "brightObjectMasks", "ps1_pv3_3pi_20170110"], butler, ["bin/linker.sh"])
+# Register instrument and write curated calibrations
+instrument = env.Command(os.path.join(REPO_ROOT, "calib"), butler,
+                         [getExecutableCmd("ci_hsc_gen3", "registerInstrument.py", REPO_ROOT)])
+env.Alias("instrument", instrument)
 
-register = env.Command("register", links,
-                       ["{} butler.yaml --nocalibs".format(getExecutable("ci_hsc_gen3", "gen3.py"))])
+skymap = env.Command(os.path.join(REPO_ROOT, "skymaps"), instrument,
+                     [getExecutableCmd("pipe_tasks", "makeGen3Skymap.py", REPO_ROOT,
+                      "-C", os.path.join(PKG_ROOT, "configs", "skymap.py"), "skymaps")])
+env.Alias("skymap", skymap)
 
-sql = env.Command("sql", register, ["bin/dbImport.sh"])
+external = env.Command([os.path.join(REPO_ROOT, "masks"),
+                        os.path.join(REPO_ROOT, "ref_cats")], [instrument, skymap],
+                       [getExecutableCmd("ci_hsc_gen3", "ingestExternalData.py", REPO_ROOT,
+                        os.path.join(PKG_ROOT, "resources", "external.yaml"))])
+env.Alias("external", external)
 
-hsc = env.Command("shared/ci_hsc", sql, ["{} butler.yaml".format(getExecutable("ci_hsc_gen3", "gen3.py"))])
-
-skymap = env.Command("skymap", hsc,
-                     ["{} -C configs/skymap.py butler.yaml shared/ci_hsc"
-                      .format(getExecutable("pipe_tasks", "makeGen3Skymap.py"))])
-
-externalData = env.Command("external", skymap,
-                           ["{} butler.yaml".format(getExecutable("ci_hsc_gen3", "ingestExternalData.py"))])
-
-raws = env.Command("raws", externalData,
-                   ["{0} butler.yaml {1}/raw -C {1}/configs/ingestRaws.py"
-                    .format(getExecutable("ci_hsc_gen3", "ingestRaws.py"), location)])
+raws = env.Command(os.path.join(REPO_ROOT, "raw"), external,
+                   [getExecutableCmd("ci_hsc_gen3", "ingestRaws.py", REPO_ROOT,
+                    os.path.join(TESTDATA_ROOT, "raw"))])
 
 # Use name ingest to run everything up to but not including running the
 # pipeline
@@ -64,7 +65,7 @@ num_process = GetOption('num_jobs')
 
 pipeline = env.Command("shared/ci_hsc_output", raws, ["bin/pipeline.sh {}".format(num_process)])
 
-everything = [butler, links, register, sql, hsc, skymap, externalData, raws, pipeline]
+everything = [butler, instrument, skymap, external, raws, pipeline]
 
 # Add a no-op install target to keep Jenkins happy.
 env.Alias("install", "SConstruct")
