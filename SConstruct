@@ -63,7 +63,8 @@ env.Alias("ingest", raws)
 
 num_process = GetOption('num_jobs')
 
-pipeline = env.Command("shared/ci_hsc_output", raws, ["bin/pipeline.sh {}".format(num_process)])
+pipeline = env.Command(os.path.join(REPO_ROOT, "shared", "ci_hsc_output"), raws,
+                       ["bin/pipeline.sh {}".format(num_process)])
 
 everything = [butler, instrument, skymap, external, raws, pipeline]
 
