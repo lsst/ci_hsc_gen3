@@ -9,7 +9,6 @@ tests/.cache
 ups/*.cfgc
 _build.*
 bin/*.py
-*.yaml
 brightObjectMasks
 ps1_pv3_3pi_20170110
 raw
