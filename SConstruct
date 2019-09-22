@@ -1,7 +1,6 @@
 import os
 from SCons.Script import SConscript, Environment, GetOption, Default
 from lsst.sconsUtils.utils import libraryLoaderEnvironment
-from lsst.utils import getPackageDir
 SConscript(os.path.join(".", "bin.src", "SConscript"))
 
 env = Environment(ENV=os.environ)
@@ -22,13 +21,13 @@ def getExecutableCmd(package, script, *args, directory=None):
     """
     if directory is None:
         directory = "bin"
-    cmds = [libraryLoaderEnvironment(), "python", os.path.join(getPackageDir(package), directory, script)]
+    cmds = [libraryLoaderEnvironment(), "python", os.path.join(env.ProductDir(package), directory, script)]
     cmds.extend(args)
     return " ".join(cmds)
 
 
-TESTDATA_ROOT = getPackageDir("testdata_ci_hsc")
-PKG_ROOT = getPackageDir("ci_hsc_gen3")
+TESTDATA_ROOT = env.ProductDir("testdata_ci_hsc")
+PKG_ROOT = env.ProductDir("ci_hsc_gen3")
 REPO_ROOT = os.path.join(PKG_ROOT, "DATA")
 
 # Create butler
