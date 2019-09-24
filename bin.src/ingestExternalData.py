@@ -3,40 +3,25 @@
 import argparse
 import logging
 
-from collections import namedtuple
-
 import lsst.log
+from lsst.utils import getPackageDir
 from lsst.log import Log
 
-from lsst.daf.butler import Butler, DatasetType
-
-
-ExternalProducts = namedtuple("ExternalProducts",
-                              ["datatype", "dimensions", "storageClass", "dataId", "path"])
-
-
-def ingestExternalData(butler, products):
-    """Adds a list of products to a registry and ingests them into a
-    Datastore.
-
-    butler: `lsst.daf.butler.Butler`
-        Butler which to operate on
-    products: `ExternalProducts`
-        Named tuple describing datasets to add to the registry and datastore
-    """
-
-    for entry in products:
-        dsType = DatasetType(entry.datatype, butler.registry.dimensions.extract(entry.dimensions),
-                             entry.storageClass)
-        butler.registry.registerDatasetType(dsType)
-        dsRef = butler.registry.addDataset(dsType, entry.dataId, butler.run)
-        butler.datastore.ingest(entry.path, dsRef)
+from lsst.daf.butler import Butler
 
 
 if __name__ == "__main__":
-    parser = argparse.ArgumentParser(description="Ingests externally created products into the butler"
-                                     " registry")
-    parser.add_argument("root", help="Path to butler to use")
+    parser = argparse.ArgumentParser(
+        description="Ingests datasets exported by exportExternalData."
+    )
+    parser.add_argument(
+        "root",
+        help="Path to butler to ingest into (usually DATA)."
+    )
+    parser.add_argument(
+        "filename",
+        help="Path to YAML file describing external files (usually resources/external.yaml)."
+    )
     parser.add_argument("-v", "--verbose", action="store_const", dest="logLevel",
                         default=Log.INFO, const=Log.DEBUG,
                         help="Set the log level to DEBUG.")
@@ -52,31 +37,5 @@ if __name__ == "__main__":
 
     butler = Butler(args.root, run="shared/ci_hsc")
 
-    products = [ExternalProducts("brightObjectMask",
-                                 ("tract", "patch", "skymap", "abstract_filter"),
-                                 "ObjectMaskCatalog",
-                                 {"tract": 0,
-                                  "patch": 69,
-                                  "skymap": "ci_hsc",
-                                  "abstract_filter": "i"},
-                                 "brightObjectMasks/0/BrightObjectMask-0-5,4-HSC-I.reg"),
-                ExternalProducts("brightObjectMask",
-                                 ("tract", "patch", "skymap", "abstract_filter"),
-                                 "ObjectMaskCatalog",
-                                 {"tract": 0,
-                                  "patch": 69,
-                                  "skymap": "ci_hsc",
-                                  "abstract_filter": "r"},
-                                 "brightObjectMasks/0/BrightObjectMask-0-5,4-HSC-I.reg"),
-                ExternalProducts("ref_cat",
-                                 ("skypix",),
-                                 "SimpleCatalog",
-                                 {"skypix": 189584},
-                                 "ps1_pv3_3pi_20170110/189584.fits"),
-                ExternalProducts("ref_cat",
-                                 ("skypix",),
-                                 "SimpleCatalog",
-                                 {"skypix": 189648},
-                                 "ps1_pv3_3pi_20170110/189648.fits"),
-                ]
-    ingestExternalData(butler, products)
+    butler.import_(directory=getPackageDir("testdata_ci_hsc"),
+                   filename=args.filename, transfer="symlink")
