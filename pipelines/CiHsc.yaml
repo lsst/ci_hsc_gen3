@@ -1,0 +1,23 @@
+description: CI HSC
+instrument: lsst.obs.subaru.gen3.hsc.instrument.HyperSuprimeCam
+inherits:
+  - location: $PIPE_TASKS_DIR/pipelines/DataReleaseProduction.yaml
+tasks:
+  makeWarpTask:
+    class: lsst.pipe.tasks.makeCoaddTempExp.MakeWarpTask
+    config:
+      matchingKernelSize: 29
+      makePsfMatched: True
+      modelPsf.defaultFwhm: 7.7
+      doApplyUberCal: False
+      doApplySkyCorr: False
+      doWriteEmptyWarps: True
+      python: config.warpAndPsfMatch.psfMatch.kernel['AL'].alardSigGauss = [1.0, 2.0, 4.5]
+  mergeDetections:
+    class: lsst.pipe.tasks.mergeDetections.MergeDetectionsTask
+    config:
+      priorityList: ["i", "r"]
+  mergeMeasurements:
+    class: lsst.pipe.tasks.mergeMeasurements.MergeMeasurementsTask
+    config:
+      priorityList: ["i", "r"]
