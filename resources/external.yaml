@@ -10,18 +10,12 @@ data:
   - patch
   storage_class: ObjectMaskCatalog
 - type: run
-  id: 6
-  start_time: null
-  end_time: null
-  host: null
-  collection: masks/hsc
-  pipeline: null
-  environment: null
+  name: masks/hsc
 - type: dataset
   dataset_type: brightObjectMask
-  run_id: 6
+  run: masks/hsc
   records:
-  - dataset_id: 3310
+  - dataset_id: 3316
     data_id:
       abstract_filter: i
       skymap: discrete/ci_hsc
@@ -29,7 +23,7 @@ data:
       patch: 69
     path: brightObjectMasks/0/BrightObjectMask-0-5,4-HSC-I.reg
     formatter: lsst.pipe.tasks.objectMasks.RegionFileFormatter
-  - dataset_id: 3311
+  - dataset_id: 3317
     data_id:
       abstract_filter: r
       skymap: discrete/ci_hsc
@@ -43,16 +37,10 @@ data:
   - htm7
   storage_class: SimpleCatalog
 - type: run
-  id: 2
-  start_time: null
-  end_time: null
-  host: null
-  collection: ref_cats
-  pipeline: null
-  environment: null
+  name: ref_cats
 - type: dataset
   dataset_type: ps1_pv3_3pi_20170110
-  run_id: 2
+  run: ref_cats
   records:
   - dataset_id: 397
     data_id:
@@ -68,39 +56,7 @@ data:
   element: calibration_label
   records:
   - instrument: HSC
-    name: gen2/bias_2013-11-03_023
-    datetime_begin: 2013-05-07 00:00:00
-    datetime_end: 2014-05-03 00:00:00
-  - instrument: HSC
-    name: gen2/bias_2013-11-03_005
-    datetime_begin: 2013-05-07 00:00:00
-    datetime_end: 2014-05-03 00:00:00
-  - instrument: HSC
-    name: gen2/bias_2013-11-03_025
-    datetime_begin: 2013-05-07 00:00:00
-    datetime_end: 2014-05-03 00:00:00
-  - instrument: HSC
-    name: gen2/bias_2013-11-03_100
-    datetime_begin: 2013-05-07 00:00:00
-    datetime_end: 2014-05-03 00:00:00
-  - instrument: HSC
-    name: gen2/bias_2013-11-03_017
-    datetime_begin: 2013-05-07 00:00:00
-    datetime_end: 2014-05-03 00:00:00
-  - instrument: HSC
-    name: gen2/bias_2013-11-03_001
-    datetime_begin: 2013-05-07 00:00:00
-    datetime_end: 2014-05-03 00:00:00
-  - instrument: HSC
-    name: gen2/bias_2013-11-03_010
-    datetime_begin: 2013-05-07 00:00:00
-    datetime_end: 2014-05-03 00:00:00
-  - instrument: HSC
-    name: gen2/bias_2013-11-03_012
-    datetime_begin: 2013-05-07 00:00:00
-    datetime_end: 2014-05-03 00:00:00
-  - instrument: HSC
-    name: gen2/bias_2013-11-03_000
+    name: gen2/bias_2013-11-03_004
     datetime_begin: 2013-05-07 00:00:00
     datetime_end: 2014-05-03 00:00:00
   - instrument: HSC
@@ -108,15 +64,11 @@ data:
     datetime_begin: 2013-05-07 00:00:00
     datetime_end: 2014-05-03 00:00:00
   - instrument: HSC
-    name: gen2/bias_2013-11-03_022
+    name: gen2/bias_2013-11-03_010
     datetime_begin: 2013-05-07 00:00:00
     datetime_end: 2014-05-03 00:00:00
   - instrument: HSC
-    name: gen2/bias_2013-11-03_011
-    datetime_begin: 2013-05-07 00:00:00
-    datetime_end: 2014-05-03 00:00:00
-  - instrument: HSC
-    name: gen2/bias_2013-11-03_004
+    name: gen2/bias_2013-11-03_005
     datetime_begin: 2013-05-07 00:00:00
     datetime_end: 2014-05-03 00:00:00
   - instrument: HSC
@@ -124,11 +76,47 @@ data:
     datetime_begin: 2013-05-07 00:00:00
     datetime_end: 2014-05-03 00:00:00
   - instrument: HSC
+    name: gen2/bias_2013-11-03_018
+    datetime_begin: 2013-05-07 00:00:00
+    datetime_end: 2014-05-03 00:00:00
+  - instrument: HSC
+    name: gen2/bias_2013-11-03_001
+    datetime_begin: 2013-05-07 00:00:00
+    datetime_end: 2014-05-03 00:00:00
+  - instrument: HSC
+    name: gen2/bias_2013-11-03_100
+    datetime_begin: 2013-05-07 00:00:00
+    datetime_end: 2014-05-03 00:00:00
+  - instrument: HSC
+    name: gen2/bias_2013-11-03_000
+    datetime_begin: 2013-05-07 00:00:00
+    datetime_end: 2014-05-03 00:00:00
+  - instrument: HSC
+    name: gen2/bias_2013-11-03_011
+    datetime_begin: 2013-05-07 00:00:00
+    datetime_end: 2014-05-03 00:00:00
+  - instrument: HSC
+    name: gen2/bias_2013-11-03_023
+    datetime_begin: 2013-05-07 00:00:00
+    datetime_end: 2014-05-03 00:00:00
+  - instrument: HSC
+    name: gen2/bias_2013-11-03_012
+    datetime_begin: 2013-05-07 00:00:00
+    datetime_end: 2014-05-03 00:00:00
+  - instrument: HSC
+    name: gen2/bias_2013-11-03_025
+    datetime_begin: 2013-05-07 00:00:00
+    datetime_end: 2014-05-03 00:00:00
+  - instrument: HSC
     name: gen2/bias_2013-11-03_016
     datetime_begin: 2013-05-07 00:00:00
     datetime_end: 2014-05-03 00:00:00
   - instrument: HSC
-    name: gen2/bias_2013-11-03_018
+    name: gen2/bias_2013-11-03_022
+    datetime_begin: 2013-05-07 00:00:00
+    datetime_end: 2014-05-03 00:00:00
+  - instrument: HSC
+    name: gen2/bias_2013-11-03_017
     datetime_begin: 2013-05-07 00:00:00
     datetime_end: 2014-05-03 00:00:00
 - type: dataset_type
@@ -139,16 +127,10 @@ data:
   - detector
   storage_class: ImageF
 - type: run
-  id: 3
-  start_time: null
-  end_time: null
-  host: null
-  collection: calib/hsc
-  pipeline: null
-  environment: null
+  name: calib/hsc
 - type: dataset
   dataset_type: bias
-  run_id: 3
+  run: calib/hsc
   records:
   - dataset_id: 1759
     data_id:
@@ -266,27 +248,7 @@ data:
   element: calibration_label
   records:
   - instrument: HSC
-    name: gen2/dark_2013-11-03_000
-    datetime_begin: 2013-05-07 00:00:00
-    datetime_end: 2014-05-03 00:00:00
-  - instrument: HSC
-    name: gen2/dark_2013-11-03_025
-    datetime_begin: 2013-05-07 00:00:00
-    datetime_end: 2014-05-03 00:00:00
-  - instrument: HSC
-    name: gen2/dark_2013-11-03_001
-    datetime_begin: 2013-05-07 00:00:00
-    datetime_end: 2014-05-03 00:00:00
-  - instrument: HSC
-    name: gen2/dark_2013-11-03_100
-    datetime_begin: 2013-05-07 00:00:00
-    datetime_end: 2014-05-03 00:00:00
-  - instrument: HSC
-    name: gen2/dark_2013-11-03_005
-    datetime_begin: 2013-05-07 00:00:00
-    datetime_end: 2014-05-03 00:00:00
-  - instrument: HSC
-    name: gen2/dark_2013-11-03_011
+    name: gen2/dark_2013-11-03_006
     datetime_begin: 2013-05-07 00:00:00
     datetime_end: 2014-05-03 00:00:00
   - instrument: HSC
@@ -298,19 +260,19 @@ data:
     datetime_begin: 2013-05-07 00:00:00
     datetime_end: 2014-05-03 00:00:00
   - instrument: HSC
-    name: gen2/dark_2013-11-03_006
+    name: gen2/dark_2013-11-03_001
     datetime_begin: 2013-05-07 00:00:00
     datetime_end: 2014-05-03 00:00:00
   - instrument: HSC
-    name: gen2/dark_2013-11-03_017
+    name: gen2/dark_2013-11-03_022
     datetime_begin: 2013-05-07 00:00:00
     datetime_end: 2014-05-03 00:00:00
   - instrument: HSC
-    name: gen2/dark_2013-11-03_023
+    name: gen2/dark_2013-11-03_005
     datetime_begin: 2013-05-07 00:00:00
     datetime_end: 2014-05-03 00:00:00
   - instrument: HSC
-    name: gen2/dark_2013-11-03_016
+    name: gen2/dark_2013-11-03_011
     datetime_begin: 2013-05-07 00:00:00
     datetime_end: 2014-05-03 00:00:00
   - instrument: HSC
@@ -322,11 +284,31 @@ data:
     datetime_begin: 2013-05-07 00:00:00
     datetime_end: 2014-05-03 00:00:00
   - instrument: HSC
+    name: gen2/dark_2013-11-03_000
+    datetime_begin: 2013-05-07 00:00:00
+    datetime_end: 2014-05-03 00:00:00
+  - instrument: HSC
     name: gen2/dark_2013-11-03_004
     datetime_begin: 2013-05-07 00:00:00
     datetime_end: 2014-05-03 00:00:00
   - instrument: HSC
-    name: gen2/dark_2013-11-03_022
+    name: gen2/dark_2013-11-03_016
+    datetime_begin: 2013-05-07 00:00:00
+    datetime_end: 2014-05-03 00:00:00
+  - instrument: HSC
+    name: gen2/dark_2013-11-03_100
+    datetime_begin: 2013-05-07 00:00:00
+    datetime_end: 2014-05-03 00:00:00
+  - instrument: HSC
+    name: gen2/dark_2013-11-03_023
+    datetime_begin: 2013-05-07 00:00:00
+    datetime_end: 2014-05-03 00:00:00
+  - instrument: HSC
+    name: gen2/dark_2013-11-03_017
+    datetime_begin: 2013-05-07 00:00:00
+    datetime_end: 2014-05-03 00:00:00
+  - instrument: HSC
+    name: gen2/dark_2013-11-03_025
     datetime_begin: 2013-05-07 00:00:00
     datetime_end: 2014-05-03 00:00:00
 - type: dataset_type
@@ -337,16 +319,10 @@ data:
   - detector
   storage_class: ImageF
 - type: run
-  id: 3
-  start_time: null
-  end_time: null
-  host: null
-  collection: calib/hsc
-  pipeline: null
-  environment: null
+  name: calib/hsc
 - type: dataset
   dataset_type: dark
-  run_id: 3
+  run: calib/hsc
   records:
   - dataset_id: 1807
     data_id:
@@ -464,67 +440,11 @@ data:
   element: calibration_label
   records:
   - instrument: HSC
-    name: gen2/flat_2013-11-03_016_HSC-I
-    datetime_begin: 2013-05-07 00:00:00
-    datetime_end: 2014-05-03 00:00:00
-  - instrument: HSC
-    name: gen2/flat_2013-06-17_016_HSC-R
-    datetime_begin: 2012-12-19 00:00:00
-    datetime_end: 2013-12-15 00:00:00
-  - instrument: HSC
-    name: gen2/flat_2013-06-17_025_HSC-R
-    datetime_begin: 2012-12-19 00:00:00
-    datetime_end: 2013-12-15 00:00:00
-  - instrument: HSC
-    name: gen2/flat_2013-06-17_005_HSC-R
-    datetime_begin: 2012-12-19 00:00:00
-    datetime_end: 2013-12-15 00:00:00
-  - instrument: HSC
-    name: gen2/flat_2013-11-03_006_HSC-I
-    datetime_begin: 2013-05-07 00:00:00
-    datetime_end: 2014-05-03 00:00:00
-  - instrument: HSC
-    name: gen2/flat_2013-06-17_000_HSC-R
-    datetime_begin: 2012-12-19 00:00:00
-    datetime_end: 2013-12-15 00:00:00
-  - instrument: HSC
-    name: gen2/flat_2013-11-03_022_HSC-I
-    datetime_begin: 2013-05-07 00:00:00
-    datetime_end: 2014-05-03 00:00:00
-  - instrument: HSC
-    name: gen2/flat_2013-11-03_004_HSC-I
-    datetime_begin: 2013-05-07 00:00:00
-    datetime_end: 2014-05-03 00:00:00
-  - instrument: HSC
-    name: gen2/flat_2013-11-03_100_HSC-I
-    datetime_begin: 2013-05-07 00:00:00
-    datetime_end: 2014-05-03 00:00:00
-  - instrument: HSC
-    name: gen2/flat_2013-06-17_006_HSC-R
-    datetime_begin: 2012-12-19 00:00:00
-    datetime_end: 2013-12-15 00:00:00
-  - instrument: HSC
     name: gen2/flat_2013-06-17_001_HSC-R
     datetime_begin: 2012-12-19 00:00:00
     datetime_end: 2013-12-15 00:00:00
   - instrument: HSC
-    name: gen2/flat_2013-06-17_018_HSC-R
-    datetime_begin: 2012-12-19 00:00:00
-    datetime_end: 2013-12-15 00:00:00
-  - instrument: HSC
-    name: gen2/flat_2013-11-03_000_HSC-I
-    datetime_begin: 2013-05-07 00:00:00
-    datetime_end: 2014-05-03 00:00:00
-  - instrument: HSC
-    name: gen2/flat_2013-11-03_001_HSC-I
-    datetime_begin: 2013-05-07 00:00:00
-    datetime_end: 2014-05-03 00:00:00
-  - instrument: HSC
-    name: gen2/flat_2013-06-17_012_HSC-R
-    datetime_begin: 2012-12-19 00:00:00
-    datetime_end: 2013-12-15 00:00:00
-  - instrument: HSC
-    name: gen2/flat_2013-06-17_022_HSC-R
+    name: gen2/flat_2013-06-17_000_HSC-R
     datetime_begin: 2012-12-19 00:00:00
     datetime_end: 2013-12-15 00:00:00
   - instrument: HSC
@@ -532,31 +452,7 @@ data:
     datetime_begin: 2013-05-07 00:00:00
     datetime_end: 2014-05-03 00:00:00
   - instrument: HSC
-    name: gen2/flat_2013-06-17_010_HSC-R
-    datetime_begin: 2012-12-19 00:00:00
-    datetime_end: 2013-12-15 00:00:00
-  - instrument: HSC
-    name: gen2/flat_2013-11-03_005_HSC-I
-    datetime_begin: 2013-05-07 00:00:00
-    datetime_end: 2014-05-03 00:00:00
-  - instrument: HSC
-    name: gen2/flat_2013-11-03_025_HSC-I
-    datetime_begin: 2013-05-07 00:00:00
-    datetime_end: 2014-05-03 00:00:00
-  - instrument: HSC
-    name: gen2/flat_2013-06-17_024_HSC-R
-    datetime_begin: 2012-12-19 00:00:00
-    datetime_end: 2013-12-15 00:00:00
-  - instrument: HSC
-    name: gen2/flat_2013-11-03_024_HSC-I
-    datetime_begin: 2013-05-07 00:00:00
-    datetime_end: 2014-05-03 00:00:00
-  - instrument: HSC
-    name: gen2/flat_2013-11-03_023_HSC-I
-    datetime_begin: 2013-05-07 00:00:00
-    datetime_end: 2014-05-03 00:00:00
-  - instrument: HSC
-    name: gen2/flat_2013-11-03_012_HSC-I
+    name: gen2/flat_2013-11-03_022_HSC-I
     datetime_begin: 2013-05-07 00:00:00
     datetime_end: 2014-05-03 00:00:00
   - instrument: HSC
@@ -564,15 +460,71 @@ data:
     datetime_begin: 2013-05-07 00:00:00
     datetime_end: 2014-05-03 00:00:00
   - instrument: HSC
-    name: gen2/flat_2013-11-03_011_HSC-I
-    datetime_begin: 2013-05-07 00:00:00
-    datetime_end: 2014-05-03 00:00:00
-  - instrument: HSC
-    name: gen2/flat_2013-06-17_011_HSC-R
+    name: gen2/flat_2013-06-17_004_HSC-R
     datetime_begin: 2012-12-19 00:00:00
     datetime_end: 2013-12-15 00:00:00
   - instrument: HSC
+    name: gen2/flat_2013-06-17_022_HSC-R
+    datetime_begin: 2012-12-19 00:00:00
+    datetime_end: 2013-12-15 00:00:00
+  - instrument: HSC
+    name: gen2/flat_2013-11-03_001_HSC-I
+    datetime_begin: 2013-05-07 00:00:00
+    datetime_end: 2014-05-03 00:00:00
+  - instrument: HSC
+    name: gen2/flat_2013-11-03_005_HSC-I
+    datetime_begin: 2013-05-07 00:00:00
+    datetime_end: 2014-05-03 00:00:00
+  - instrument: HSC
+    name: gen2/flat_2013-06-17_005_HSC-R
+    datetime_begin: 2012-12-19 00:00:00
+    datetime_end: 2013-12-15 00:00:00
+  - instrument: HSC
+    name: gen2/flat_2013-11-03_012_HSC-I
+    datetime_begin: 2013-05-07 00:00:00
+    datetime_end: 2014-05-03 00:00:00
+  - instrument: HSC
     name: gen2/flat_2013-06-17_017_HSC-R
+    datetime_begin: 2012-12-19 00:00:00
+    datetime_end: 2013-12-15 00:00:00
+  - instrument: HSC
+    name: gen2/flat_2013-06-17_016_HSC-R
+    datetime_begin: 2012-12-19 00:00:00
+    datetime_end: 2013-12-15 00:00:00
+  - instrument: HSC
+    name: gen2/flat_2013-06-17_010_HSC-R
+    datetime_begin: 2012-12-19 00:00:00
+    datetime_end: 2013-12-15 00:00:00
+  - instrument: HSC
+    name: gen2/flat_2013-11-03_024_HSC-I
+    datetime_begin: 2013-05-07 00:00:00
+    datetime_end: 2014-05-03 00:00:00
+  - instrument: HSC
+    name: gen2/flat_2013-11-03_000_HSC-I
+    datetime_begin: 2013-05-07 00:00:00
+    datetime_end: 2014-05-03 00:00:00
+  - instrument: HSC
+    name: gen2/flat_2013-11-03_100_HSC-I
+    datetime_begin: 2013-05-07 00:00:00
+    datetime_end: 2014-05-03 00:00:00
+  - instrument: HSC
+    name: gen2/flat_2013-06-17_018_HSC-R
+    datetime_begin: 2012-12-19 00:00:00
+    datetime_end: 2013-12-15 00:00:00
+  - instrument: HSC
+    name: gen2/flat_2013-06-17_024_HSC-R
+    datetime_begin: 2012-12-19 00:00:00
+    datetime_end: 2013-12-15 00:00:00
+  - instrument: HSC
+    name: gen2/flat_2013-11-03_023_HSC-I
+    datetime_begin: 2013-05-07 00:00:00
+    datetime_end: 2014-05-03 00:00:00
+  - instrument: HSC
+    name: gen2/flat_2013-11-03_016_HSC-I
+    datetime_begin: 2013-05-07 00:00:00
+    datetime_end: 2014-05-03 00:00:00
+  - instrument: HSC
+    name: gen2/flat_2013-06-17_100_HSC-R
     datetime_begin: 2012-12-19 00:00:00
     datetime_end: 2013-12-15 00:00:00
   - instrument: HSC
@@ -580,15 +532,39 @@ data:
     datetime_begin: 2012-12-19 00:00:00
     datetime_end: 2013-12-15 00:00:00
   - instrument: HSC
+    name: gen2/flat_2013-11-03_011_HSC-I
+    datetime_begin: 2013-05-07 00:00:00
+    datetime_end: 2014-05-03 00:00:00
+  - instrument: HSC
+    name: gen2/flat_2013-11-03_006_HSC-I
+    datetime_begin: 2013-05-07 00:00:00
+    datetime_end: 2014-05-03 00:00:00
+  - instrument: HSC
+    name: gen2/flat_2013-06-17_012_HSC-R
+    datetime_begin: 2012-12-19 00:00:00
+    datetime_end: 2013-12-15 00:00:00
+  - instrument: HSC
+    name: gen2/flat_2013-06-17_011_HSC-R
+    datetime_begin: 2012-12-19 00:00:00
+    datetime_end: 2013-12-15 00:00:00
+  - instrument: HSC
+    name: gen2/flat_2013-11-03_025_HSC-I
+    datetime_begin: 2013-05-07 00:00:00
+    datetime_end: 2014-05-03 00:00:00
+  - instrument: HSC
     name: gen2/flat_2013-11-03_010_HSC-I
     datetime_begin: 2013-05-07 00:00:00
     datetime_end: 2014-05-03 00:00:00
   - instrument: HSC
-    name: gen2/flat_2013-06-17_004_HSC-R
+    name: gen2/flat_2013-11-03_004_HSC-I
+    datetime_begin: 2013-05-07 00:00:00
+    datetime_end: 2014-05-03 00:00:00
+  - instrument: HSC
+    name: gen2/flat_2013-06-17_006_HSC-R
     datetime_begin: 2012-12-19 00:00:00
     datetime_end: 2013-12-15 00:00:00
   - instrument: HSC
-    name: gen2/flat_2013-06-17_100_HSC-R
+    name: gen2/flat_2013-06-17_025_HSC-R
     datetime_begin: 2012-12-19 00:00:00
     datetime_end: 2013-12-15 00:00:00
 - type: dataset_type
@@ -601,16 +577,10 @@ data:
   - physical_filter
   storage_class: MaskedImageF
 - type: run
-  id: 3
-  start_time: null
-  end_time: null
-  host: null
-  collection: calib/hsc
-  pipeline: null
-  environment: null
+  name: calib/hsc
 - type: dataset
   dataset_type: flat
-  run_id: 3
+  run: calib/hsc
   records:
   - dataset_id: 1775
     data_id:
@@ -872,7 +842,11 @@ data:
   element: calibration_label
   records:
   - instrument: HSC
-    name: gen2/sky_2014-07-14_000_HSC-I
+    name: gen2/sky_2014-11-12_016_HSC-R
+    datetime_begin: 2013-06-01 00:00:00
+    datetime_end: 2013-12-02 00:00:00
+  - instrument: HSC
+    name: gen2/sky_2014-07-14_017_HSC-I
     datetime_begin: 2013-06-01 00:00:00
     datetime_end: 2013-12-02 00:00:00
   - instrument: HSC
@@ -880,7 +854,23 @@ data:
     datetime_begin: 2013-06-01 00:00:00
     datetime_end: 2013-12-02 00:00:00
   - instrument: HSC
-    name: gen2/sky_2014-07-14_024_HSC-I
+    name: gen2/sky_2014-11-12_010_HSC-R
+    datetime_begin: 2013-06-01 00:00:00
+    datetime_end: 2013-12-02 00:00:00
+  - instrument: HSC
+    name: gen2/sky_2014-11-12_024_HSC-R
+    datetime_begin: 2013-06-01 00:00:00
+    datetime_end: 2013-12-02 00:00:00
+  - instrument: HSC
+    name: gen2/sky_2014-07-14_011_HSC-I
+    datetime_begin: 2013-06-01 00:00:00
+    datetime_end: 2013-12-02 00:00:00
+  - instrument: HSC
+    name: gen2/sky_2014-11-12_001_HSC-R
+    datetime_begin: 2013-06-01 00:00:00
+    datetime_end: 2013-12-02 00:00:00
+  - instrument: HSC
+    name: gen2/sky_2014-07-14_016_HSC-I
     datetime_begin: 2013-06-01 00:00:00
     datetime_end: 2013-12-02 00:00:00
   - instrument: HSC
@@ -888,19 +878,15 @@ data:
     datetime_begin: 2013-06-01 00:00:00
     datetime_end: 2013-12-02 00:00:00
   - instrument: HSC
-    name: gen2/sky_2014-11-12_022_HSC-R
+    name: gen2/sky_2014-11-12_005_HSC-R
     datetime_begin: 2013-06-01 00:00:00
     datetime_end: 2013-12-02 00:00:00
   - instrument: HSC
-    name: gen2/sky_2014-07-14_006_HSC-I
+    name: gen2/sky_2014-11-12_023_HSC-R
     datetime_begin: 2013-06-01 00:00:00
     datetime_end: 2013-12-02 00:00:00
   - instrument: HSC
-    name: gen2/sky_2014-07-14_005_HSC-I
-    datetime_begin: 2013-06-01 00:00:00
-    datetime_end: 2013-12-02 00:00:00
-  - instrument: HSC
-    name: gen2/sky_2014-11-12_006_HSC-R
+    name: gen2/sky_2014-11-12_025_HSC-R
     datetime_begin: 2013-06-01 00:00:00
     datetime_end: 2013-12-02 00:00:00
   - instrument: HSC
@@ -912,55 +898,15 @@ data:
     datetime_begin: 2013-06-01 00:00:00
     datetime_end: 2013-12-02 00:00:00
   - instrument: HSC
-    name: gen2/sky_2014-11-12_017_HSC-R
+    name: gen2/sky_2014-07-14_100_HSC-I
     datetime_begin: 2013-06-01 00:00:00
     datetime_end: 2013-12-02 00:00:00
   - instrument: HSC
-    name: gen2/sky_2014-11-12_023_HSC-R
+    name: gen2/sky_2014-07-14_006_HSC-I
     datetime_begin: 2013-06-01 00:00:00
     datetime_end: 2013-12-02 00:00:00
   - instrument: HSC
-    name: gen2/sky_2014-07-14_022_HSC-I
-    datetime_begin: 2013-06-01 00:00:00
-    datetime_end: 2013-12-02 00:00:00
-  - instrument: HSC
-    name: gen2/sky_2014-07-14_018_HSC-I
-    datetime_begin: 2013-06-01 00:00:00
-    datetime_end: 2013-12-02 00:00:00
-  - instrument: HSC
-    name: gen2/sky_2014-07-14_011_HSC-I
-    datetime_begin: 2013-06-01 00:00:00
-    datetime_end: 2013-12-02 00:00:00
-  - instrument: HSC
-    name: gen2/sky_2014-11-12_018_HSC-R
-    datetime_begin: 2013-06-01 00:00:00
-    datetime_end: 2013-12-02 00:00:00
-  - instrument: HSC
-    name: gen2/sky_2014-11-12_012_HSC-R
-    datetime_begin: 2013-06-01 00:00:00
-    datetime_end: 2013-12-02 00:00:00
-  - instrument: HSC
-    name: gen2/sky_2014-11-12_010_HSC-R
-    datetime_begin: 2013-06-01 00:00:00
-    datetime_end: 2013-12-02 00:00:00
-  - instrument: HSC
-    name: gen2/sky_2014-11-12_025_HSC-R
-    datetime_begin: 2013-06-01 00:00:00
-    datetime_end: 2013-12-02 00:00:00
-  - instrument: HSC
-    name: gen2/sky_2014-11-12_005_HSC-R
-    datetime_begin: 2013-06-01 00:00:00
-    datetime_end: 2013-12-02 00:00:00
-  - instrument: HSC
-    name: gen2/sky_2014-07-14_001_HSC-I
-    datetime_begin: 2013-06-01 00:00:00
-    datetime_end: 2013-12-02 00:00:00
-  - instrument: HSC
-    name: gen2/sky_2014-11-12_024_HSC-R
-    datetime_begin: 2013-06-01 00:00:00
-    datetime_end: 2013-12-02 00:00:00
-  - instrument: HSC
-    name: gen2/sky_2014-07-14_023_HSC-I
+    name: gen2/sky_2014-11-12_022_HSC-R
     datetime_begin: 2013-06-01 00:00:00
     datetime_end: 2013-12-02 00:00:00
   - instrument: HSC
@@ -968,15 +914,15 @@ data:
     datetime_begin: 2013-06-01 00:00:00
     datetime_end: 2013-12-02 00:00:00
   - instrument: HSC
-    name: gen2/sky_2014-07-14_017_HSC-I
+    name: gen2/sky_2014-07-14_023_HSC-I
     datetime_begin: 2013-06-01 00:00:00
     datetime_end: 2013-12-02 00:00:00
   - instrument: HSC
-    name: gen2/sky_2014-07-14_100_HSC-I
+    name: gen2/sky_2014-11-12_100_HSC-R
     datetime_begin: 2013-06-01 00:00:00
     datetime_end: 2013-12-02 00:00:00
   - instrument: HSC
-    name: gen2/sky_2014-07-14_016_HSC-I
+    name: gen2/sky_2014-07-14_024_HSC-I
     datetime_begin: 2013-06-01 00:00:00
     datetime_end: 2013-12-02 00:00:00
   - instrument: HSC
@@ -984,11 +930,23 @@ data:
     datetime_begin: 2013-06-01 00:00:00
     datetime_end: 2013-12-02 00:00:00
   - instrument: HSC
-    name: gen2/sky_2014-11-12_016_HSC-R
+    name: gen2/sky_2014-11-12_018_HSC-R
     datetime_begin: 2013-06-01 00:00:00
     datetime_end: 2013-12-02 00:00:00
   - instrument: HSC
-    name: gen2/sky_2014-11-12_001_HSC-R
+    name: gen2/sky_2014-07-14_000_HSC-I
+    datetime_begin: 2013-06-01 00:00:00
+    datetime_end: 2013-12-02 00:00:00
+  - instrument: HSC
+    name: gen2/sky_2014-07-14_018_HSC-I
+    datetime_begin: 2013-06-01 00:00:00
+    datetime_end: 2013-12-02 00:00:00
+  - instrument: HSC
+    name: gen2/sky_2014-07-14_005_HSC-I
+    datetime_begin: 2013-06-01 00:00:00
+    datetime_end: 2013-12-02 00:00:00
+  - instrument: HSC
+    name: gen2/sky_2014-11-12_006_HSC-R
     datetime_begin: 2013-06-01 00:00:00
     datetime_end: 2013-12-02 00:00:00
   - instrument: HSC
@@ -996,7 +954,19 @@ data:
     datetime_begin: 2013-06-01 00:00:00
     datetime_end: 2013-12-02 00:00:00
   - instrument: HSC
-    name: gen2/sky_2014-11-12_100_HSC-R
+    name: gen2/sky_2014-07-14_001_HSC-I
+    datetime_begin: 2013-06-01 00:00:00
+    datetime_end: 2013-12-02 00:00:00
+  - instrument: HSC
+    name: gen2/sky_2014-07-14_022_HSC-I
+    datetime_begin: 2013-06-01 00:00:00
+    datetime_end: 2013-12-02 00:00:00
+  - instrument: HSC
+    name: gen2/sky_2014-11-12_017_HSC-R
+    datetime_begin: 2013-06-01 00:00:00
+    datetime_end: 2013-12-02 00:00:00
+  - instrument: HSC
+    name: gen2/sky_2014-11-12_012_HSC-R
     datetime_begin: 2013-06-01 00:00:00
     datetime_end: 2013-12-02 00:00:00
 - type: dataset_type
@@ -1009,16 +979,10 @@ data:
   - physical_filter
   storage_class: ExposureF
 - type: run
-  id: 3
-  start_time: null
-  end_time: null
-  host: null
-  collection: calib/hsc
-  pipeline: null
-  environment: null
+  name: calib/hsc
 - type: dataset
   dataset_type: sky
-  run_id: 3
+  run: calib/hsc
   records:
   - dataset_id: 1375
     data_id:

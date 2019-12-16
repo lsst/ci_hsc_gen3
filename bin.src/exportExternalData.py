@@ -6,7 +6,7 @@ import logging
 
 import lsst.log
 from lsst.utils import getPackageDir
-from lsst.daf.butler import Butler, DatasetExport
+from lsst.daf.butler import Butler, FileDataset
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(
@@ -36,7 +36,7 @@ if __name__ == "__main__":
 
     butler = Butler(args.root, collection="calib/hsc")
 
-    def rewrite(dataset: DatasetExport) -> DatasetExport:
+    def rewrite(dataset: FileDataset) -> FileDataset:
         # Join the datastore root to the exported path.  This should yield
         # absolute paths that start with $CI_HSC_GEN2_DIR.
         dataset.path = os.path.join(butler.datastore.root, dataset.path)
