@@ -9,7 +9,8 @@ tasks:
       matchingKernelSize: 29
       makePsfMatched: True
       modelPsf.defaultFwhm: 7.7
-      doApplyUberCal: False
+      doApplyExternalPhotoCalib: False
+      doApplyExternalSkyWcs: False
       doApplySkyCorr: False
       doWriteEmptyWarps: True
       python: config.warpAndPsfMatch.psfMatch.kernel['AL'].alardSigGauss = [1.0, 2.0, 4.5]
