@@ -46,15 +46,16 @@ skymap = env.Command(os.path.join(REPO_ROOT, "skymaps"), instrument,
                       "-C", os.path.join(PKG_ROOT, "configs", "skymap.py"), "skymaps")])
 env.Alias("skymap", skymap)
 
+raws = env.Command(os.path.join(REPO_ROOT, "raw"), [instrument, skymap],
+                   [getExecutableCmd("ci_hsc_gen3", "ingestRaws.py", REPO_ROOT,
+                    os.path.join(TESTDATA_ROOT, "raw"))])
+
 external = env.Command([os.path.join(REPO_ROOT, "masks"),
-                        os.path.join(REPO_ROOT, "ref_cats")], [instrument, skymap],
+                        os.path.join(REPO_ROOT, "ref_cats"),
+                        os.path.join(REPO_ROOT, "shared")], [instrument, skymap, raws],
                        [getExecutableCmd("ci_hsc_gen3", "ingestExternalData.py", REPO_ROOT,
                         os.path.join(PKG_ROOT, "resources", "external.yaml"))])
 env.Alias("external", external)
-
-raws = env.Command(os.path.join(REPO_ROOT, "raw"), external,
-                   [getExecutableCmd("ci_hsc_gen3", "ingestRaws.py", REPO_ROOT,
-                    os.path.join(TESTDATA_ROOT, "raw"))])
 
 # Use name ingest to run everything up to but not including running the
 # pipeline
