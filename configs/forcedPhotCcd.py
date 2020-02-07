@@ -8,6 +8,3 @@ if os.path.exists(subaruConfig):
 hscConfig = os.path.join(getPackageDir("obs_subaru"), "config", "hsc", "forcedPhotCcd.py")
 if os.path.exists(hscConfig):
     config.load(hscConfig)
-
-config.recalibrate.doApplyExternalPhotoCalib = False  # differs from obs_subaru
-config.recalibrate.doApplyExternalSkyWcs = False  # differs from obs_subaru
