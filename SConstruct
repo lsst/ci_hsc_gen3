@@ -50,9 +50,9 @@ raws = env.Command(os.path.join(REPO_ROOT, "raw"), [instrument, skymap],
                    [getExecutableCmd("ci_hsc_gen3", "ingestRaws.py", REPO_ROOT,
                     os.path.join(TESTDATA_ROOT, "raw"))])
 
-external = env.Command([os.path.join(REPO_ROOT, "masks"),
-                        os.path.join(REPO_ROOT, "ref_cats"),
-                        os.path.join(REPO_ROOT, "shared")], [instrument, skymap, raws],
+external = env.Command([Dir(os.path.join(REPO_ROOT, "masks")),
+                        Dir(os.path.join(REPO_ROOT, "ref_cats")),
+                        Dir(os.path.join(REPO_ROOT, "shared"))], [instrument, skymap, raws],
                        [getExecutableCmd("ci_hsc_gen3", "ingestExternalData.py", REPO_ROOT,
                         os.path.join(PKG_ROOT, "resources", "external.yaml"))])
 env.Alias("external", external)
