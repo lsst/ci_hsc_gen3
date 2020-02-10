@@ -9,9 +9,10 @@ tasks:
       matchingKernelSize: 29
       makePsfMatched: True
       modelPsf.defaultFwhm: 7.7
-      doApplyExternalPhotoCalib: False
-      doApplyExternalSkyWcs: False
-      doApplySkyCorr: False
+      # Disable external calibrations: Gen3 isn't ready for these yet
+      recalibrate.doApplyExternalPhotoCalib: False
+      recalibrate.doApplyExternalSkyWcs: False
+      recalibrate.doApplySkyCorr: False
       doWriteEmptyWarps: True
       python: config.warpAndPsfMatch.psfMatch.kernel['AL'].alardSigGauss = [1.0, 2.0, 4.5]
   mergeDetections:
@@ -22,3 +23,10 @@ tasks:
     class: lsst.pipe.tasks.mergeMeasurements.MergeMeasurementsTask
     config:
       priorityList: ["i", "r"]
+  forcedPhotCcd:
+    class: lsst.meas.base.forcedPhotCcd.ForcedPhotCcdTask
+    config:
+      # Disable external calibrations: Gen3 isn't ready for these yet
+      recalibrate.doApplyExternalPhotoCalib: False
+      recalibrate.doApplyExternalSkyWcs: False
+      recalibrate.doApplySkyCorr: False
