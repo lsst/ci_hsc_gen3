@@ -22,3 +22,10 @@ tasks:
     class: lsst.pipe.tasks.mergeMeasurements.MergeMeasurementsTask
     config:
       priorityList: ["i", "r"]
+  forcedPhotCcd:
+    class: lsst.meas.base.forcedPhotCcd.ForcedPhotCcdTask
+    config:
+      # The application of external calibrations doesn't work with Gen3 now (DM-17062)
+      doApplyExternalPhotoCalib: False
+      doApplyExternalSkyWcs: False
+      doApplySkyCorr: False
