@@ -50,7 +50,8 @@ if __name__ == "__main__":
         return dataset
 
     with butler.export(filename=args.filename) as export:
-        for datasetTypeName in ("brightObjectMask", "ps1_pv3_3pi_20170110"):
+        for datasetTypeName in ("brightObjectMask", "ps1_pv3_3pi_20170110", "jointcal_photoCalib",
+                                "jointcal_wcs"):
             export.saveDatasets(butler.registry.queryDatasets(datasetTypeName, collections=...),
                                 elements=(), rewrite=rewrite)
         for datasetTypeName in ("bias", "dark", "flat", "sky"):
