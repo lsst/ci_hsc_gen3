@@ -66,7 +66,16 @@ num_process = GetOption('num_jobs')
 pipeline = env.Command(os.path.join(REPO_ROOT, "shared", "ci_hsc_output"), raws,
                        ["bin/pipeline.sh {}".format(num_process)])
 
-everything = [butler, instrument, skymap, external, raws, pipeline]
+tests = []
+executable = os.path.join(PKG_ROOT, "bin", "sip_safe_python.sh")
+for file in os.listdir(os.path.join(PKG_ROOT, "tests")):
+    test = os.path.join(PKG_ROOT, "tests", file)
+    if test.endswith(".py"):
+        tests.append(env.Command(os.path.join(PKG_ROOT, "tests", ".tests", file), pipeline,
+                     f"{executable} {test}"))
+
+env.Alias("tests", tests)
+everything = [butler, instrument, skymap, external, raws, pipeline, tests]
 
 # Add a no-op install target to keep Jenkins happy.
 env.Alias("install", "SConstruct")
