@@ -1,8 +1,6 @@
 import os
 import unittest
 
-from collections import defaultdict
-
 import lsst.daf.butler as dafButler
 import lsst.pipe.base as pipeBase
 import lsst.utils.tests
@@ -23,7 +21,7 @@ def lookupFunctionTester(datasetType, registry, quantumDataId, collections):
     there were none.
     """
     results = list(registry.queryDatasets(datasetType,
-                                          collections=collections['bfKernel'],
+                                          collections=collections,
                                           dataId=quantumDataId,
                                           deduplicate=True,
                                           expand=True))
@@ -72,12 +70,12 @@ class PrerequisiteConnectionLookupFunctionTest(unittest.TestCase):
         """
         butler = dafButler.Butler(os.path.join(getPackageDir("ci_hsc_gen3"), "DATA", "butler.yaml"))
 
-        pipeline = pipeBase.Pipeline("Test LookupFunciton Pipeline")
+        pipeline = pipeBase.Pipeline("Test LookupFunction Pipeline")
         pipeline.addTask(LookupTestPipelineTask, "test")
 
         graphBuilder = pipeBase.GraphBuilder(butler.registry)
-        graph = graphBuilder.makeGraph(pipeline, defaultdict(lambda: ("calib/hsc", "shared/ci_hsc_outputs")),
-                                       "test_output", None)
+        graph = graphBuilder.makeGraph(pipeline, ["calib/hsc", "shared/ci_hsc_output"],
+                                       None, None)
         outputs = list(graph.quanta())
         # verify the graph contains no datasetRefs for brighter fatter kernels
         # instead of the datasetRefs that exist in the registry.
