@@ -2,4 +2,4 @@
 
 export DYLD_LIBRARY_PATH=$LSST_LIBRARY_PATH
 
-"$(which python)" $1
+python "$1"
