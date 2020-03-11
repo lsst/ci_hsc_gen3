@@ -823,7 +823,7 @@ data:
   - instrument
   - calibration_label
   - detector
-  storage_class: ImageF
+  storage_class: ExposureF
 - type: run
   name: calib/hsc
 - type: dataset
@@ -1031,7 +1031,7 @@ data:
   - instrument
   - calibration_label
   - detector
-  storage_class: ImageF
+  storage_class: ExposureF
 - type: run
   name: calib/hsc
 - type: dataset
@@ -1305,7 +1305,7 @@ data:
   - calibration_label
   - detector
   - physical_filter
-  storage_class: MaskedImageF
+  storage_class: ExposureF
 - type: run
   name: calib/hsc
 - type: dataset
