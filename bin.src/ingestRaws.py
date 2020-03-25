@@ -10,7 +10,7 @@ from lsst.log import Log
 from lsst.daf.butler import Butler
 from lsst.obs.base import RawIngestTask, RawIngestConfig
 
-from lsst.obs.subaru.gen3.hsc.instrument import HyperSuprimeCam
+from lsst.obs.subaru import HyperSuprimeCam
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="Ingests raw frames into the butler registry")
