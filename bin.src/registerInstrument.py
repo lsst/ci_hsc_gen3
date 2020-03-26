@@ -7,7 +7,7 @@ import lsst.log
 from lsst.log import Log
 
 from lsst.daf.butler import Butler
-from lsst.obs.subaru.gen3.hsc import HyperSuprimeCam
+from lsst.obs.subaru import HyperSuprimeCam
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(

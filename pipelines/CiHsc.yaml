@@ -1,5 +1,5 @@
 description: CI HSC
-instrument: lsst.obs.subaru.gen3.hsc.instrument.HyperSuprimeCam
+instrument: lsst.obs.subaru.HyperSuprimeCam
 inherits:
   - location: $PIPE_TASKS_DIR/pipelines/DataReleaseProduction.yaml
 tasks:
