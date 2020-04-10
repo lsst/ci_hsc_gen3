@@ -1,5 +1,5 @@
 import os
-from SCons.Script import SConscript, Environment, GetOption, Default
+from SCons.Script import SConscript, Environment, GetOption, Default, Dir
 from lsst.sconsUtils.utils import libraryLoaderEnvironment
 SConscript(os.path.join(".", "bin.src", "SConscript"))
 
@@ -43,18 +43,18 @@ env.Alias("instrument", instrument)
 
 skymap = env.Command(os.path.join(REPO_ROOT, "skymaps"), instrument,
                      [getExecutableCmd("pipe_tasks", "makeGen3Skymap.py", REPO_ROOT,
-                      "-C", os.path.join(PKG_ROOT, "configs", "skymap.py"), "skymaps")])
+                                       "-C", os.path.join(PKG_ROOT, "configs", "skymap.py"), "skymaps")])
 env.Alias("skymap", skymap)
 
 raws = env.Command(os.path.join(REPO_ROOT, "raw"), [instrument, skymap],
                    [getExecutableCmd("ci_hsc_gen3", "ingestRaws.py", REPO_ROOT,
-                    os.path.join(TESTDATA_ROOT, "raw"))])
+                                     os.path.join(TESTDATA_ROOT, "raw"))])
 
 external = env.Command([Dir(os.path.join(REPO_ROOT, "masks")),
                         Dir(os.path.join(REPO_ROOT, "ref_cats")),
                         Dir(os.path.join(REPO_ROOT, "shared"))], [instrument, skymap, raws],
                        [getExecutableCmd("ci_hsc_gen3", "ingestExternalData.py", REPO_ROOT,
-                        os.path.join(PKG_ROOT, "resources", "external.yaml"))])
+                                         os.path.join(PKG_ROOT, "resources", "external.yaml"))])
 env.Alias("external", external)
 
 # Use name ingest to run everything up to but not including running the
