@@ -28,12 +28,24 @@ def getExecutableCmd(package, script, *args, directory=None):
 
 TESTDATA_ROOT = env.ProductDir("testdata_ci_hsc")
 PKG_ROOT = env.ProductDir("ci_hsc_gen3")
-REPO_ROOT = os.path.join(PKG_ROOT, "DATA")
+AddOption("--repo-root", dest="root", default=os.path.join(PKG_ROOT, "DATA"),
+          help="Path to root of the data repository.")
+REPO_ROOT = GetOption("root")
+
+AddOption("--butler-config", dest="butler_conf", default="",
+          help="Path to an external Butler config used to create a data repository.")
+AddOption("--config-override", action="store_true", dest="conf_override",
+          help="Override the default config root with the given repo-root.")
+
+conf = GetOption("butler_conf")
+butler_conf = "-c "+conf if conf != "" else ""
+conf_override = "--override" if GetOption("conf_override") else ""
 
 # Create butler
 butler = env.Command([os.path.join(REPO_ROOT, "butler.yaml"),
                       os.path.join(REPO_ROOT, "gen3.sqlite3")], "bin",
-                     [getExecutableCmd("daf_butler", "butler", "create", "--repo", REPO_ROOT)])
+                     [getExecutableCmd("daf_butler", "butler", "create", "--repo", REPO_ROOT,
+                                       butler_conf, conf_override)])
 env.Alias("butler", butler)
 
 # Register instrument and write curated calibrations
@@ -78,7 +90,7 @@ ingest = env.Alias("ingest", raws + visits)
 num_process = GetOption('num_jobs')
 
 pipeline = env.Command(os.path.join(REPO_ROOT, "shared", "ci_hsc_output"), ingest,
-                       ["bin/pipeline.sh {}".format(num_process)])
+                       ["bin/pipeline.sh {} {}".format(num_process, REPO_ROOT)])
 
 tests = []
 executable = os.path.join(PKG_ROOT, "bin", "sip_safe_python.sh")

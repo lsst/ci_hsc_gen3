@@ -25,6 +25,8 @@ if __name__ == "__main__":
     parser.add_argument("-v", "--verbose", action="store_const", dest="logLevel",
                         default=Log.INFO, const=Log.DEBUG,
                         help="Set the log level to DEBUG.")
+    parser.add_argument("-t", "--transfer", help="Set the external data transfer type.",
+                        default="auto", dest="transfer")
 
     args = parser.parse_args()
     log = Log.getLogger("lsst.daf.butler")
@@ -38,4 +40,4 @@ if __name__ == "__main__":
     butler = Butler(args.root, run="shared/ci_hsc")
 
     butler.import_(directory=getPackageDir("testdata_ci_hsc"),
-                   filename=args.filename, transfer="symlink")
+                   filename=args.filename, transfer=args.transfer)
