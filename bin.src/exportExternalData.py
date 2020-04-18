@@ -15,7 +15,7 @@ if __name__ == "__main__":
     parser.add_argument(
         "root",
         help=("Path to Gen3 butler to export from (usually "
-              "$CI_HSC_GEN2_DIR/DATA, after gen2to3 has been run there).")
+              "$CI_HSC_GEN2_DIR/DATAgen3, after gen2to3 has been run there).")
     )
     parser.add_argument(
         "filename",
