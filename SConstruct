@@ -38,7 +38,7 @@ env.Alias("butler", butler)
 
 # Register instrument and write curated calibrations
 instrument = env.Command(os.path.join(REPO_ROOT, "instrument"), butler,
-                         [getExecutableCmd("daf_butler", "butler", "register", "--repo", REPO_ROOT,
+                         [getExecutableCmd("daf_butler", "butler", "register-instrument", "--repo", REPO_ROOT,
                                            "-i", "lsst.obs.subaru.HyperSuprimeCam")])
 env.Alias("instrument", instrument)
 
