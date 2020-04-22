@@ -33,20 +33,29 @@ REPO_ROOT = os.path.join(PKG_ROOT, "DATA")
 # Create butler
 butler = env.Command([os.path.join(REPO_ROOT, "butler.yaml"),
                       os.path.join(REPO_ROOT, "gen3.sqlite3")], "bin",
-                     [getExecutableCmd("daf_butler", "makeButlerRepo.py", REPO_ROOT)])
+                     [getExecutableCmd("daf_butler", "butler", "create", "--repo", REPO_ROOT)])
 env.Alias("butler", butler)
 
 # Register instrument and write curated calibrations
-instrument = env.Command(os.path.join(REPO_ROOT, "calib"), butler,
-                         [getExecutableCmd("ci_hsc_gen3", "registerInstrument.py", REPO_ROOT)])
+instrument = env.Command(os.path.join(REPO_ROOT, "instrument"), butler,
+                         [getExecutableCmd("daf_butler", "butler", "register-instrument", "--repo", REPO_ROOT,
+                                           "-i", "lsst.obs.subaru.HyperSuprimeCam")])
 env.Alias("instrument", instrument)
 
-skymap = env.Command(os.path.join(REPO_ROOT, "skymaps"), instrument,
+# Write curated calibrations
+curatedCalibrations = env.Command(os.path.join(REPO_ROOT, "calib"), instrument,
+                                  [getExecutableCmd("daf_butler", "butler", "write-curated-calibrations",
+                                                    "--repo", REPO_ROOT,
+                                                    "-i", "lsst.obs.subaru.HyperSuprimeCam",
+                                                    "--output-run", "calib/hsc")])
+env.Alias("curatedCalibrations", curatedCalibrations)
+
+skymap = env.Command(os.path.join(REPO_ROOT, "skymaps"), curatedCalibrations,
                      [getExecutableCmd("pipe_tasks", "makeGen3Skymap.py", REPO_ROOT,
                                        "-C", os.path.join(PKG_ROOT, "configs", "skymap.py"), "skymaps")])
 env.Alias("skymap", skymap)
 
-raws = env.Command(os.path.join(REPO_ROOT, "raw"), [instrument, skymap],
+raws = env.Command(os.path.join(REPO_ROOT, "raw"), [curatedCalibrations, skymap],
                    [getExecutableCmd("ci_hsc_gen3", "ingestRaws.py", REPO_ROOT,
                                      os.path.join(TESTDATA_ROOT, "raw"))])
 
@@ -57,7 +66,7 @@ visits = env.Command(os.path.join(REPO_ROOT, "visits"), [raws],
 external = env.Command([Dir(os.path.join(REPO_ROOT, "masks")),
                         Dir(os.path.join(REPO_ROOT, "ref_cats")),
                         Dir(os.path.join(REPO_ROOT, "shared"))],
-                       [instrument, skymap, raws, visits],
+                       [curatedCalibrations, skymap, raws, visits],
                        [getExecutableCmd("ci_hsc_gen3", "ingestExternalData.py", REPO_ROOT,
                                          os.path.join(PKG_ROOT, "resources", "external.yaml"))])
 env.Alias("external", external)
@@ -80,7 +89,7 @@ for file in os.listdir(os.path.join(PKG_ROOT, "tests")):
                      f"{executable} {test}"))
 
 env.Alias("tests", tests)
-everything = [butler, instrument, skymap, external, raws, pipeline, tests]
+everything = [butler, instrument, curatedCalibrations, skymap, external, raws, pipeline, tests]
 
 # Add a no-op install target to keep Jenkins happy.
 env.Alias("install", "SConstruct")
