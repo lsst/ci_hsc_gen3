@@ -5,6 +5,30 @@ SConscript(os.path.join(".", "bin.src", "SConscript"))
 
 env = Environment(ENV=os.environ)
 env["ENV"]["OMP_NUM_THREADS"] = "1"  # Disable threading
+profileNum = -1
+
+
+def getProfiling(script):
+    """Return python command-line argument string for profiling
+    If activated (via the "--enable-profile" command-line argument),
+    we write the profile to a filename starting with the provided
+    base name and including a sequence number and the script name,
+    so its contents can be quickly identified.
+    Note that this is python function-level profiling, which won't
+    descend into C++ elements of the codebase.
+    A basic profile can be printed using python:
+        >>> from pstats import Stats
+        >>> stats = Stats("profile-123-script.pstats")
+        >>> stats.sort_stats("cumulative").print_stats(30)
+    """
+    base = GetOption("enable_profile")
+    if not base:
+        return ""
+    global profileNum
+    profileNum += 1
+    if script.endswith(".py"):
+        script = script[:script.rfind(".")]
+    return f" -m cProfile -o {base}-{profileNum:03}-{script}.pstats"
 
 
 def getExecutableCmd(package, script, *args, directory=None):
@@ -21,7 +45,8 @@ def getExecutableCmd(package, script, *args, directory=None):
     """
     if directory is None:
         directory = "bin"
-    cmds = [libraryLoaderEnvironment(), "python", os.path.join(env.ProductDir(package), directory, script)]
+    cmds = [libraryLoaderEnvironment(), "python", getProfiling(script),
+            os.path.join(env.ProductDir(package), directory, script)]
     cmds.extend(args)
     return " ".join(cmds)
 
@@ -32,13 +57,16 @@ AddOption("--repo-root", dest="root", default=os.path.join(PKG_ROOT, "DATA"),
           help="Path to root of the data repository.")
 REPO_ROOT = GetOption("root")
 
+AddOption("--enable-profile", nargs="?", const="profile", dest="enable_profile",
+          help=("Profile base filename; output will be <basename>-<sequence#>-<script>.pstats; "
+                "(Note: this option is for profiling the scripts, while --profile is for scons)"))
 AddOption("--butler-config", dest="butler_conf", default="",
           help="Path to an external Butler config used to create a data repository.")
 AddOption("--config-override", action="store_true", dest="conf_override",
           help="Override the default config root with the given repo-root.")
 
 conf = GetOption("butler_conf")
-butler_conf = "-c "+conf if conf != "" else ""
+butler_conf = f"-c {conf}" if conf != "" else ""
 conf_override = "--override" if GetOption("conf_override") else ""
 
 # Create butler
