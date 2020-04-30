@@ -21,6 +21,8 @@ if __name__ == "__main__":
                         help="Set the log level to DEBUG.")
     parser.add_argument("-C", "--config-file", help="Path to config file overload for RawIngestTask",
                         default=None, dest="configFile")
+    parser.add_argument("-t", "--transfer", help="Set the external data transfer type.",
+                        default="auto", dest="transfer")
 
     args = parser.parse_args()
     log = Log.getLogger("lsst.daf.butler")
@@ -36,7 +38,7 @@ if __name__ == "__main__":
     config = RawIngestConfig()
     instrument = HyperSuprimeCam()
     instrument.applyConfigOverrides("ingest-gen3", config)
-    config.transfer = "symlink"
+    config.transfer = args.transfer
     if args.configFile is not None:
         config.load(args.configFile)
     ingester = RawIngestTask(config=config, butler=butler)
