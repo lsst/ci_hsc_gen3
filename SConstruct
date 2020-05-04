@@ -72,20 +72,20 @@ conf_override = "--override" if GetOption("conf_override") else ""
 # Create butler
 butler = env.Command([os.path.join(REPO_ROOT, "butler.yaml"),
                       os.path.join(REPO_ROOT, "gen3.sqlite3")], "bin",
-                     [getExecutableCmd("daf_butler", "butler", "create", "--repo", REPO_ROOT,
+                     [getExecutableCmd("daf_butler", "butler", "create", REPO_ROOT,
                                        butler_conf, conf_override)])
 env.Alias("butler", butler)
 
 # Register instrument and write curated calibrations
 instrument = env.Command(os.path.join(REPO_ROOT, "instrument"), butler,
-                         [getExecutableCmd("daf_butler", "butler", "register-instrument", "--repo", REPO_ROOT,
+                         [getExecutableCmd("daf_butler", "butler", "register-instrument", REPO_ROOT,
                                            "-i", "lsst.obs.subaru.HyperSuprimeCam")])
 env.Alias("instrument", instrument)
 
 # Write curated calibrations
 curatedCalibrations = env.Command(os.path.join(REPO_ROOT, "calib"), instrument,
                                   [getExecutableCmd("daf_butler", "butler", "write-curated-calibrations",
-                                                    "--repo", REPO_ROOT,
+                                                    REPO_ROOT,
                                                     "-i", "lsst.obs.subaru.HyperSuprimeCam",
                                                     "--output-run", "calib/hsc")])
 env.Alias("curatedCalibrations", curatedCalibrations)
