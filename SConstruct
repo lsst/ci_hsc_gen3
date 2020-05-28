@@ -101,8 +101,10 @@ raws = env.Command(os.path.join(REPO_ROOT, "raw"), [curatedCalibrations, skymap]
                                      "--output-run", "raw/hsc")])
 
 visits = env.Command(os.path.join(REPO_ROOT, "visits"), [raws],
-                     [getExecutableCmd("ci_hsc_gen3", "defineVisits.py", REPO_ROOT),
-                      Touch(os.path.join(REPO_ROOT, "visits"))])
+                     [getExecutableCmd("daf_butler", "butler", "define-visits", REPO_ROOT,
+                                       "-i", "HSC",
+                                       "--collections", "raw/hsc"),
+                     Touch(os.path.join(REPO_ROOT, "visits"))])
 
 external = env.Command([Dir(os.path.join(REPO_ROOT, "masks")),
                         Dir(os.path.join(REPO_ROOT, "ref_cats")),
