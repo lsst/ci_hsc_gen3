@@ -1,6 +1,7 @@
 import os
 from SCons.Script import SConscript, Environment, GetOption, Default, Dir, Touch
 from lsst.sconsUtils.utils import libraryLoaderEnvironment
+from lsst.utils import getPackageDir
 SConscript(os.path.join(".", "bin.src", "SConscript"))
 
 env = Environment(ENV=os.environ)
@@ -96,19 +97,25 @@ skymap = env.Command(os.path.join(REPO_ROOT, "skymaps"), curatedCalibrations,
 env.Alias("skymap", skymap)
 
 raws = env.Command(os.path.join(REPO_ROOT, "raw"), [curatedCalibrations, skymap],
-                   [getExecutableCmd("ci_hsc_gen3", "ingestRaws.py", REPO_ROOT,
-                                     os.path.join(TESTDATA_ROOT, "raw"))])
+                   [getExecutableCmd("daf_butler", "butler", "ingest-raws", REPO_ROOT,
+                                     "-d", os.path.join(TESTDATA_ROOT, "raw"),
+                                     "--output-run", "raw/hsc")])
 
 visits = env.Command(os.path.join(REPO_ROOT, "visits"), [raws],
-                     [getExecutableCmd("ci_hsc_gen3", "defineVisits.py", REPO_ROOT),
-                      Touch(os.path.join(REPO_ROOT, "visits"))])
+                     [getExecutableCmd("daf_butler", "butler", "define-visits", REPO_ROOT,
+                                       "-i", "HSC",
+                                       "--collections", "raw/hsc"),
+                     Touch(os.path.join(REPO_ROOT, "visits"))])
 
 external = env.Command([Dir(os.path.join(REPO_ROOT, "masks")),
                         Dir(os.path.join(REPO_ROOT, "ref_cats")),
                         Dir(os.path.join(REPO_ROOT, "shared"))],
                        [curatedCalibrations, skymap, raws, visits],
-                       [getExecutableCmd("ci_hsc_gen3", "ingestExternalData.py", REPO_ROOT,
-                                         os.path.join(PKG_ROOT, "resources", "external.yaml"))])
+                       [getExecutableCmd("daf_butler", "butler", "import", REPO_ROOT,
+                                         getPackageDir("testdata_ci_hsc"),
+                                         "--export-file", os.path.join(PKG_ROOT, "resources",
+                                                                       "external.yaml"),
+                                         "--output-run", "shared/ci_hsc")])
 env.Alias("external", external)
 
 # Use name ingest to run everything up to but not including running the
