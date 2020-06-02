@@ -67,7 +67,7 @@ AddOption("--config-override", action="store_true", dest="conf_override",
           help="Override the default config root with the given repo-root.")
 
 conf = GetOption("butler_conf")
-butler_conf = f"--config-file {conf}" if conf != "" else ""
+butler_conf = f"--seed-config {conf}" if conf != "" else ""
 conf_override = "--override" if GetOption("conf_override") else ""
 
 # Create butler
