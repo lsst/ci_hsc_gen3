@@ -86,7 +86,7 @@ env.Alias("instrument", instrument)
 curatedCalibrations = env.Command(os.path.join(REPO_ROOT, "calib"), instrument,
                                   [getExecutableCmd("daf_butler", "butler", "write-curated-calibrations",
                                                     REPO_ROOT,
-                                                    "-i", "lsst.obs.subaru.HyperSuprimeCam",
+                                                    "-i", "HSC",
                                                     "--output-run", "calib/hsc")])
 env.Alias("curatedCalibrations", curatedCalibrations)
 
