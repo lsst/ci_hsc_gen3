@@ -3,7 +3,7 @@
 set -e
 
 COLLECTION=shared/ci_hsc_output
-INPUTCOLL=calib/hsc,raw/hsc,masks/hsc,ref_cats,skymaps,shared/ci_hsc
+INPUTCOLL=HSC/calib,HSC/raw,HSC/masks,ref_cats,skymaps,shared/ci_hsc
 
 export DYLD_LIBRARY_PATH=$LSST_LIBRARY_PATH
 

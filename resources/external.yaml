@@ -10,10 +10,10 @@ data:
   - patch
   storage_class: ObjectMaskCatalog
 - type: run
-  name: masks/hsc
+  name: HSC/masks
 - type: dataset
   dataset_type: brightObjectMask
-  run: masks/hsc
+  run: HSC/masks
   records:
   - dataset_id:
     - 3382
@@ -825,10 +825,10 @@ data:
   - detector
   storage_class: ExposureF
 - type: run
-  name: calib/hsc
+  name: HSC/calib
 - type: dataset
   dataset_type: bias
-  run: calib/hsc
+  run: HSC/calib
   records:
   - dataset_id:
     - 1825
@@ -1033,10 +1033,10 @@ data:
   - detector
   storage_class: ExposureF
 - type: run
-  name: calib/hsc
+  name: HSC/calib
 - type: dataset
   dataset_type: dark
-  run: calib/hsc
+  run: HSC/calib
   records:
   - dataset_id:
     - 1873
@@ -1307,10 +1307,10 @@ data:
   - physical_filter
   storage_class: ExposureF
 - type: run
-  name: calib/hsc
+  name: HSC/calib
 - type: dataset
   dataset_type: flat
-  run: calib/hsc
+  run: HSC/calib
   records:
   - dataset_id:
     - 1841
@@ -1741,10 +1741,10 @@ data:
   - physical_filter
   storage_class: ExposureF
 - type: run
-  name: calib/hsc
+  name: HSC/calib
 - type: dataset
   dataset_type: sky
-  run: calib/hsc
+  run: HSC/calib
   records:
   - dataset_id:
     - 1441
