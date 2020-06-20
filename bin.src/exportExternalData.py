@@ -34,7 +34,7 @@ if __name__ == "__main__":
     lgr.setLevel(logging.INFO if args.logLevel == lsst.log.Log.INFO else logging.DEBUG)
     lgr.addHandler(lsst.log.LogHandler())
 
-    butler = Butler(args.root, collections=["calib/hsc"])
+    butler = Butler(args.root, collections=["HSC/calib"])
 
     def rewrite(dataset: FileDataset) -> FileDataset:
         # Join the datastore root to the exported path.  This should yield

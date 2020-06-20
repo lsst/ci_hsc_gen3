@@ -1,7 +1,6 @@
 import os
 from SCons.Script import SConscript, Environment, GetOption, Default, Dir, Touch
 from lsst.sconsUtils.utils import libraryLoaderEnvironment
-from lsst.utils import getPackageDir
 SConscript(os.path.join(".", "bin.src", "SConscript"))
 
 env = Environment(ENV=os.environ)
@@ -87,8 +86,7 @@ env.Alias("instrument", instrument)
 curatedCalibrations = env.Command(os.path.join(REPO_ROOT, "calib"), instrument,
                                   [getExecutableCmd("daf_butler", "butler", "write-curated-calibrations",
                                                     REPO_ROOT,
-                                                    "-i", "lsst.obs.subaru.HyperSuprimeCam",
-                                                    "--output-run", "calib/hsc")])
+                                                    "-i", "HSC")])
 env.Alias("curatedCalibrations", curatedCalibrations)
 
 skymap = env.Command(os.path.join(REPO_ROOT, "skymaps"), curatedCalibrations,
@@ -98,13 +96,12 @@ env.Alias("skymap", skymap)
 
 raws = env.Command(os.path.join(REPO_ROOT, "raw"), [curatedCalibrations, skymap],
                    [getExecutableCmd("daf_butler", "butler", "ingest-raws", REPO_ROOT,
-                                     "-d", os.path.join(TESTDATA_ROOT, "raw"),
-                                     "--output-run", "raw/hsc")])
+                                     "-d", os.path.join(TESTDATA_ROOT, "raw"))])
 
 visits = env.Command(os.path.join(REPO_ROOT, "visits"), [raws],
                      [getExecutableCmd("daf_butler", "butler", "define-visits", REPO_ROOT,
                                        "-i", "HSC",
-                                       "--collections", "raw/hsc"),
+                                       "--collections", "HSC/raw/all"),
                      Touch(os.path.join(REPO_ROOT, "visits"))])
 
 external = env.Command([Dir(os.path.join(REPO_ROOT, "masks")),
@@ -112,7 +109,7 @@ external = env.Command([Dir(os.path.join(REPO_ROOT, "masks")),
                         Dir(os.path.join(REPO_ROOT, "shared"))],
                        [curatedCalibrations, skymap, raws, visits],
                        [getExecutableCmd("daf_butler", "butler", "import", REPO_ROOT,
-                                         getPackageDir("testdata_ci_hsc"),
+                                         env.ProductDir("testdata_ci_hsc"),
                                          "--export-file", os.path.join(PKG_ROOT, "resources",
                                                                        "external.yaml"),
                                          "--output-run", "shared/ci_hsc")])
