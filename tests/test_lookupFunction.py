@@ -23,8 +23,7 @@ def lookupFunctionTester(datasetType, registry, quantumDataId, collections):
     results = list(registry.queryDatasets(datasetType,
                                           collections=collections,
                                           dataId=quantumDataId,
-                                          deduplicate=True,
-                                          expand=True))
+                                          deduplicate=True).expanded())
     # Verify that brighter fatter kernels could be found in the registry
     # as to not have this test pass due to some unrelated error
     if len(results) == 0:
