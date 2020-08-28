@@ -96,7 +96,7 @@ env.Alias("skymap", skymap)
 
 raws = env.Command(os.path.join(REPO_ROOT, "raw"), [curatedCalibrations, skymap],
                    [getExecutableCmd("daf_butler", "butler", "ingest-raws", REPO_ROOT,
-                                     "-d", os.path.join(TESTDATA_ROOT, "raw"))])
+                                     os.path.join(TESTDATA_ROOT, "raw"))])
 
 visits = env.Command(os.path.join(REPO_ROOT, "visits"), [raws],
                      [getExecutableCmd("daf_butler", "butler", "define-visits", REPO_ROOT,
