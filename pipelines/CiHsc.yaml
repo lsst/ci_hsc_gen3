@@ -29,3 +29,14 @@ tasks:
       doApplyExternalPhotoCalib: False
       doApplyExternalSkyWcs: False
       doApplySkyCorr: False
+  createFakes: lsst.ap.pipe.createApFakes.CreateRandomApFakesTask
+  procWithFakes:
+    class: lsst.pipe.tasks.processCcdWithFakes.ProcessCcdWithFakesTask
+    config:
+      insertFakes.doSubSelectSources: True
+      python: config.insertFakes.sourceSelectionColName = "isVisitSource"
+  coaddFakes: 
+    class: lsst.pipe.tasks.insertFakes.InsertFakesTask
+    config:
+      doSubSelectSources: True
+      sourceSelectionColName: "isTemplateSource"
