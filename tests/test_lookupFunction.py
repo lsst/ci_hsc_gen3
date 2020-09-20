@@ -44,7 +44,8 @@ class LookupTestConnections(pipeBase.PipelineTaskConnections,
         storageClass="NumpyArray",
         doc="test a lookup function",
         lookupFunction=lookupFunctionTester,
-        dimensions=("instrument", "calibration_label"),
+        dimensions=("instrument",),
+        isCalibration=True,
     )
 
 
