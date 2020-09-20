@@ -39,7 +39,7 @@ if __name__ == "__main__":
     def rewrite(dataset: FileDataset) -> FileDataset:
         # Join the datastore root to the exported path.  This should yield
         # absolute paths that start with $CI_HSC_GEN2_DIR.
-        dataset.path = os.path.join(butler.datastore.root, dataset.path)
+        dataset.path = os.path.join(butler.datastore.root.ospath, dataset.path)
         # Remove symlinks in the path; this should result in absolute paths
         # that start with $TESTDATA_CI_HSC_DIR, because ci_hsc_gen2 always
         # symlinks these datasets from there.
