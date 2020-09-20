@@ -112,7 +112,7 @@ external = env.Command([Dir(os.path.join(REPO_ROOT, "masks")),
                                          env.ProductDir("testdata_ci_hsc"),
                                          "--export-file", os.path.join(PKG_ROOT, "resources",
                                                                        "external.yaml"),
-                                         "--output-run", "shared/ci_hsc")])
+                                         )])
 env.Alias("external", external)
 
 # Use name ingest to run everything up to but not including running the
