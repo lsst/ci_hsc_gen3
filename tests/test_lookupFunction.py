@@ -20,22 +20,21 @@ def lookupFunctionTester(datasetType, registry, quantumDataId, collections):
     kernels present in the registry, but returns an empty iterable as if
     there were none.
     """
-    results = list(registry.queryDatasets(datasetType,
-                                          collections=collections,
-                                          dataId=quantumDataId,
-                                          deduplicate=True).expanded())
+    result = registry.findDataset(datasetType, collections=collections, dataId=quantumDataId,
+                                  timespan=quantumDataId.timespan)
     # Verify that brighter fatter kernels could be found in the registry
     # as to not have this test pass due to some unrelated error
-    if len(results) == 0:
+    if result is None:
         raise PrerequisiteLookupFunctionTestException(
-            "No bfKernels found in registry, but there should be some")
+            f"No bfKernels found in registry for {quantumDataId}, but there should be some."
+        )
     # instead of returning the datasetRefs, return something clearly different,
     # an empty tuple
     return ()
 
 
 class LookupTestConnections(pipeBase.PipelineTaskConnections,
-                            dimensions=("instrument",)):
+                            dimensions=("instrument", "exposure")):
     """A simple dummy connections class to exercise the lookupFunction
     functionality of a prerequisite input.
     """
@@ -74,8 +73,7 @@ class PrerequisiteConnectionLookupFunctionTest(unittest.TestCase):
         pipeline.addTask(LookupTestPipelineTask, "test")
 
         graphBuilder = pipeBase.GraphBuilder(butler.registry)
-        graph = graphBuilder.makeGraph(pipeline, ["HSC/calib", "shared/ci_hsc_output"],
-                                       None, None)
+        graph = graphBuilder.makeGraph(pipeline, ["HSC/calib"], None, None)
         outputs = list(graph.quanta())
         # verify the graph contains no datasetRefs for brighter fatter kernels
         # instead of the datasetRefs that exist in the registry.
