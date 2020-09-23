@@ -4,7 +4,7 @@ data:
 - type: dataset_type
   name: brightObjectMask
   dimensions:
-  - abstract_filter
+  - band
   - skymap
   - tract
   - patch
@@ -18,7 +18,7 @@ data:
   - dataset_id:
     - 3382
     data_id:
-    - abstract_filter: i
+    - band: i
       skymap: discrete/ci_hsc
       tract: 0
       patch: 69
@@ -27,7 +27,7 @@ data:
   - dataset_id:
     - 3383
     data_id:
-    - abstract_filter: r
+    - band: r
       skymap: discrete/ci_hsc
       tract: 0
       patch: 69
@@ -59,7 +59,7 @@ data:
 - type: dataset_type
   name: jointcal_photoCalib
   dimensions:
-  - abstract_filter
+  - band
   - instrument
   - skymap
   - detector
@@ -406,7 +406,7 @@ data:
 - type: dataset_type
   name: jointcal_wcs
   dimensions:
-  - abstract_filter
+  - band
   - instrument
   - skymap
   - detector
@@ -1300,7 +1300,7 @@ data:
 - type: dataset_type
   name: flat
   dimensions:
-  - abstract_filter
+  - band
   - instrument
   - calibration_label
   - detector
@@ -1734,7 +1734,7 @@ data:
 - type: dataset_type
   name: sky
   dimensions:
-  - abstract_filter
+  - band
   - instrument
   - calibration_label
   - detector
