@@ -1,6 +1,51 @@
 description: Butler Data Repository Export
 version: 0
 data:
+- type: collection
+  collection_type: CALIBRATION
+  name: HSC/calib
+- type: collection
+  collection_type: RUN
+  name: HSC/calib/gen2/2013-06-17
+  host: null
+  timespan_begin: null
+  timespan_end: null
+- type: collection
+  collection_type: RUN
+  name: HSC/calib/gen2/2013-11-03
+  host: null
+  timespan_begin: null
+  timespan_end: null
+- type: collection
+  collection_type: RUN
+  name: HSC/calib/gen2/2014-07-14
+  host: null
+  timespan_begin: null
+  timespan_end: null
+- type: collection
+  collection_type: RUN
+  name: HSC/calib/gen2/2014-11-12
+  host: null
+  timespan_begin: null
+  timespan_end: null
+- type: collection
+  collection_type: RUN
+  name: HSC/external
+  host: null
+  timespan_begin: null
+  timespan_end: null
+- type: collection
+  collection_type: RUN
+  name: HSC/masks
+  host: null
+  timespan_begin: null
+  timespan_end: null
+- type: collection
+  collection_type: RUN
+  name: refcats
+  host: null
+  timespan_begin: null
+  timespan_end: null
 - type: dataset_type
   name: brightObjectMask
   dimensions:
@@ -9,14 +54,13 @@ data:
   - tract
   - patch
   storage_class: ObjectMaskCatalog
-- type: run
-  name: HSC/masks
+  is_calibration: false
 - type: dataset
   dataset_type: brightObjectMask
   run: HSC/masks
   records:
   - dataset_id:
-    - 3382
+    - 1746
     data_id:
     - band: i
       skymap: discrete/ci_hsc
@@ -25,7 +69,7 @@ data:
     path: brightObjectMasks/0/BrightObjectMask-0-5,4-HSC-I.reg
     formatter: lsst.pipe.tasks.objectMasks.RegionFileFormatter
   - dataset_id:
-    - 3383
+    - 1747
     data_id:
     - band: r
       skymap: discrete/ci_hsc
@@ -38,23 +82,22 @@ data:
   dimensions:
   - htm7
   storage_class: SimpleCatalog
-- type: run
-  name: ref_cats
+  is_calibration: false
 - type: dataset
   dataset_type: ps1_pv3_3pi_20170110
-  run: ref_cats
+  run: refcats
   records:
   - dataset_id:
-    - 397
-    data_id:
-    - htm7: 189584
-    path: ps1_pv3_3pi_20170110/189584.fits
-    formatter: lsst.obs.base.formatters.fitsGeneric.FitsGenericFormatter
-  - dataset_id:
-    - 398
+    - 1010
     data_id:
     - htm7: 189648
     path: ps1_pv3_3pi_20170110/189648.fits
+    formatter: lsst.obs.base.formatters.fitsGeneric.FitsGenericFormatter
+  - dataset_id:
+    - 1011
+    data_id:
+    - htm7: 189584
+    path: ps1_pv3_3pi_20170110/189584.fits
     formatter: lsst.obs.base.formatters.fitsGeneric.FitsGenericFormatter
 - type: dataset_type
   name: jointcal_photoCalib
@@ -65,136 +108,16 @@ data:
   - detector
   - physical_filter
   - tract
+  - visit_system
   - visit
   storage_class: PhotoCalib
-- type: run
-  name: shared/ci_hsc
+  is_calibration: false
 - type: dataset
   dataset_type: jointcal_photoCalib
-  run: shared/ci_hsc
+  run: HSC/external
   records:
   - dataset_id:
-    - 432
-    data_id:
-    - instrument: HSC
-      skymap: discrete/ci_hsc
-      detector: 25
-      tract: 0
-      visit: 903338
-    path: jointcal/jointcal_photoCalib-0903338-025.fits
-    formatter: lsst.obs.base.formatters.fitsGeneric.FitsGenericFormatter
-  - dataset_id:
-    - 433
-    data_id:
-    - instrument: HSC
-      skymap: discrete/ci_hsc
-      detector: 100
-      tract: 0
-      visit: 903334
-    path: jointcal/jointcal_photoCalib-0903334-100.fits
-    formatter: lsst.obs.base.formatters.fitsGeneric.FitsGenericFormatter
-  - dataset_id:
-    - 434
-    data_id:
-    - instrument: HSC
-      skymap: discrete/ci_hsc
-      detector: 23
-      tract: 0
-      visit: 903334
-    path: jointcal/jointcal_photoCalib-0903334-023.fits
-    formatter: lsst.obs.base.formatters.fitsGeneric.FitsGenericFormatter
-  - dataset_id:
-    - 435
-    data_id:
-    - instrument: HSC
-      skymap: discrete/ci_hsc
-      detector: 12
-      tract: 0
-      visit: 903346
-    path: jointcal/jointcal_photoCalib-0903346-012.fits
-    formatter: lsst.obs.base.formatters.fitsGeneric.FitsGenericFormatter
-  - dataset_id:
-    - 436
-    data_id:
-    - instrument: HSC
-      skymap: discrete/ci_hsc
-      detector: 0
-      tract: 0
-      visit: 903344
-    path: jointcal/jointcal_photoCalib-0903344-000.fits
-    formatter: lsst.obs.base.formatters.fitsGeneric.FitsGenericFormatter
-  - dataset_id:
-    - 437
-    data_id:
-    - instrument: HSC
-      skymap: discrete/ci_hsc
-      detector: 24
-      tract: 0
-      visit: 903336
-    path: jointcal/jointcal_photoCalib-0903336-024.fits
-    formatter: lsst.obs.base.formatters.fitsGeneric.FitsGenericFormatter
-  - dataset_id:
-    - 438
-    data_id:
-    - instrument: HSC
-      skymap: discrete/ci_hsc
-      detector: 10
-      tract: 0
-      visit: 903342
-    path: jointcal/jointcal_photoCalib-0903342-010.fits
-    formatter: lsst.obs.base.formatters.fitsGeneric.FitsGenericFormatter
-  - dataset_id:
-    - 439
-    data_id:
-    - instrument: HSC
-      skymap: discrete/ci_hsc
-      detector: 18
-      tract: 0
-      visit: 903338
-    path: jointcal/jointcal_photoCalib-0903338-018.fits
-    formatter: lsst.obs.base.formatters.fitsGeneric.FitsGenericFormatter
-  - dataset_id:
-    - 440
-    data_id:
-    - instrument: HSC
-      skymap: discrete/ci_hsc
-      detector: 4
-      tract: 0
-      visit: 903342
-    path: jointcal/jointcal_photoCalib-0903342-004.fits
-    formatter: lsst.obs.base.formatters.fitsGeneric.FitsGenericFormatter
-  - dataset_id:
-    - 441
-    data_id:
-    - instrument: HSC
-      skymap: discrete/ci_hsc
-      detector: 5
-      tract: 0
-      visit: 903344
-    path: jointcal/jointcal_photoCalib-0903344-005.fits
-    formatter: lsst.obs.base.formatters.fitsGeneric.FitsGenericFormatter
-  - dataset_id:
-    - 442
-    data_id:
-    - instrument: HSC
-      skymap: discrete/ci_hsc
-      detector: 100
-      tract: 0
-      visit: 903342
-    path: jointcal/jointcal_photoCalib-0903342-100.fits
-    formatter: lsst.obs.base.formatters.fitsGeneric.FitsGenericFormatter
-  - dataset_id:
-    - 443
-    data_id:
-    - instrument: HSC
-      skymap: discrete/ci_hsc
-      detector: 11
-      tract: 0
-      visit: 903344
-    path: jointcal/jointcal_photoCalib-0903344-011.fits
-    formatter: lsst.obs.base.formatters.fitsGeneric.FitsGenericFormatter
-  - dataset_id:
-    - 444
+    - 1045
     data_id:
     - instrument: HSC
       skymap: discrete/ci_hsc
@@ -204,37 +127,47 @@ data:
     path: jointcal/jointcal_photoCalib-0903336-017.fits
     formatter: lsst.obs.base.formatters.fitsGeneric.FitsGenericFormatter
   - dataset_id:
-    - 445
+    - 1046
     data_id:
     - instrument: HSC
       skymap: discrete/ci_hsc
-      detector: 1
+      detector: 10
       tract: 0
-      visit: 903346
-    path: jointcal/jointcal_photoCalib-0903346-001.fits
+      visit: 903342
+    path: jointcal/jointcal_photoCalib-0903342-010.fits
     formatter: lsst.obs.base.formatters.fitsGeneric.FitsGenericFormatter
   - dataset_id:
-    - 446
+    - 1047
     data_id:
     - instrument: HSC
       skymap: discrete/ci_hsc
-      detector: 16
+      detector: 23
       tract: 0
       visit: 903334
-    path: jointcal/jointcal_photoCalib-0903334-016.fits
+    path: jointcal/jointcal_photoCalib-0903334-023.fits
     formatter: lsst.obs.base.formatters.fitsGeneric.FitsGenericFormatter
   - dataset_id:
-    - 447
+    - 1048
     data_id:
     - instrument: HSC
       skymap: discrete/ci_hsc
-      detector: 6
+      detector: 25
       tract: 0
-      visit: 903346
-    path: jointcal/jointcal_photoCalib-0903346-006.fits
+      visit: 903338
+    path: jointcal/jointcal_photoCalib-0903338-025.fits
     formatter: lsst.obs.base.formatters.fitsGeneric.FitsGenericFormatter
   - dataset_id:
-    - 448
+    - 1049
+    data_id:
+    - instrument: HSC
+      skymap: discrete/ci_hsc
+      detector: 11
+      tract: 0
+      visit: 903344
+    path: jointcal/jointcal_photoCalib-0903344-011.fits
+    formatter: lsst.obs.base.formatters.fitsGeneric.FitsGenericFormatter
+  - dataset_id:
+    - 1050
     data_id:
     - instrument: HSC
       skymap: discrete/ci_hsc
@@ -244,57 +177,117 @@ data:
     path: jointcal/jointcal_photoCalib-0903334-022.fits
     formatter: lsst.obs.base.formatters.fitsGeneric.FitsGenericFormatter
   - dataset_id:
-    - 449
-    data_id:
-    - instrument: HSC
-      skymap: discrete/ci_hsc
-      detector: 24
-      tract: 0
-      visit: 903988
-    path: jointcal/jointcal_photoCalib-0903988-024.fits
-    formatter: lsst.obs.base.formatters.fitsGeneric.FitsGenericFormatter
-  - dataset_id:
-    - 450
-    data_id:
-    - instrument: HSC
-      skymap: discrete/ci_hsc
-      detector: 6
-      tract: 0
-      visit: 904014
-    path: jointcal/jointcal_photoCalib-0904014-006.fits
-    formatter: lsst.obs.base.formatters.fitsGeneric.FitsGenericFormatter
-  - dataset_id:
-    - 451
+    - 1051
     data_id:
     - instrument: HSC
       skymap: discrete/ci_hsc
       detector: 1
       tract: 0
-      visit: 904014
-    path: jointcal/jointcal_photoCalib-0904014-001.fits
+      visit: 903346
+    path: jointcal/jointcal_photoCalib-0903346-001.fits
     formatter: lsst.obs.base.formatters.fitsGeneric.FitsGenericFormatter
   - dataset_id:
-    - 452
+    - 1052
     data_id:
     - instrument: HSC
       skymap: discrete/ci_hsc
-      detector: 10
+      detector: 24
       tract: 0
-      visit: 904010
-    path: jointcal/jointcal_photoCalib-0904010-010.fits
+      visit: 903336
+    path: jointcal/jointcal_photoCalib-0903336-024.fits
     formatter: lsst.obs.base.formatters.fitsGeneric.FitsGenericFormatter
   - dataset_id:
-    - 453
+    - 1053
+    data_id:
+    - instrument: HSC
+      skymap: discrete/ci_hsc
+      detector: 6
+      tract: 0
+      visit: 903346
+    path: jointcal/jointcal_photoCalib-0903346-006.fits
+    formatter: lsst.obs.base.formatters.fitsGeneric.FitsGenericFormatter
+  - dataset_id:
+    - 1054
+    data_id:
+    - instrument: HSC
+      skymap: discrete/ci_hsc
+      detector: 16
+      tract: 0
+      visit: 903334
+    path: jointcal/jointcal_photoCalib-0903334-016.fits
+    formatter: lsst.obs.base.formatters.fitsGeneric.FitsGenericFormatter
+  - dataset_id:
+    - 1055
+    data_id:
+    - instrument: HSC
+      skymap: discrete/ci_hsc
+      detector: 100
+      tract: 0
+      visit: 903334
+    path: jointcal/jointcal_photoCalib-0903334-100.fits
+    formatter: lsst.obs.base.formatters.fitsGeneric.FitsGenericFormatter
+  - dataset_id:
+    - 1056
+    data_id:
+    - instrument: HSC
+      skymap: discrete/ci_hsc
+      detector: 100
+      tract: 0
+      visit: 903342
+    path: jointcal/jointcal_photoCalib-0903342-100.fits
+    formatter: lsst.obs.base.formatters.fitsGeneric.FitsGenericFormatter
+  - dataset_id:
+    - 1057
+    data_id:
+    - instrument: HSC
+      skymap: discrete/ci_hsc
+      detector: 5
+      tract: 0
+      visit: 903344
+    path: jointcal/jointcal_photoCalib-0903344-005.fits
+    formatter: lsst.obs.base.formatters.fitsGeneric.FitsGenericFormatter
+  - dataset_id:
+    - 1058
+    data_id:
+    - instrument: HSC
+      skymap: discrete/ci_hsc
+      detector: 18
+      tract: 0
+      visit: 903338
+    path: jointcal/jointcal_photoCalib-0903338-018.fits
+    formatter: lsst.obs.base.formatters.fitsGeneric.FitsGenericFormatter
+  - dataset_id:
+    - 1059
+    data_id:
+    - instrument: HSC
+      skymap: discrete/ci_hsc
+      detector: 4
+      tract: 0
+      visit: 903342
+    path: jointcal/jointcal_photoCalib-0903342-004.fits
+    formatter: lsst.obs.base.formatters.fitsGeneric.FitsGenericFormatter
+  - dataset_id:
+    - 1060
     data_id:
     - instrument: HSC
       skymap: discrete/ci_hsc
       detector: 12
       tract: 0
-      visit: 904014
-    path: jointcal/jointcal_photoCalib-0904014-012.fits
+      visit: 903346
+    path: jointcal/jointcal_photoCalib-0903346-012.fits
     formatter: lsst.obs.base.formatters.fitsGeneric.FitsGenericFormatter
   - dataset_id:
-    - 454
+    - 1061
+    data_id:
+    - instrument: HSC
+      skymap: discrete/ci_hsc
+      detector: 0
+      tract: 0
+      visit: 903344
+    path: jointcal/jointcal_photoCalib-0903344-000.fits
+    formatter: lsst.obs.base.formatters.fitsGeneric.FitsGenericFormatter
+  - dataset_id:
+    - 1062
     data_id:
     - instrument: HSC
       skymap: discrete/ci_hsc
@@ -304,27 +297,27 @@ data:
     path: jointcal/jointcal_photoCalib-0903990-018.fits
     formatter: lsst.obs.base.formatters.fitsGeneric.FitsGenericFormatter
   - dataset_id:
-    - 455
+    - 1063
     data_id:
     - instrument: HSC
       skymap: discrete/ci_hsc
-      detector: 25
+      detector: 6
       tract: 0
-      visit: 903990
-    path: jointcal/jointcal_photoCalib-0903990-025.fits
+      visit: 904014
+    path: jointcal/jointcal_photoCalib-0904014-006.fits
     formatter: lsst.obs.base.formatters.fitsGeneric.FitsGenericFormatter
   - dataset_id:
-    - 456
+    - 1064
     data_id:
     - instrument: HSC
       skymap: discrete/ci_hsc
-      detector: 16
+      detector: 24
       tract: 0
       visit: 903988
-    path: jointcal/jointcal_photoCalib-0903988-016.fits
+    path: jointcal/jointcal_photoCalib-0903988-024.fits
     formatter: lsst.obs.base.formatters.fitsGeneric.FitsGenericFormatter
   - dataset_id:
-    - 457
+    - 1065
     data_id:
     - instrument: HSC
       skymap: discrete/ci_hsc
@@ -334,47 +327,7 @@ data:
     path: jointcal/jointcal_photoCalib-0903986-023.fits
     formatter: lsst.obs.base.formatters.fitsGeneric.FitsGenericFormatter
   - dataset_id:
-    - 458
-    data_id:
-    - instrument: HSC
-      skymap: discrete/ci_hsc
-      detector: 4
-      tract: 0
-      visit: 904010
-    path: jointcal/jointcal_photoCalib-0904010-004.fits
-    formatter: lsst.obs.base.formatters.fitsGeneric.FitsGenericFormatter
-  - dataset_id:
-    - 459
-    data_id:
-    - instrument: HSC
-      skymap: discrete/ci_hsc
-      detector: 22
-      tract: 0
-      visit: 903986
-    path: jointcal/jointcal_photoCalib-0903986-022.fits
-    formatter: lsst.obs.base.formatters.fitsGeneric.FitsGenericFormatter
-  - dataset_id:
-    - 460
-    data_id:
-    - instrument: HSC
-      skymap: discrete/ci_hsc
-      detector: 17
-      tract: 0
-      visit: 903988
-    path: jointcal/jointcal_photoCalib-0903988-017.fits
-    formatter: lsst.obs.base.formatters.fitsGeneric.FitsGenericFormatter
-  - dataset_id:
-    - 461
-    data_id:
-    - instrument: HSC
-      skymap: discrete/ci_hsc
-      detector: 100
-      tract: 0
-      visit: 904010
-    path: jointcal/jointcal_photoCalib-0904010-100.fits
-    formatter: lsst.obs.base.formatters.fitsGeneric.FitsGenericFormatter
-  - dataset_id:
-    - 462
+    - 1066
     data_id:
     - instrument: HSC
       skymap: discrete/ci_hsc
@@ -384,7 +337,7 @@ data:
     path: jointcal/jointcal_photoCalib-0903986-016.fits
     formatter: lsst.obs.base.formatters.fitsGeneric.FitsGenericFormatter
   - dataset_id:
-    - 463
+    - 1067
     data_id:
     - instrument: HSC
       skymap: discrete/ci_hsc
@@ -394,7 +347,7 @@ data:
     path: jointcal/jointcal_photoCalib-0903988-023.fits
     formatter: lsst.obs.base.formatters.fitsGeneric.FitsGenericFormatter
   - dataset_id:
-    - 464
+    - 1068
     data_id:
     - instrument: HSC
       skymap: discrete/ci_hsc
@@ -402,6 +355,96 @@ data:
       tract: 0
       visit: 903986
     path: jointcal/jointcal_photoCalib-0903986-100.fits
+    formatter: lsst.obs.base.formatters.fitsGeneric.FitsGenericFormatter
+  - dataset_id:
+    - 1069
+    data_id:
+    - instrument: HSC
+      skymap: discrete/ci_hsc
+      detector: 16
+      tract: 0
+      visit: 903988
+    path: jointcal/jointcal_photoCalib-0903988-016.fits
+    formatter: lsst.obs.base.formatters.fitsGeneric.FitsGenericFormatter
+  - dataset_id:
+    - 1070
+    data_id:
+    - instrument: HSC
+      skymap: discrete/ci_hsc
+      detector: 10
+      tract: 0
+      visit: 904010
+    path: jointcal/jointcal_photoCalib-0904010-010.fits
+    formatter: lsst.obs.base.formatters.fitsGeneric.FitsGenericFormatter
+  - dataset_id:
+    - 1071
+    data_id:
+    - instrument: HSC
+      skymap: discrete/ci_hsc
+      detector: 17
+      tract: 0
+      visit: 903988
+    path: jointcal/jointcal_photoCalib-0903988-017.fits
+    formatter: lsst.obs.base.formatters.fitsGeneric.FitsGenericFormatter
+  - dataset_id:
+    - 1072
+    data_id:
+    - instrument: HSC
+      skymap: discrete/ci_hsc
+      detector: 22
+      tract: 0
+      visit: 903986
+    path: jointcal/jointcal_photoCalib-0903986-022.fits
+    formatter: lsst.obs.base.formatters.fitsGeneric.FitsGenericFormatter
+  - dataset_id:
+    - 1073
+    data_id:
+    - instrument: HSC
+      skymap: discrete/ci_hsc
+      detector: 4
+      tract: 0
+      visit: 904010
+    path: jointcal/jointcal_photoCalib-0904010-004.fits
+    formatter: lsst.obs.base.formatters.fitsGeneric.FitsGenericFormatter
+  - dataset_id:
+    - 1074
+    data_id:
+    - instrument: HSC
+      skymap: discrete/ci_hsc
+      detector: 100
+      tract: 0
+      visit: 904010
+    path: jointcal/jointcal_photoCalib-0904010-100.fits
+    formatter: lsst.obs.base.formatters.fitsGeneric.FitsGenericFormatter
+  - dataset_id:
+    - 1075
+    data_id:
+    - instrument: HSC
+      skymap: discrete/ci_hsc
+      detector: 25
+      tract: 0
+      visit: 903990
+    path: jointcal/jointcal_photoCalib-0903990-025.fits
+    formatter: lsst.obs.base.formatters.fitsGeneric.FitsGenericFormatter
+  - dataset_id:
+    - 1076
+    data_id:
+    - instrument: HSC
+      skymap: discrete/ci_hsc
+      detector: 12
+      tract: 0
+      visit: 904014
+    path: jointcal/jointcal_photoCalib-0904014-012.fits
+    formatter: lsst.obs.base.formatters.fitsGeneric.FitsGenericFormatter
+  - dataset_id:
+    - 1077
+    data_id:
+    - instrument: HSC
+      skymap: discrete/ci_hsc
+      detector: 1
+      tract: 0
+      visit: 904014
+    path: jointcal/jointcal_photoCalib-0904014-001.fits
     formatter: lsst.obs.base.formatters.fitsGeneric.FitsGenericFormatter
 - type: dataset_type
   name: jointcal_wcs
@@ -412,26 +455,16 @@ data:
   - detector
   - physical_filter
   - tract
+  - visit_system
   - visit
   storage_class: Wcs
-- type: run
-  name: shared/ci_hsc
+  is_calibration: false
 - type: dataset
   dataset_type: jointcal_wcs
-  run: shared/ci_hsc
+  run: HSC/external
   records:
   - dataset_id:
-    - 399
-    data_id:
-    - instrument: HSC
-      skymap: discrete/ci_hsc
-      detector: 12
-      tract: 0
-      visit: 903346
-    path: jointcal/jointcal_wcs-0903346-012.fits
-    formatter: lsst.obs.base.formatters.fitsGeneric.FitsGenericFormatter
-  - dataset_id:
-    - 400
+    - 1012
     data_id:
     - instrument: HSC
       skymap: discrete/ci_hsc
@@ -441,67 +474,7 @@ data:
     path: jointcal/jointcal_wcs-0903338-018.fits
     formatter: lsst.obs.base.formatters.fitsGeneric.FitsGenericFormatter
   - dataset_id:
-    - 401
-    data_id:
-    - instrument: HSC
-      skymap: discrete/ci_hsc
-      detector: 24
-      tract: 0
-      visit: 903336
-    path: jointcal/jointcal_wcs-0903336-024.fits
-    formatter: lsst.obs.base.formatters.fitsGeneric.FitsGenericFormatter
-  - dataset_id:
-    - 402
-    data_id:
-    - instrument: HSC
-      skymap: discrete/ci_hsc
-      detector: 25
-      tract: 0
-      visit: 903338
-    path: jointcal/jointcal_wcs-0903338-025.fits
-    formatter: lsst.obs.base.formatters.fitsGeneric.FitsGenericFormatter
-  - dataset_id:
-    - 403
-    data_id:
-    - instrument: HSC
-      skymap: discrete/ci_hsc
-      detector: 22
-      tract: 0
-      visit: 903334
-    path: jointcal/jointcal_wcs-0903334-022.fits
-    formatter: lsst.obs.base.formatters.fitsGeneric.FitsGenericFormatter
-  - dataset_id:
-    - 404
-    data_id:
-    - instrument: HSC
-      skymap: discrete/ci_hsc
-      detector: 17
-      tract: 0
-      visit: 903336
-    path: jointcal/jointcal_wcs-0903336-017.fits
-    formatter: lsst.obs.base.formatters.fitsGeneric.FitsGenericFormatter
-  - dataset_id:
-    - 405
-    data_id:
-    - instrument: HSC
-      skymap: discrete/ci_hsc
-      detector: 5
-      tract: 0
-      visit: 903344
-    path: jointcal/jointcal_wcs-0903344-005.fits
-    formatter: lsst.obs.base.formatters.fitsGeneric.FitsGenericFormatter
-  - dataset_id:
-    - 406
-    data_id:
-    - instrument: HSC
-      skymap: discrete/ci_hsc
-      detector: 1
-      tract: 0
-      visit: 903346
-    path: jointcal/jointcal_wcs-0903346-001.fits
-    formatter: lsst.obs.base.formatters.fitsGeneric.FitsGenericFormatter
-  - dataset_id:
-    - 407
+    - 1013
     data_id:
     - instrument: HSC
       skymap: discrete/ci_hsc
@@ -511,7 +484,17 @@ data:
     path: jointcal/jointcal_wcs-0903344-000.fits
     formatter: lsst.obs.base.formatters.fitsGeneric.FitsGenericFormatter
   - dataset_id:
-    - 408
+    - 1014
+    data_id:
+    - instrument: HSC
+      skymap: discrete/ci_hsc
+      detector: 5
+      tract: 0
+      visit: 903344
+    path: jointcal/jointcal_wcs-0903344-005.fits
+    formatter: lsst.obs.base.formatters.fitsGeneric.FitsGenericFormatter
+  - dataset_id:
+    - 1015
     data_id:
     - instrument: HSC
       skymap: discrete/ci_hsc
@@ -521,67 +504,17 @@ data:
     path: jointcal/jointcal_wcs-0903334-016.fits
     formatter: lsst.obs.base.formatters.fitsGeneric.FitsGenericFormatter
   - dataset_id:
-    - 409
+    - 1016
     data_id:
     - instrument: HSC
       skymap: discrete/ci_hsc
-      detector: 100
+      detector: 24
       tract: 0
-      visit: 903334
-    path: jointcal/jointcal_wcs-0903334-100.fits
+      visit: 903336
+    path: jointcal/jointcal_wcs-0903336-024.fits
     formatter: lsst.obs.base.formatters.fitsGeneric.FitsGenericFormatter
   - dataset_id:
-    - 410
-    data_id:
-    - instrument: HSC
-      skymap: discrete/ci_hsc
-      detector: 4
-      tract: 0
-      visit: 903342
-    path: jointcal/jointcal_wcs-0903342-004.fits
-    formatter: lsst.obs.base.formatters.fitsGeneric.FitsGenericFormatter
-  - dataset_id:
-    - 411
-    data_id:
-    - instrument: HSC
-      skymap: discrete/ci_hsc
-      detector: 23
-      tract: 0
-      visit: 903334
-    path: jointcal/jointcal_wcs-0903334-023.fits
-    formatter: lsst.obs.base.formatters.fitsGeneric.FitsGenericFormatter
-  - dataset_id:
-    - 412
-    data_id:
-    - instrument: HSC
-      skymap: discrete/ci_hsc
-      detector: 10
-      tract: 0
-      visit: 903342
-    path: jointcal/jointcal_wcs-0903342-010.fits
-    formatter: lsst.obs.base.formatters.fitsGeneric.FitsGenericFormatter
-  - dataset_id:
-    - 413
-    data_id:
-    - instrument: HSC
-      skymap: discrete/ci_hsc
-      detector: 100
-      tract: 0
-      visit: 903342
-    path: jointcal/jointcal_wcs-0903342-100.fits
-    formatter: lsst.obs.base.formatters.fitsGeneric.FitsGenericFormatter
-  - dataset_id:
-    - 414
-    data_id:
-    - instrument: HSC
-      skymap: discrete/ci_hsc
-      detector: 6
-      tract: 0
-      visit: 903346
-    path: jointcal/jointcal_wcs-0903346-006.fits
-    formatter: lsst.obs.base.formatters.fitsGeneric.FitsGenericFormatter
-  - dataset_id:
-    - 415
+    - 1017
     data_id:
     - instrument: HSC
       skymap: discrete/ci_hsc
@@ -591,7 +524,117 @@ data:
     path: jointcal/jointcal_wcs-0903344-011.fits
     formatter: lsst.obs.base.formatters.fitsGeneric.FitsGenericFormatter
   - dataset_id:
-    - 416
+    - 1018
+    data_id:
+    - instrument: HSC
+      skymap: discrete/ci_hsc
+      detector: 17
+      tract: 0
+      visit: 903336
+    path: jointcal/jointcal_wcs-0903336-017.fits
+    formatter: lsst.obs.base.formatters.fitsGeneric.FitsGenericFormatter
+  - dataset_id:
+    - 1019
+    data_id:
+    - instrument: HSC
+      skymap: discrete/ci_hsc
+      detector: 4
+      tract: 0
+      visit: 903342
+    path: jointcal/jointcal_wcs-0903342-004.fits
+    formatter: lsst.obs.base.formatters.fitsGeneric.FitsGenericFormatter
+  - dataset_id:
+    - 1020
+    data_id:
+    - instrument: HSC
+      skymap: discrete/ci_hsc
+      detector: 100
+      tract: 0
+      visit: 903334
+    path: jointcal/jointcal_wcs-0903334-100.fits
+    formatter: lsst.obs.base.formatters.fitsGeneric.FitsGenericFormatter
+  - dataset_id:
+    - 1021
+    data_id:
+    - instrument: HSC
+      skymap: discrete/ci_hsc
+      detector: 25
+      tract: 0
+      visit: 903338
+    path: jointcal/jointcal_wcs-0903338-025.fits
+    formatter: lsst.obs.base.formatters.fitsGeneric.FitsGenericFormatter
+  - dataset_id:
+    - 1022
+    data_id:
+    - instrument: HSC
+      skymap: discrete/ci_hsc
+      detector: 22
+      tract: 0
+      visit: 903334
+    path: jointcal/jointcal_wcs-0903334-022.fits
+    formatter: lsst.obs.base.formatters.fitsGeneric.FitsGenericFormatter
+  - dataset_id:
+    - 1023
+    data_id:
+    - instrument: HSC
+      skymap: discrete/ci_hsc
+      detector: 12
+      tract: 0
+      visit: 903346
+    path: jointcal/jointcal_wcs-0903346-012.fits
+    formatter: lsst.obs.base.formatters.fitsGeneric.FitsGenericFormatter
+  - dataset_id:
+    - 1024
+    data_id:
+    - instrument: HSC
+      skymap: discrete/ci_hsc
+      detector: 1
+      tract: 0
+      visit: 903346
+    path: jointcal/jointcal_wcs-0903346-001.fits
+    formatter: lsst.obs.base.formatters.fitsGeneric.FitsGenericFormatter
+  - dataset_id:
+    - 1025
+    data_id:
+    - instrument: HSC
+      skymap: discrete/ci_hsc
+      detector: 23
+      tract: 0
+      visit: 903334
+    path: jointcal/jointcal_wcs-0903334-023.fits
+    formatter: lsst.obs.base.formatters.fitsGeneric.FitsGenericFormatter
+  - dataset_id:
+    - 1026
+    data_id:
+    - instrument: HSC
+      skymap: discrete/ci_hsc
+      detector: 6
+      tract: 0
+      visit: 903346
+    path: jointcal/jointcal_wcs-0903346-006.fits
+    formatter: lsst.obs.base.formatters.fitsGeneric.FitsGenericFormatter
+  - dataset_id:
+    - 1027
+    data_id:
+    - instrument: HSC
+      skymap: discrete/ci_hsc
+      detector: 10
+      tract: 0
+      visit: 903342
+    path: jointcal/jointcal_wcs-0903342-010.fits
+    formatter: lsst.obs.base.formatters.fitsGeneric.FitsGenericFormatter
+  - dataset_id:
+    - 1028
+    data_id:
+    - instrument: HSC
+      skymap: discrete/ci_hsc
+      detector: 100
+      tract: 0
+      visit: 903342
+    path: jointcal/jointcal_wcs-0903342-100.fits
+    formatter: lsst.obs.base.formatters.fitsGeneric.FitsGenericFormatter
+  - dataset_id:
+    - 1029
     data_id:
     - instrument: HSC
       skymap: discrete/ci_hsc
@@ -601,137 +644,7 @@ data:
     path: jointcal/jointcal_wcs-0903988-023.fits
     formatter: lsst.obs.base.formatters.fitsGeneric.FitsGenericFormatter
   - dataset_id:
-    - 417
-    data_id:
-    - instrument: HSC
-      skymap: discrete/ci_hsc
-      detector: 22
-      tract: 0
-      visit: 903986
-    path: jointcal/jointcal_wcs-0903986-022.fits
-    formatter: lsst.obs.base.formatters.fitsGeneric.FitsGenericFormatter
-  - dataset_id:
-    - 418
-    data_id:
-    - instrument: HSC
-      skymap: discrete/ci_hsc
-      detector: 18
-      tract: 0
-      visit: 903990
-    path: jointcal/jointcal_wcs-0903990-018.fits
-    formatter: lsst.obs.base.formatters.fitsGeneric.FitsGenericFormatter
-  - dataset_id:
-    - 419
-    data_id:
-    - instrument: HSC
-      skymap: discrete/ci_hsc
-      detector: 25
-      tract: 0
-      visit: 903990
-    path: jointcal/jointcal_wcs-0903990-025.fits
-    formatter: lsst.obs.base.formatters.fitsGeneric.FitsGenericFormatter
-  - dataset_id:
-    - 420
-    data_id:
-    - instrument: HSC
-      skymap: discrete/ci_hsc
-      detector: 24
-      tract: 0
-      visit: 903988
-    path: jointcal/jointcal_wcs-0903988-024.fits
-    formatter: lsst.obs.base.formatters.fitsGeneric.FitsGenericFormatter
-  - dataset_id:
-    - 421
-    data_id:
-    - instrument: HSC
-      skymap: discrete/ci_hsc
-      detector: 10
-      tract: 0
-      visit: 904010
-    path: jointcal/jointcal_wcs-0904010-010.fits
-    formatter: lsst.obs.base.formatters.fitsGeneric.FitsGenericFormatter
-  - dataset_id:
-    - 422
-    data_id:
-    - instrument: HSC
-      skymap: discrete/ci_hsc
-      detector: 23
-      tract: 0
-      visit: 903986
-    path: jointcal/jointcal_wcs-0903986-023.fits
-    formatter: lsst.obs.base.formatters.fitsGeneric.FitsGenericFormatter
-  - dataset_id:
-    - 423
-    data_id:
-    - instrument: HSC
-      skymap: discrete/ci_hsc
-      detector: 100
-      tract: 0
-      visit: 904010
-    path: jointcal/jointcal_wcs-0904010-100.fits
-    formatter: lsst.obs.base.formatters.fitsGeneric.FitsGenericFormatter
-  - dataset_id:
-    - 424
-    data_id:
-    - instrument: HSC
-      skymap: discrete/ci_hsc
-      detector: 12
-      tract: 0
-      visit: 904014
-    path: jointcal/jointcal_wcs-0904014-012.fits
-    formatter: lsst.obs.base.formatters.fitsGeneric.FitsGenericFormatter
-  - dataset_id:
-    - 425
-    data_id:
-    - instrument: HSC
-      skymap: discrete/ci_hsc
-      detector: 6
-      tract: 0
-      visit: 904014
-    path: jointcal/jointcal_wcs-0904014-006.fits
-    formatter: lsst.obs.base.formatters.fitsGeneric.FitsGenericFormatter
-  - dataset_id:
-    - 426
-    data_id:
-    - instrument: HSC
-      skymap: discrete/ci_hsc
-      detector: 4
-      tract: 0
-      visit: 904010
-    path: jointcal/jointcal_wcs-0904010-004.fits
-    formatter: lsst.obs.base.formatters.fitsGeneric.FitsGenericFormatter
-  - dataset_id:
-    - 427
-    data_id:
-    - instrument: HSC
-      skymap: discrete/ci_hsc
-      detector: 16
-      tract: 0
-      visit: 903986
-    path: jointcal/jointcal_wcs-0903986-016.fits
-    formatter: lsst.obs.base.formatters.fitsGeneric.FitsGenericFormatter
-  - dataset_id:
-    - 428
-    data_id:
-    - instrument: HSC
-      skymap: discrete/ci_hsc
-      detector: 17
-      tract: 0
-      visit: 903988
-    path: jointcal/jointcal_wcs-0903988-017.fits
-    formatter: lsst.obs.base.formatters.fitsGeneric.FitsGenericFormatter
-  - dataset_id:
-    - 429
-    data_id:
-    - instrument: HSC
-      skymap: discrete/ci_hsc
-      detector: 100
-      tract: 0
-      visit: 903986
-    path: jointcal/jointcal_wcs-0903986-100.fits
-    formatter: lsst.obs.base.formatters.fitsGeneric.FitsGenericFormatter
-  - dataset_id:
-    - 430
+    - 1030
     data_id:
     - instrument: HSC
       skymap: discrete/ci_hsc
@@ -741,7 +654,117 @@ data:
     path: jointcal/jointcal_wcs-0904014-001.fits
     formatter: lsst.obs.base.formatters.fitsGeneric.FitsGenericFormatter
   - dataset_id:
-    - 431
+    - 1031
+    data_id:
+    - instrument: HSC
+      skymap: discrete/ci_hsc
+      detector: 16
+      tract: 0
+      visit: 903986
+    path: jointcal/jointcal_wcs-0903986-016.fits
+    formatter: lsst.obs.base.formatters.fitsGeneric.FitsGenericFormatter
+  - dataset_id:
+    - 1032
+    data_id:
+    - instrument: HSC
+      skymap: discrete/ci_hsc
+      detector: 25
+      tract: 0
+      visit: 903990
+    path: jointcal/jointcal_wcs-0903990-025.fits
+    formatter: lsst.obs.base.formatters.fitsGeneric.FitsGenericFormatter
+  - dataset_id:
+    - 1033
+    data_id:
+    - instrument: HSC
+      skymap: discrete/ci_hsc
+      detector: 100
+      tract: 0
+      visit: 904010
+    path: jointcal/jointcal_wcs-0904010-100.fits
+    formatter: lsst.obs.base.formatters.fitsGeneric.FitsGenericFormatter
+  - dataset_id:
+    - 1034
+    data_id:
+    - instrument: HSC
+      skymap: discrete/ci_hsc
+      detector: 23
+      tract: 0
+      visit: 903986
+    path: jointcal/jointcal_wcs-0903986-023.fits
+    formatter: lsst.obs.base.formatters.fitsGeneric.FitsGenericFormatter
+  - dataset_id:
+    - 1035
+    data_id:
+    - instrument: HSC
+      skymap: discrete/ci_hsc
+      detector: 12
+      tract: 0
+      visit: 904014
+    path: jointcal/jointcal_wcs-0904014-012.fits
+    formatter: lsst.obs.base.formatters.fitsGeneric.FitsGenericFormatter
+  - dataset_id:
+    - 1036
+    data_id:
+    - instrument: HSC
+      skymap: discrete/ci_hsc
+      detector: 6
+      tract: 0
+      visit: 904014
+    path: jointcal/jointcal_wcs-0904014-006.fits
+    formatter: lsst.obs.base.formatters.fitsGeneric.FitsGenericFormatter
+  - dataset_id:
+    - 1037
+    data_id:
+    - instrument: HSC
+      skymap: discrete/ci_hsc
+      detector: 24
+      tract: 0
+      visit: 903988
+    path: jointcal/jointcal_wcs-0903988-024.fits
+    formatter: lsst.obs.base.formatters.fitsGeneric.FitsGenericFormatter
+  - dataset_id:
+    - 1038
+    data_id:
+    - instrument: HSC
+      skymap: discrete/ci_hsc
+      detector: 10
+      tract: 0
+      visit: 904010
+    path: jointcal/jointcal_wcs-0904010-010.fits
+    formatter: lsst.obs.base.formatters.fitsGeneric.FitsGenericFormatter
+  - dataset_id:
+    - 1039
+    data_id:
+    - instrument: HSC
+      skymap: discrete/ci_hsc
+      detector: 4
+      tract: 0
+      visit: 904010
+    path: jointcal/jointcal_wcs-0904010-004.fits
+    formatter: lsst.obs.base.formatters.fitsGeneric.FitsGenericFormatter
+  - dataset_id:
+    - 1040
+    data_id:
+    - instrument: HSC
+      skymap: discrete/ci_hsc
+      detector: 17
+      tract: 0
+      visit: 903988
+    path: jointcal/jointcal_wcs-0903988-017.fits
+    formatter: lsst.obs.base.formatters.fitsGeneric.FitsGenericFormatter
+  - dataset_id:
+    - 1041
+    data_id:
+    - instrument: HSC
+      skymap: discrete/ci_hsc
+      detector: 100
+      tract: 0
+      visit: 903986
+    path: jointcal/jointcal_wcs-0903986-100.fits
+    formatter: lsst.obs.base.formatters.fitsGeneric.FitsGenericFormatter
+  - dataset_id:
+    - 1042
     data_id:
     - instrument: HSC
       skymap: discrete/ci_hsc
@@ -750,1287 +773,942 @@ data:
       visit: 903988
     path: jointcal/jointcal_wcs-0903988-016.fits
     formatter: lsst.obs.base.formatters.fitsGeneric.FitsGenericFormatter
-- type: dimension
-  element: calibration_label
-  records:
-  - instrument: HSC
-    name: gen2/bias_2013-11-03_024
-    datetime_begin: 2013-05-07 00:00:00
-    datetime_end: 2014-05-03 00:00:00
-  - instrument: HSC
-    name: gen2/bias_2013-11-03_017
-    datetime_begin: 2013-05-07 00:00:00
-    datetime_end: 2014-05-03 00:00:00
-  - instrument: HSC
-    name: gen2/bias_2013-11-03_012
-    datetime_begin: 2013-05-07 00:00:00
-    datetime_end: 2014-05-03 00:00:00
-  - instrument: HSC
-    name: gen2/bias_2013-11-03_016
-    datetime_begin: 2013-05-07 00:00:00
-    datetime_end: 2014-05-03 00:00:00
-  - instrument: HSC
-    name: gen2/bias_2013-11-03_022
-    datetime_begin: 2013-05-07 00:00:00
-    datetime_end: 2014-05-03 00:00:00
-  - instrument: HSC
-    name: gen2/bias_2013-11-03_001
-    datetime_begin: 2013-05-07 00:00:00
-    datetime_end: 2014-05-03 00:00:00
-  - instrument: HSC
-    name: gen2/bias_2013-11-03_005
-    datetime_begin: 2013-05-07 00:00:00
-    datetime_end: 2014-05-03 00:00:00
-  - instrument: HSC
-    name: gen2/bias_2013-11-03_010
-    datetime_begin: 2013-05-07 00:00:00
-    datetime_end: 2014-05-03 00:00:00
-  - instrument: HSC
-    name: gen2/bias_2013-11-03_100
-    datetime_begin: 2013-05-07 00:00:00
-    datetime_end: 2014-05-03 00:00:00
-  - instrument: HSC
-    name: gen2/bias_2013-11-03_006
-    datetime_begin: 2013-05-07 00:00:00
-    datetime_end: 2014-05-03 00:00:00
-  - instrument: HSC
-    name: gen2/bias_2013-11-03_025
-    datetime_begin: 2013-05-07 00:00:00
-    datetime_end: 2014-05-03 00:00:00
-  - instrument: HSC
-    name: gen2/bias_2013-11-03_004
-    datetime_begin: 2013-05-07 00:00:00
-    datetime_end: 2014-05-03 00:00:00
-  - instrument: HSC
-    name: gen2/bias_2013-11-03_018
-    datetime_begin: 2013-05-07 00:00:00
-    datetime_end: 2014-05-03 00:00:00
-  - instrument: HSC
-    name: gen2/bias_2013-11-03_011
-    datetime_begin: 2013-05-07 00:00:00
-    datetime_end: 2014-05-03 00:00:00
-  - instrument: HSC
-    name: gen2/bias_2013-11-03_023
-    datetime_begin: 2013-05-07 00:00:00
-    datetime_end: 2014-05-03 00:00:00
-  - instrument: HSC
-    name: gen2/bias_2013-11-03_000
-    datetime_begin: 2013-05-07 00:00:00
-    datetime_end: 2014-05-03 00:00:00
+  - dataset_id:
+    - 1043
+    data_id:
+    - instrument: HSC
+      skymap: discrete/ci_hsc
+      detector: 22
+      tract: 0
+      visit: 903986
+    path: jointcal/jointcal_wcs-0903986-022.fits
+    formatter: lsst.obs.base.formatters.fitsGeneric.FitsGenericFormatter
+  - dataset_id:
+    - 1044
+    data_id:
+    - instrument: HSC
+      skymap: discrete/ci_hsc
+      detector: 18
+      tract: 0
+      visit: 903990
+    path: jointcal/jointcal_wcs-0903990-018.fits
+    formatter: lsst.obs.base.formatters.fitsGeneric.FitsGenericFormatter
 - type: dataset_type
   name: bias
   dimensions:
   - instrument
-  - calibration_label
   - detector
   storage_class: ExposureF
-- type: run
-  name: HSC/calib
+  is_calibration: true
 - type: dataset
   dataset_type: bias
-  run: HSC/calib
+  run: HSC/calib/gen2/2013-11-03
   records:
   - dataset_id:
-    - 1825
+    - 1158
     data_id:
     - instrument: HSC
-      calibration_label: gen2/bias_2013-11-03_005
-      detector: 5
-    path: CALIB/BIAS/2013-11-03/NONE/BIAS-2013-11-03-005.fits
-    formatter: lsst.obs.base.formatters.fitsExposure.FitsExposureFormatter
-  - dataset_id:
-    - 1826
-    data_id:
-    - instrument: HSC
-      calibration_label: gen2/bias_2013-11-03_022
       detector: 22
     path: CALIB/BIAS/2013-11-03/NONE/BIAS-2013-11-03-022.fits
     formatter: lsst.obs.base.formatters.fitsExposure.FitsExposureFormatter
   - dataset_id:
-    - 1827
+    - 1159
     data_id:
     - instrument: HSC
-      calibration_label: gen2/bias_2013-11-03_025
-      detector: 25
-    path: CALIB/BIAS/2013-11-03/NONE/BIAS-2013-11-03-025.fits
+      detector: 12
+    path: CALIB/BIAS/2013-11-03/NONE/BIAS-2013-11-03-012.fits
     formatter: lsst.obs.base.formatters.fitsExposure.FitsExposureFormatter
   - dataset_id:
-    - 1828
+    - 1160
     data_id:
     - instrument: HSC
-      calibration_label: gen2/bias_2013-11-03_024
-      detector: 24
-    path: CALIB/BIAS/2013-11-03/NONE/BIAS-2013-11-03-024.fits
-    formatter: lsst.obs.base.formatters.fitsExposure.FitsExposureFormatter
-  - dataset_id:
-    - 1829
-    data_id:
-    - instrument: HSC
-      calibration_label: gen2/bias_2013-11-03_100
-      detector: 100
-    path: CALIB/BIAS/2013-11-03/NONE/BIAS-2013-11-03-100.fits
-    formatter: lsst.obs.base.formatters.fitsExposure.FitsExposureFormatter
-  - dataset_id:
-    - 1830
-    data_id:
-    - instrument: HSC
-      calibration_label: gen2/bias_2013-11-03_004
       detector: 4
     path: CALIB/BIAS/2013-11-03/NONE/BIAS-2013-11-03-004.fits
     formatter: lsst.obs.base.formatters.fitsExposure.FitsExposureFormatter
   - dataset_id:
-    - 1831
+    - 1161
     data_id:
     - instrument: HSC
-      calibration_label: gen2/bias_2013-11-03_010
-      detector: 10
-    path: CALIB/BIAS/2013-11-03/NONE/BIAS-2013-11-03-010.fits
-    formatter: lsst.obs.base.formatters.fitsExposure.FitsExposureFormatter
-  - dataset_id:
-    - 1832
-    data_id:
-    - instrument: HSC
-      calibration_label: gen2/bias_2013-11-03_017
-      detector: 17
-    path: CALIB/BIAS/2013-11-03/NONE/BIAS-2013-11-03-017.fits
-    formatter: lsst.obs.base.formatters.fitsExposure.FitsExposureFormatter
-  - dataset_id:
-    - 1833
-    data_id:
-    - instrument: HSC
-      calibration_label: gen2/bias_2013-11-03_006
-      detector: 6
-    path: CALIB/BIAS/2013-11-03/NONE/BIAS-2013-11-03-006.fits
-    formatter: lsst.obs.base.formatters.fitsExposure.FitsExposureFormatter
-  - dataset_id:
-    - 1834
-    data_id:
-    - instrument: HSC
-      calibration_label: gen2/bias_2013-11-03_001
       detector: 1
     path: CALIB/BIAS/2013-11-03/NONE/BIAS-2013-11-03-001.fits
     formatter: lsst.obs.base.formatters.fitsExposure.FitsExposureFormatter
   - dataset_id:
-    - 1835
+    - 1162
     data_id:
     - instrument: HSC
-      calibration_label: gen2/bias_2013-11-03_000
-      detector: 0
-    path: CALIB/BIAS/2013-11-03/NONE/BIAS-2013-11-03-000.fits
-    formatter: lsst.obs.base.formatters.fitsExposure.FitsExposureFormatter
-  - dataset_id:
-    - 1836
-    data_id:
-    - instrument: HSC
-      calibration_label: gen2/bias_2013-11-03_018
-      detector: 18
-    path: CALIB/BIAS/2013-11-03/NONE/BIAS-2013-11-03-018.fits
-    formatter: lsst.obs.base.formatters.fitsExposure.FitsExposureFormatter
-  - dataset_id:
-    - 1837
-    data_id:
-    - instrument: HSC
-      calibration_label: gen2/bias_2013-11-03_011
-      detector: 11
-    path: CALIB/BIAS/2013-11-03/NONE/BIAS-2013-11-03-011.fits
-    formatter: lsst.obs.base.formatters.fitsExposure.FitsExposureFormatter
-  - dataset_id:
-    - 1838
-    data_id:
-    - instrument: HSC
-      calibration_label: gen2/bias_2013-11-03_023
-      detector: 23
-    path: CALIB/BIAS/2013-11-03/NONE/BIAS-2013-11-03-023.fits
-    formatter: lsst.obs.base.formatters.fitsExposure.FitsExposureFormatter
-  - dataset_id:
-    - 1839
-    data_id:
-    - instrument: HSC
-      calibration_label: gen2/bias_2013-11-03_016
       detector: 16
     path: CALIB/BIAS/2013-11-03/NONE/BIAS-2013-11-03-016.fits
     formatter: lsst.obs.base.formatters.fitsExposure.FitsExposureFormatter
   - dataset_id:
-    - 1840
+    - 1163
     data_id:
     - instrument: HSC
-      calibration_label: gen2/bias_2013-11-03_012
-      detector: 12
-    path: CALIB/BIAS/2013-11-03/NONE/BIAS-2013-11-03-012.fits
+      detector: 11
+    path: CALIB/BIAS/2013-11-03/NONE/BIAS-2013-11-03-011.fits
     formatter: lsst.obs.base.formatters.fitsExposure.FitsExposureFormatter
-- type: dimension
-  element: calibration_label
-  records:
-  - instrument: HSC
-    name: gen2/dark_2013-11-03_022
-    datetime_begin: 2013-05-07 00:00:00
-    datetime_end: 2014-05-03 00:00:00
-  - instrument: HSC
-    name: gen2/dark_2013-11-03_025
-    datetime_begin: 2013-05-07 00:00:00
-    datetime_end: 2014-05-03 00:00:00
-  - instrument: HSC
-    name: gen2/dark_2013-11-03_018
-    datetime_begin: 2013-05-07 00:00:00
-    datetime_end: 2014-05-03 00:00:00
-  - instrument: HSC
-    name: gen2/dark_2013-11-03_023
-    datetime_begin: 2013-05-07 00:00:00
-    datetime_end: 2014-05-03 00:00:00
-  - instrument: HSC
-    name: gen2/dark_2013-11-03_006
-    datetime_begin: 2013-05-07 00:00:00
-    datetime_end: 2014-05-03 00:00:00
-  - instrument: HSC
-    name: gen2/dark_2013-11-03_010
-    datetime_begin: 2013-05-07 00:00:00
-    datetime_end: 2014-05-03 00:00:00
-  - instrument: HSC
-    name: gen2/dark_2013-11-03_001
-    datetime_begin: 2013-05-07 00:00:00
-    datetime_end: 2014-05-03 00:00:00
-  - instrument: HSC
-    name: gen2/dark_2013-11-03_012
-    datetime_begin: 2013-05-07 00:00:00
-    datetime_end: 2014-05-03 00:00:00
-  - instrument: HSC
-    name: gen2/dark_2013-11-03_017
-    datetime_begin: 2013-05-07 00:00:00
-    datetime_end: 2014-05-03 00:00:00
-  - instrument: HSC
-    name: gen2/dark_2013-11-03_024
-    datetime_begin: 2013-05-07 00:00:00
-    datetime_end: 2014-05-03 00:00:00
-  - instrument: HSC
-    name: gen2/dark_2013-11-03_016
-    datetime_begin: 2013-05-07 00:00:00
-    datetime_end: 2014-05-03 00:00:00
-  - instrument: HSC
-    name: gen2/dark_2013-11-03_000
-    datetime_begin: 2013-05-07 00:00:00
-    datetime_end: 2014-05-03 00:00:00
-  - instrument: HSC
-    name: gen2/dark_2013-11-03_004
-    datetime_begin: 2013-05-07 00:00:00
-    datetime_end: 2014-05-03 00:00:00
-  - instrument: HSC
-    name: gen2/dark_2013-11-03_100
-    datetime_begin: 2013-05-07 00:00:00
-    datetime_end: 2014-05-03 00:00:00
-  - instrument: HSC
-    name: gen2/dark_2013-11-03_011
-    datetime_begin: 2013-05-07 00:00:00
-    datetime_end: 2014-05-03 00:00:00
-  - instrument: HSC
-    name: gen2/dark_2013-11-03_005
-    datetime_begin: 2013-05-07 00:00:00
-    datetime_end: 2014-05-03 00:00:00
+  - dataset_id:
+    - 1164
+    data_id:
+    - instrument: HSC
+      detector: 5
+    path: CALIB/BIAS/2013-11-03/NONE/BIAS-2013-11-03-005.fits
+    formatter: lsst.obs.base.formatters.fitsExposure.FitsExposureFormatter
+  - dataset_id:
+    - 1165
+    data_id:
+    - instrument: HSC
+      detector: 24
+    path: CALIB/BIAS/2013-11-03/NONE/BIAS-2013-11-03-024.fits
+    formatter: lsst.obs.base.formatters.fitsExposure.FitsExposureFormatter
+  - dataset_id:
+    - 1166
+    data_id:
+    - instrument: HSC
+      detector: 23
+    path: CALIB/BIAS/2013-11-03/NONE/BIAS-2013-11-03-023.fits
+    formatter: lsst.obs.base.formatters.fitsExposure.FitsExposureFormatter
+  - dataset_id:
+    - 1167
+    data_id:
+    - instrument: HSC
+      detector: 6
+    path: CALIB/BIAS/2013-11-03/NONE/BIAS-2013-11-03-006.fits
+    formatter: lsst.obs.base.formatters.fitsExposure.FitsExposureFormatter
+  - dataset_id:
+    - 1168
+    data_id:
+    - instrument: HSC
+      detector: 10
+    path: CALIB/BIAS/2013-11-03/NONE/BIAS-2013-11-03-010.fits
+    formatter: lsst.obs.base.formatters.fitsExposure.FitsExposureFormatter
+  - dataset_id:
+    - 1169
+    data_id:
+    - instrument: HSC
+      detector: 17
+    path: CALIB/BIAS/2013-11-03/NONE/BIAS-2013-11-03-017.fits
+    formatter: lsst.obs.base.formatters.fitsExposure.FitsExposureFormatter
+  - dataset_id:
+    - 1170
+    data_id:
+    - instrument: HSC
+      detector: 0
+    path: CALIB/BIAS/2013-11-03/NONE/BIAS-2013-11-03-000.fits
+    formatter: lsst.obs.base.formatters.fitsExposure.FitsExposureFormatter
+  - dataset_id:
+    - 1171
+    data_id:
+    - instrument: HSC
+      detector: 100
+    path: CALIB/BIAS/2013-11-03/NONE/BIAS-2013-11-03-100.fits
+    formatter: lsst.obs.base.formatters.fitsExposure.FitsExposureFormatter
+  - dataset_id:
+    - 1172
+    data_id:
+    - instrument: HSC
+      detector: 25
+    path: CALIB/BIAS/2013-11-03/NONE/BIAS-2013-11-03-025.fits
+    formatter: lsst.obs.base.formatters.fitsExposure.FitsExposureFormatter
+  - dataset_id:
+    - 1173
+    data_id:
+    - instrument: HSC
+      detector: 18
+    path: CALIB/BIAS/2013-11-03/NONE/BIAS-2013-11-03-018.fits
+    formatter: lsst.obs.base.formatters.fitsExposure.FitsExposureFormatter
 - type: dataset_type
   name: dark
   dimensions:
   - instrument
-  - calibration_label
   - detector
   storage_class: ExposureF
-- type: run
-  name: HSC/calib
+  is_calibration: true
 - type: dataset
   dataset_type: dark
-  run: HSC/calib
+  run: HSC/calib/gen2/2013-11-03
   records:
   - dataset_id:
-    - 1873
+    - 1142
     data_id:
     - instrument: HSC
-      calibration_label: gen2/dark_2013-11-03_006
-      detector: 6
-    path: CALIB/DARK/2013-11-03/NONE/DARK-2013-11-03-006.fits
-    formatter: lsst.obs.base.formatters.fitsExposure.FitsExposureFormatter
-  - dataset_id:
-    - 1874
-    data_id:
-    - instrument: HSC
-      calibration_label: gen2/dark_2013-11-03_025
-      detector: 25
-    path: CALIB/DARK/2013-11-03/NONE/DARK-2013-11-03-025.fits
-    formatter: lsst.obs.base.formatters.fitsExposure.FitsExposureFormatter
-  - dataset_id:
-    - 1875
-    data_id:
-    - instrument: HSC
-      calibration_label: gen2/dark_2013-11-03_012
-      detector: 12
-    path: CALIB/DARK/2013-11-03/NONE/DARK-2013-11-03-012.fits
-    formatter: lsst.obs.base.formatters.fitsExposure.FitsExposureFormatter
-  - dataset_id:
-    - 1876
-    data_id:
-    - instrument: HSC
-      calibration_label: gen2/dark_2013-11-03_100
       detector: 100
     path: CALIB/DARK/2013-11-03/NONE/DARK-2013-11-03-100.fits
     formatter: lsst.obs.base.formatters.fitsExposure.FitsExposureFormatter
   - dataset_id:
-    - 1877
+    - 1143
     data_id:
     - instrument: HSC
-      calibration_label: gen2/dark_2013-11-03_016
-      detector: 16
-    path: CALIB/DARK/2013-11-03/NONE/DARK-2013-11-03-016.fits
+      detector: 25
+    path: CALIB/DARK/2013-11-03/NONE/DARK-2013-11-03-025.fits
     formatter: lsst.obs.base.formatters.fitsExposure.FitsExposureFormatter
   - dataset_id:
-    - 1878
+    - 1144
     data_id:
     - instrument: HSC
-      calibration_label: gen2/dark_2013-11-03_018
-      detector: 18
-    path: CALIB/DARK/2013-11-03/NONE/DARK-2013-11-03-018.fits
-    formatter: lsst.obs.base.formatters.fitsExposure.FitsExposureFormatter
-  - dataset_id:
-    - 1879
-    data_id:
-    - instrument: HSC
-      calibration_label: gen2/dark_2013-11-03_024
       detector: 24
     path: CALIB/DARK/2013-11-03/NONE/DARK-2013-11-03-024.fits
     formatter: lsst.obs.base.formatters.fitsExposure.FitsExposureFormatter
   - dataset_id:
-    - 1880
+    - 1145
     data_id:
     - instrument: HSC
-      calibration_label: gen2/dark_2013-11-03_005
-      detector: 5
-    path: CALIB/DARK/2013-11-03/NONE/DARK-2013-11-03-005.fits
+      detector: 12
+    path: CALIB/DARK/2013-11-03/NONE/DARK-2013-11-03-012.fits
     formatter: lsst.obs.base.formatters.fitsExposure.FitsExposureFormatter
   - dataset_id:
-    - 1881
+    - 1146
     data_id:
     - instrument: HSC
-      calibration_label: gen2/dark_2013-11-03_004
-      detector: 4
-    path: CALIB/DARK/2013-11-03/NONE/DARK-2013-11-03-004.fits
-    formatter: lsst.obs.base.formatters.fitsExposure.FitsExposureFormatter
-  - dataset_id:
-    - 1882
-    data_id:
-    - instrument: HSC
-      calibration_label: gen2/dark_2013-11-03_017
-      detector: 17
-    path: CALIB/DARK/2013-11-03/NONE/DARK-2013-11-03-017.fits
-    formatter: lsst.obs.base.formatters.fitsExposure.FitsExposureFormatter
-  - dataset_id:
-    - 1883
-    data_id:
-    - instrument: HSC
-      calibration_label: gen2/dark_2013-11-03_011
-      detector: 11
-    path: CALIB/DARK/2013-11-03/NONE/DARK-2013-11-03-011.fits
-    formatter: lsst.obs.base.formatters.fitsExposure.FitsExposureFormatter
-  - dataset_id:
-    - 1884
-    data_id:
-    - instrument: HSC
-      calibration_label: gen2/dark_2013-11-03_000
-      detector: 0
-    path: CALIB/DARK/2013-11-03/NONE/DARK-2013-11-03-000.fits
-    formatter: lsst.obs.base.formatters.fitsExposure.FitsExposureFormatter
-  - dataset_id:
-    - 1885
-    data_id:
-    - instrument: HSC
-      calibration_label: gen2/dark_2013-11-03_010
-      detector: 10
-    path: CALIB/DARK/2013-11-03/NONE/DARK-2013-11-03-010.fits
-    formatter: lsst.obs.base.formatters.fitsExposure.FitsExposureFormatter
-  - dataset_id:
-    - 1886
-    data_id:
-    - instrument: HSC
-      calibration_label: gen2/dark_2013-11-03_022
       detector: 22
     path: CALIB/DARK/2013-11-03/NONE/DARK-2013-11-03-022.fits
     formatter: lsst.obs.base.formatters.fitsExposure.FitsExposureFormatter
   - dataset_id:
-    - 1887
+    - 1147
     data_id:
     - instrument: HSC
-      calibration_label: gen2/dark_2013-11-03_001
+      detector: 5
+    path: CALIB/DARK/2013-11-03/NONE/DARK-2013-11-03-005.fits
+    formatter: lsst.obs.base.formatters.fitsExposure.FitsExposureFormatter
+  - dataset_id:
+    - 1148
+    data_id:
+    - instrument: HSC
+      detector: 6
+    path: CALIB/DARK/2013-11-03/NONE/DARK-2013-11-03-006.fits
+    formatter: lsst.obs.base.formatters.fitsExposure.FitsExposureFormatter
+  - dataset_id:
+    - 1149
+    data_id:
+    - instrument: HSC
+      detector: 23
+    path: CALIB/DARK/2013-11-03/NONE/DARK-2013-11-03-023.fits
+    formatter: lsst.obs.base.formatters.fitsExposure.FitsExposureFormatter
+  - dataset_id:
+    - 1150
+    data_id:
+    - instrument: HSC
+      detector: 10
+    path: CALIB/DARK/2013-11-03/NONE/DARK-2013-11-03-010.fits
+    formatter: lsst.obs.base.formatters.fitsExposure.FitsExposureFormatter
+  - dataset_id:
+    - 1151
+    data_id:
+    - instrument: HSC
+      detector: 11
+    path: CALIB/DARK/2013-11-03/NONE/DARK-2013-11-03-011.fits
+    formatter: lsst.obs.base.formatters.fitsExposure.FitsExposureFormatter
+  - dataset_id:
+    - 1152
+    data_id:
+    - instrument: HSC
+      detector: 18
+    path: CALIB/DARK/2013-11-03/NONE/DARK-2013-11-03-018.fits
+    formatter: lsst.obs.base.formatters.fitsExposure.FitsExposureFormatter
+  - dataset_id:
+    - 1153
+    data_id:
+    - instrument: HSC
+      detector: 4
+    path: CALIB/DARK/2013-11-03/NONE/DARK-2013-11-03-004.fits
+    formatter: lsst.obs.base.formatters.fitsExposure.FitsExposureFormatter
+  - dataset_id:
+    - 1154
+    data_id:
+    - instrument: HSC
+      detector: 17
+    path: CALIB/DARK/2013-11-03/NONE/DARK-2013-11-03-017.fits
+    formatter: lsst.obs.base.formatters.fitsExposure.FitsExposureFormatter
+  - dataset_id:
+    - 1155
+    data_id:
+    - instrument: HSC
+      detector: 0
+    path: CALIB/DARK/2013-11-03/NONE/DARK-2013-11-03-000.fits
+    formatter: lsst.obs.base.formatters.fitsExposure.FitsExposureFormatter
+  - dataset_id:
+    - 1156
+    data_id:
+    - instrument: HSC
       detector: 1
     path: CALIB/DARK/2013-11-03/NONE/DARK-2013-11-03-001.fits
     formatter: lsst.obs.base.formatters.fitsExposure.FitsExposureFormatter
   - dataset_id:
-    - 1888
+    - 1157
     data_id:
     - instrument: HSC
-      calibration_label: gen2/dark_2013-11-03_023
-      detector: 23
-    path: CALIB/DARK/2013-11-03/NONE/DARK-2013-11-03-023.fits
+      detector: 16
+    path: CALIB/DARK/2013-11-03/NONE/DARK-2013-11-03-016.fits
     formatter: lsst.obs.base.formatters.fitsExposure.FitsExposureFormatter
-- type: dimension
-  element: calibration_label
-  records:
-  - instrument: HSC
-    name: gen2/flat_2013-11-03_005_HSC-I
-    datetime_begin: 2013-05-07 00:00:00
-    datetime_end: 2014-05-03 00:00:00
-  - instrument: HSC
-    name: gen2/flat_2013-11-03_001_HSC-I
-    datetime_begin: 2013-05-07 00:00:00
-    datetime_end: 2014-05-03 00:00:00
-  - instrument: HSC
-    name: gen2/flat_2013-06-17_005_HSC-R
-    datetime_begin: 2012-12-19 00:00:00
-    datetime_end: 2013-12-15 00:00:00
-  - instrument: HSC
-    name: gen2/flat_2013-11-03_011_HSC-I
-    datetime_begin: 2013-05-07 00:00:00
-    datetime_end: 2014-05-03 00:00:00
-  - instrument: HSC
-    name: gen2/flat_2013-06-17_010_HSC-R
-    datetime_begin: 2012-12-19 00:00:00
-    datetime_end: 2013-12-15 00:00:00
-  - instrument: HSC
-    name: gen2/flat_2013-06-17_006_HSC-R
-    datetime_begin: 2012-12-19 00:00:00
-    datetime_end: 2013-12-15 00:00:00
-  - instrument: HSC
-    name: gen2/flat_2013-06-17_000_HSC-R
-    datetime_begin: 2012-12-19 00:00:00
-    datetime_end: 2013-12-15 00:00:00
-  - instrument: HSC
-    name: gen2/flat_2013-06-17_016_HSC-R
-    datetime_begin: 2012-12-19 00:00:00
-    datetime_end: 2013-12-15 00:00:00
-  - instrument: HSC
-    name: gen2/flat_2013-06-17_022_HSC-R
-    datetime_begin: 2012-12-19 00:00:00
-    datetime_end: 2013-12-15 00:00:00
-  - instrument: HSC
-    name: gen2/flat_2013-11-03_016_HSC-I
-    datetime_begin: 2013-05-07 00:00:00
-    datetime_end: 2014-05-03 00:00:00
-  - instrument: HSC
-    name: gen2/flat_2013-06-17_011_HSC-R
-    datetime_begin: 2012-12-19 00:00:00
-    datetime_end: 2013-12-15 00:00:00
-  - instrument: HSC
-    name: gen2/flat_2013-06-17_004_HSC-R
-    datetime_begin: 2012-12-19 00:00:00
-    datetime_end: 2013-12-15 00:00:00
-  - instrument: HSC
-    name: gen2/flat_2013-06-17_024_HSC-R
-    datetime_begin: 2012-12-19 00:00:00
-    datetime_end: 2013-12-15 00:00:00
-  - instrument: HSC
-    name: gen2/flat_2013-11-03_017_HSC-I
-    datetime_begin: 2013-05-07 00:00:00
-    datetime_end: 2014-05-03 00:00:00
-  - instrument: HSC
-    name: gen2/flat_2013-11-03_010_HSC-I
-    datetime_begin: 2013-05-07 00:00:00
-    datetime_end: 2014-05-03 00:00:00
-  - instrument: HSC
-    name: gen2/flat_2013-11-03_100_HSC-I
-    datetime_begin: 2013-05-07 00:00:00
-    datetime_end: 2014-05-03 00:00:00
-  - instrument: HSC
-    name: gen2/flat_2013-11-03_000_HSC-I
-    datetime_begin: 2013-05-07 00:00:00
-    datetime_end: 2014-05-03 00:00:00
-  - instrument: HSC
-    name: gen2/flat_2013-06-17_001_HSC-R
-    datetime_begin: 2012-12-19 00:00:00
-    datetime_end: 2013-12-15 00:00:00
-  - instrument: HSC
-    name: gen2/flat_2013-11-03_022_HSC-I
-    datetime_begin: 2013-05-07 00:00:00
-    datetime_end: 2014-05-03 00:00:00
-  - instrument: HSC
-    name: gen2/flat_2013-06-17_023_HSC-R
-    datetime_begin: 2012-12-19 00:00:00
-    datetime_end: 2013-12-15 00:00:00
-  - instrument: HSC
-    name: gen2/flat_2013-11-03_006_HSC-I
-    datetime_begin: 2013-05-07 00:00:00
-    datetime_end: 2014-05-03 00:00:00
-  - instrument: HSC
-    name: gen2/flat_2013-11-03_023_HSC-I
-    datetime_begin: 2013-05-07 00:00:00
-    datetime_end: 2014-05-03 00:00:00
-  - instrument: HSC
-    name: gen2/flat_2013-06-17_025_HSC-R
-    datetime_begin: 2012-12-19 00:00:00
-    datetime_end: 2013-12-15 00:00:00
-  - instrument: HSC
-    name: gen2/flat_2013-11-03_018_HSC-I
-    datetime_begin: 2013-05-07 00:00:00
-    datetime_end: 2014-05-03 00:00:00
-  - instrument: HSC
-    name: gen2/flat_2013-11-03_012_HSC-I
-    datetime_begin: 2013-05-07 00:00:00
-    datetime_end: 2014-05-03 00:00:00
-  - instrument: HSC
-    name: gen2/flat_2013-06-17_012_HSC-R
-    datetime_begin: 2012-12-19 00:00:00
-    datetime_end: 2013-12-15 00:00:00
-  - instrument: HSC
-    name: gen2/flat_2013-11-03_025_HSC-I
-    datetime_begin: 2013-05-07 00:00:00
-    datetime_end: 2014-05-03 00:00:00
-  - instrument: HSC
-    name: gen2/flat_2013-06-17_017_HSC-R
-    datetime_begin: 2012-12-19 00:00:00
-    datetime_end: 2013-12-15 00:00:00
-  - instrument: HSC
-    name: gen2/flat_2013-06-17_100_HSC-R
-    datetime_begin: 2012-12-19 00:00:00
-    datetime_end: 2013-12-15 00:00:00
-  - instrument: HSC
-    name: gen2/flat_2013-11-03_004_HSC-I
-    datetime_begin: 2013-05-07 00:00:00
-    datetime_end: 2014-05-03 00:00:00
-  - instrument: HSC
-    name: gen2/flat_2013-06-17_018_HSC-R
-    datetime_begin: 2012-12-19 00:00:00
-    datetime_end: 2013-12-15 00:00:00
-  - instrument: HSC
-    name: gen2/flat_2013-11-03_024_HSC-I
-    datetime_begin: 2013-05-07 00:00:00
-    datetime_end: 2014-05-03 00:00:00
 - type: dataset_type
   name: flat
   dimensions:
   - band
   - instrument
-  - calibration_label
   - detector
   - physical_filter
   storage_class: ExposureF
-- type: run
-  name: HSC/calib
+  is_calibration: true
 - type: dataset
   dataset_type: flat
-  run: HSC/calib
+  run: HSC/calib/gen2/2013-11-03
   records:
   - dataset_id:
-    - 1841
+    - 1110
     data_id:
     - instrument: HSC
-      calibration_label: gen2/flat_2013-11-03_023_HSC-I
-      detector: 23
-      physical_filter: HSC-I
-    path: CALIB/FLAT/2013-11-03/HSC-I/FLAT-2013-11-03-HSC-I-023.fits
-    formatter: lsst.obs.base.formatters.fitsExposure.FitsExposureFormatter
-  - dataset_id:
-    - 1842
-    data_id:
-    - instrument: HSC
-      calibration_label: gen2/flat_2013-11-03_005_HSC-I
-      detector: 5
-      physical_filter: HSC-I
-    path: CALIB/FLAT/2013-11-03/HSC-I/FLAT-2013-11-03-HSC-I-005.fits
-    formatter: lsst.obs.base.formatters.fitsExposure.FitsExposureFormatter
-  - dataset_id:
-    - 1843
-    data_id:
-    - instrument: HSC
-      calibration_label: gen2/flat_2013-11-03_017_HSC-I
-      detector: 17
-      physical_filter: HSC-I
-    path: CALIB/FLAT/2013-11-03/HSC-I/FLAT-2013-11-03-HSC-I-017.fits
-    formatter: lsst.obs.base.formatters.fitsExposure.FitsExposureFormatter
-  - dataset_id:
-    - 1844
-    data_id:
-    - instrument: HSC
-      calibration_label: gen2/flat_2013-11-03_001_HSC-I
-      detector: 1
-      physical_filter: HSC-I
-    path: CALIB/FLAT/2013-11-03/HSC-I/FLAT-2013-11-03-HSC-I-001.fits
-    formatter: lsst.obs.base.formatters.fitsExposure.FitsExposureFormatter
-  - dataset_id:
-    - 1845
-    data_id:
-    - instrument: HSC
-      calibration_label: gen2/flat_2013-11-03_024_HSC-I
-      detector: 24
-      physical_filter: HSC-I
-    path: CALIB/FLAT/2013-11-03/HSC-I/FLAT-2013-11-03-HSC-I-024.fits
-    formatter: lsst.obs.base.formatters.fitsExposure.FitsExposureFormatter
-  - dataset_id:
-    - 1846
-    data_id:
-    - instrument: HSC
-      calibration_label: gen2/flat_2013-11-03_100_HSC-I
       detector: 100
       physical_filter: HSC-I
     path: CALIB/FLAT/2013-11-03/HSC-I/FLAT-2013-11-03-HSC-I-100.fits
     formatter: lsst.obs.base.formatters.fitsExposure.FitsExposureFormatter
   - dataset_id:
-    - 1847
+    - 1111
     data_id:
     - instrument: HSC
-      calibration_label: gen2/flat_2013-11-03_006_HSC-I
-      detector: 6
-      physical_filter: HSC-I
-    path: CALIB/FLAT/2013-11-03/HSC-I/FLAT-2013-11-03-HSC-I-006.fits
-    formatter: lsst.obs.base.formatters.fitsExposure.FitsExposureFormatter
-  - dataset_id:
-    - 1848
-    data_id:
-    - instrument: HSC
-      calibration_label: gen2/flat_2013-11-03_016_HSC-I
-      detector: 16
-      physical_filter: HSC-I
-    path: CALIB/FLAT/2013-11-03/HSC-I/FLAT-2013-11-03-HSC-I-016.fits
-    formatter: lsst.obs.base.formatters.fitsExposure.FitsExposureFormatter
-  - dataset_id:
-    - 1849
-    data_id:
-    - instrument: HSC
-      calibration_label: gen2/flat_2013-11-03_004_HSC-I
-      detector: 4
-      physical_filter: HSC-I
-    path: CALIB/FLAT/2013-11-03/HSC-I/FLAT-2013-11-03-HSC-I-004.fits
-    formatter: lsst.obs.base.formatters.fitsExposure.FitsExposureFormatter
-  - dataset_id:
-    - 1850
-    data_id:
-    - instrument: HSC
-      calibration_label: gen2/flat_2013-11-03_025_HSC-I
-      detector: 25
-      physical_filter: HSC-I
-    path: CALIB/FLAT/2013-11-03/HSC-I/FLAT-2013-11-03-HSC-I-025.fits
-    formatter: lsst.obs.base.formatters.fitsExposure.FitsExposureFormatter
-  - dataset_id:
-    - 1851
-    data_id:
-    - instrument: HSC
-      calibration_label: gen2/flat_2013-11-03_012_HSC-I
       detector: 12
       physical_filter: HSC-I
     path: CALIB/FLAT/2013-11-03/HSC-I/FLAT-2013-11-03-HSC-I-012.fits
     formatter: lsst.obs.base.formatters.fitsExposure.FitsExposureFormatter
   - dataset_id:
-    - 1852
+    - 1112
     data_id:
     - instrument: HSC
-      calibration_label: gen2/flat_2013-11-03_018_HSC-I
-      detector: 18
-      physical_filter: HSC-I
-    path: CALIB/FLAT/2013-11-03/HSC-I/FLAT-2013-11-03-HSC-I-018.fits
-    formatter: lsst.obs.base.formatters.fitsExposure.FitsExposureFormatter
-  - dataset_id:
-    - 1853
-    data_id:
-    - instrument: HSC
-      calibration_label: gen2/flat_2013-11-03_010_HSC-I
       detector: 10
       physical_filter: HSC-I
     path: CALIB/FLAT/2013-11-03/HSC-I/FLAT-2013-11-03-HSC-I-010.fits
     formatter: lsst.obs.base.formatters.fitsExposure.FitsExposureFormatter
   - dataset_id:
-    - 1854
+    - 1113
     data_id:
     - instrument: HSC
-      calibration_label: gen2/flat_2013-11-03_022_HSC-I
-      detector: 22
+      detector: 4
       physical_filter: HSC-I
-    path: CALIB/FLAT/2013-11-03/HSC-I/FLAT-2013-11-03-HSC-I-022.fits
+    path: CALIB/FLAT/2013-11-03/HSC-I/FLAT-2013-11-03-HSC-I-004.fits
     formatter: lsst.obs.base.formatters.fitsExposure.FitsExposureFormatter
   - dataset_id:
-    - 1855
+    - 1114
     data_id:
     - instrument: HSC
-      calibration_label: gen2/flat_2013-11-03_000_HSC-I
+      detector: 23
+      physical_filter: HSC-I
+    path: CALIB/FLAT/2013-11-03/HSC-I/FLAT-2013-11-03-HSC-I-023.fits
+    formatter: lsst.obs.base.formatters.fitsExposure.FitsExposureFormatter
+  - dataset_id:
+    - 1115
+    data_id:
+    - instrument: HSC
+      detector: 6
+      physical_filter: HSC-I
+    path: CALIB/FLAT/2013-11-03/HSC-I/FLAT-2013-11-03-HSC-I-006.fits
+    formatter: lsst.obs.base.formatters.fitsExposure.FitsExposureFormatter
+  - dataset_id:
+    - 1116
+    data_id:
+    - instrument: HSC
+      detector: 16
+      physical_filter: HSC-I
+    path: CALIB/FLAT/2013-11-03/HSC-I/FLAT-2013-11-03-HSC-I-016.fits
+    formatter: lsst.obs.base.formatters.fitsExposure.FitsExposureFormatter
+  - dataset_id:
+    - 1117
+    data_id:
+    - instrument: HSC
+      detector: 1
+      physical_filter: HSC-I
+    path: CALIB/FLAT/2013-11-03/HSC-I/FLAT-2013-11-03-HSC-I-001.fits
+    formatter: lsst.obs.base.formatters.fitsExposure.FitsExposureFormatter
+  - dataset_id:
+    - 1118
+    data_id:
+    - instrument: HSC
       detector: 0
       physical_filter: HSC-I
     path: CALIB/FLAT/2013-11-03/HSC-I/FLAT-2013-11-03-HSC-I-000.fits
     formatter: lsst.obs.base.formatters.fitsExposure.FitsExposureFormatter
   - dataset_id:
-    - 1856
+    - 1119
     data_id:
     - instrument: HSC
-      calibration_label: gen2/flat_2013-11-03_011_HSC-I
+      detector: 22
+      physical_filter: HSC-I
+    path: CALIB/FLAT/2013-11-03/HSC-I/FLAT-2013-11-03-HSC-I-022.fits
+    formatter: lsst.obs.base.formatters.fitsExposure.FitsExposureFormatter
+  - dataset_id:
+    - 1120
+    data_id:
+    - instrument: HSC
+      detector: 5
+      physical_filter: HSC-I
+    path: CALIB/FLAT/2013-11-03/HSC-I/FLAT-2013-11-03-HSC-I-005.fits
+    formatter: lsst.obs.base.formatters.fitsExposure.FitsExposureFormatter
+  - dataset_id:
+    - 1121
+    data_id:
+    - instrument: HSC
+      detector: 17
+      physical_filter: HSC-I
+    path: CALIB/FLAT/2013-11-03/HSC-I/FLAT-2013-11-03-HSC-I-017.fits
+    formatter: lsst.obs.base.formatters.fitsExposure.FitsExposureFormatter
+  - dataset_id:
+    - 1122
+    data_id:
+    - instrument: HSC
+      detector: 25
+      physical_filter: HSC-I
+    path: CALIB/FLAT/2013-11-03/HSC-I/FLAT-2013-11-03-HSC-I-025.fits
+    formatter: lsst.obs.base.formatters.fitsExposure.FitsExposureFormatter
+  - dataset_id:
+    - 1123
+    data_id:
+    - instrument: HSC
       detector: 11
       physical_filter: HSC-I
     path: CALIB/FLAT/2013-11-03/HSC-I/FLAT-2013-11-03-HSC-I-011.fits
     formatter: lsst.obs.base.formatters.fitsExposure.FitsExposureFormatter
   - dataset_id:
-    - 1857
+    - 1124
     data_id:
     - instrument: HSC
-      calibration_label: gen2/flat_2013-06-17_012_HSC-R
-      detector: 12
-      physical_filter: HSC-R
-    path: CALIB/FLAT/2013-06-17/HSC-R/FLAT-2013-06-17-HSC-R-012.fits
-    formatter: lsst.obs.base.formatters.fitsExposure.FitsExposureFormatter
-  - dataset_id:
-    - 1858
-    data_id:
-    - instrument: HSC
-      calibration_label: gen2/flat_2013-06-17_010_HSC-R
-      detector: 10
-      physical_filter: HSC-R
-    path: CALIB/FLAT/2013-06-17/HSC-R/FLAT-2013-06-17-HSC-R-010.fits
-    formatter: lsst.obs.base.formatters.fitsExposure.FitsExposureFormatter
-  - dataset_id:
-    - 1859
-    data_id:
-    - instrument: HSC
-      calibration_label: gen2/flat_2013-06-17_024_HSC-R
       detector: 24
-      physical_filter: HSC-R
-    path: CALIB/FLAT/2013-06-17/HSC-R/FLAT-2013-06-17-HSC-R-024.fits
+      physical_filter: HSC-I
+    path: CALIB/FLAT/2013-11-03/HSC-I/FLAT-2013-11-03-HSC-I-024.fits
     formatter: lsst.obs.base.formatters.fitsExposure.FitsExposureFormatter
   - dataset_id:
-    - 1860
+    - 1125
     data_id:
     - instrument: HSC
-      calibration_label: gen2/flat_2013-06-17_017_HSC-R
-      detector: 17
-      physical_filter: HSC-R
-    path: CALIB/FLAT/2013-06-17/HSC-R/FLAT-2013-06-17-HSC-R-017.fits
+      detector: 18
+      physical_filter: HSC-I
+    path: CALIB/FLAT/2013-11-03/HSC-I/FLAT-2013-11-03-HSC-I-018.fits
     formatter: lsst.obs.base.formatters.fitsExposure.FitsExposureFormatter
+- type: dataset_type
+  name: flat
+  dimensions:
+  - band
+  - instrument
+  - detector
+  - physical_filter
+  storage_class: ExposureF
+  is_calibration: true
+- type: dataset
+  dataset_type: flat
+  run: HSC/calib/gen2/2013-06-17
+  records:
   - dataset_id:
-    - 1861
+    - 1126
     data_id:
     - instrument: HSC
-      calibration_label: gen2/flat_2013-06-17_023_HSC-R
-      detector: 23
-      physical_filter: HSC-R
-    path: CALIB/FLAT/2013-06-17/HSC-R/FLAT-2013-06-17-HSC-R-023.fits
-    formatter: lsst.obs.base.formatters.fitsExposure.FitsExposureFormatter
-  - dataset_id:
-    - 1862
-    data_id:
-    - instrument: HSC
-      calibration_label: gen2/flat_2013-06-17_000_HSC-R
-      detector: 0
-      physical_filter: HSC-R
-    path: CALIB/FLAT/2013-06-17/HSC-R/FLAT-2013-06-17-HSC-R-000.fits
-    formatter: lsst.obs.base.formatters.fitsExposure.FitsExposureFormatter
-  - dataset_id:
-    - 1863
-    data_id:
-    - instrument: HSC
-      calibration_label: gen2/flat_2013-06-17_001_HSC-R
-      detector: 1
-      physical_filter: HSC-R
-    path: CALIB/FLAT/2013-06-17/HSC-R/FLAT-2013-06-17-HSC-R-001.fits
-    formatter: lsst.obs.base.formatters.fitsExposure.FitsExposureFormatter
-  - dataset_id:
-    - 1864
-    data_id:
-    - instrument: HSC
-      calibration_label: gen2/flat_2013-06-17_011_HSC-R
-      detector: 11
-      physical_filter: HSC-R
-    path: CALIB/FLAT/2013-06-17/HSC-R/FLAT-2013-06-17-HSC-R-011.fits
-    formatter: lsst.obs.base.formatters.fitsExposure.FitsExposureFormatter
-  - dataset_id:
-    - 1865
-    data_id:
-    - instrument: HSC
-      calibration_label: gen2/flat_2013-06-17_022_HSC-R
-      detector: 22
-      physical_filter: HSC-R
-    path: CALIB/FLAT/2013-06-17/HSC-R/FLAT-2013-06-17-HSC-R-022.fits
-    formatter: lsst.obs.base.formatters.fitsExposure.FitsExposureFormatter
-  - dataset_id:
-    - 1866
-    data_id:
-    - instrument: HSC
-      calibration_label: gen2/flat_2013-06-17_006_HSC-R
-      detector: 6
-      physical_filter: HSC-R
-    path: CALIB/FLAT/2013-06-17/HSC-R/FLAT-2013-06-17-HSC-R-006.fits
-    formatter: lsst.obs.base.formatters.fitsExposure.FitsExposureFormatter
-  - dataset_id:
-    - 1867
-    data_id:
-    - instrument: HSC
-      calibration_label: gen2/flat_2013-06-17_025_HSC-R
-      detector: 25
-      physical_filter: HSC-R
-    path: CALIB/FLAT/2013-06-17/HSC-R/FLAT-2013-06-17-HSC-R-025.fits
-    formatter: lsst.obs.base.formatters.fitsExposure.FitsExposureFormatter
-  - dataset_id:
-    - 1868
-    data_id:
-    - instrument: HSC
-      calibration_label: gen2/flat_2013-06-17_100_HSC-R
-      detector: 100
-      physical_filter: HSC-R
-    path: CALIB/FLAT/2013-06-17/HSC-R/FLAT-2013-06-17-HSC-R-100.fits
-    formatter: lsst.obs.base.formatters.fitsExposure.FitsExposureFormatter
-  - dataset_id:
-    - 1869
-    data_id:
-    - instrument: HSC
-      calibration_label: gen2/flat_2013-06-17_005_HSC-R
       detector: 5
       physical_filter: HSC-R
     path: CALIB/FLAT/2013-06-17/HSC-R/FLAT-2013-06-17-HSC-R-005.fits
     formatter: lsst.obs.base.formatters.fitsExposure.FitsExposureFormatter
   - dataset_id:
-    - 1870
+    - 1127
     data_id:
     - instrument: HSC
-      calibration_label: gen2/flat_2013-06-17_004_HSC-R
+      detector: 25
+      physical_filter: HSC-R
+    path: CALIB/FLAT/2013-06-17/HSC-R/FLAT-2013-06-17-HSC-R-025.fits
+    formatter: lsst.obs.base.formatters.fitsExposure.FitsExposureFormatter
+  - dataset_id:
+    - 1128
+    data_id:
+    - instrument: HSC
+      detector: 10
+      physical_filter: HSC-R
+    path: CALIB/FLAT/2013-06-17/HSC-R/FLAT-2013-06-17-HSC-R-010.fits
+    formatter: lsst.obs.base.formatters.fitsExposure.FitsExposureFormatter
+  - dataset_id:
+    - 1129
+    data_id:
+    - instrument: HSC
+      detector: 17
+      physical_filter: HSC-R
+    path: CALIB/FLAT/2013-06-17/HSC-R/FLAT-2013-06-17-HSC-R-017.fits
+    formatter: lsst.obs.base.formatters.fitsExposure.FitsExposureFormatter
+  - dataset_id:
+    - 1130
+    data_id:
+    - instrument: HSC
+      detector: 22
+      physical_filter: HSC-R
+    path: CALIB/FLAT/2013-06-17/HSC-R/FLAT-2013-06-17-HSC-R-022.fits
+    formatter: lsst.obs.base.formatters.fitsExposure.FitsExposureFormatter
+  - dataset_id:
+    - 1131
+    data_id:
+    - instrument: HSC
+      detector: 1
+      physical_filter: HSC-R
+    path: CALIB/FLAT/2013-06-17/HSC-R/FLAT-2013-06-17-HSC-R-001.fits
+    formatter: lsst.obs.base.formatters.fitsExposure.FitsExposureFormatter
+  - dataset_id:
+    - 1132
+    data_id:
+    - instrument: HSC
       detector: 4
       physical_filter: HSC-R
     path: CALIB/FLAT/2013-06-17/HSC-R/FLAT-2013-06-17-HSC-R-004.fits
     formatter: lsst.obs.base.formatters.fitsExposure.FitsExposureFormatter
   - dataset_id:
-    - 1871
+    - 1133
     data_id:
     - instrument: HSC
-      calibration_label: gen2/flat_2013-06-17_016_HSC-R
+      detector: 23
+      physical_filter: HSC-R
+    path: CALIB/FLAT/2013-06-17/HSC-R/FLAT-2013-06-17-HSC-R-023.fits
+    formatter: lsst.obs.base.formatters.fitsExposure.FitsExposureFormatter
+  - dataset_id:
+    - 1134
+    data_id:
+    - instrument: HSC
+      detector: 0
+      physical_filter: HSC-R
+    path: CALIB/FLAT/2013-06-17/HSC-R/FLAT-2013-06-17-HSC-R-000.fits
+    formatter: lsst.obs.base.formatters.fitsExposure.FitsExposureFormatter
+  - dataset_id:
+    - 1135
+    data_id:
+    - instrument: HSC
+      detector: 6
+      physical_filter: HSC-R
+    path: CALIB/FLAT/2013-06-17/HSC-R/FLAT-2013-06-17-HSC-R-006.fits
+    formatter: lsst.obs.base.formatters.fitsExposure.FitsExposureFormatter
+  - dataset_id:
+    - 1136
+    data_id:
+    - instrument: HSC
+      detector: 11
+      physical_filter: HSC-R
+    path: CALIB/FLAT/2013-06-17/HSC-R/FLAT-2013-06-17-HSC-R-011.fits
+    formatter: lsst.obs.base.formatters.fitsExposure.FitsExposureFormatter
+  - dataset_id:
+    - 1137
+    data_id:
+    - instrument: HSC
+      detector: 12
+      physical_filter: HSC-R
+    path: CALIB/FLAT/2013-06-17/HSC-R/FLAT-2013-06-17-HSC-R-012.fits
+    formatter: lsst.obs.base.formatters.fitsExposure.FitsExposureFormatter
+  - dataset_id:
+    - 1138
+    data_id:
+    - instrument: HSC
+      detector: 100
+      physical_filter: HSC-R
+    path: CALIB/FLAT/2013-06-17/HSC-R/FLAT-2013-06-17-HSC-R-100.fits
+    formatter: lsst.obs.base.formatters.fitsExposure.FitsExposureFormatter
+  - dataset_id:
+    - 1139
+    data_id:
+    - instrument: HSC
       detector: 16
       physical_filter: HSC-R
     path: CALIB/FLAT/2013-06-17/HSC-R/FLAT-2013-06-17-HSC-R-016.fits
     formatter: lsst.obs.base.formatters.fitsExposure.FitsExposureFormatter
   - dataset_id:
-    - 1872
+    - 1140
     data_id:
     - instrument: HSC
-      calibration_label: gen2/flat_2013-06-17_018_HSC-R
       detector: 18
       physical_filter: HSC-R
     path: CALIB/FLAT/2013-06-17/HSC-R/FLAT-2013-06-17-HSC-R-018.fits
     formatter: lsst.obs.base.formatters.fitsExposure.FitsExposureFormatter
-- type: dimension
-  element: calibration_label
-  records:
-  - instrument: HSC
-    name: gen2/sky_2014-11-12_011_HSC-R
-    datetime_begin: 2013-06-01 00:00:00
-    datetime_end: 2013-12-02 00:00:00
-  - instrument: HSC
-    name: gen2/sky_2014-11-12_004_HSC-R
-    datetime_begin: 2013-06-01 00:00:00
-    datetime_end: 2013-12-02 00:00:00
-  - instrument: HSC
-    name: gen2/sky_2014-11-12_000_HSC-R
-    datetime_begin: 2013-06-01 00:00:00
-    datetime_end: 2013-12-02 00:00:00
-  - instrument: HSC
-    name: gen2/sky_2014-11-12_010_HSC-R
-    datetime_begin: 2013-06-01 00:00:00
-    datetime_end: 2013-12-02 00:00:00
-  - instrument: HSC
-    name: gen2/sky_2014-07-14_017_HSC-I
-    datetime_begin: 2013-06-01 00:00:00
-    datetime_end: 2013-12-02 00:00:00
-  - instrument: HSC
-    name: gen2/sky_2014-07-14_006_HSC-I
-    datetime_begin: 2013-06-01 00:00:00
-    datetime_end: 2013-12-02 00:00:00
-  - instrument: HSC
-    name: gen2/sky_2014-07-14_024_HSC-I
-    datetime_begin: 2013-06-01 00:00:00
-    datetime_end: 2013-12-02 00:00:00
-  - instrument: HSC
-    name: gen2/sky_2014-11-12_001_HSC-R
-    datetime_begin: 2013-06-01 00:00:00
-    datetime_end: 2013-12-02 00:00:00
-  - instrument: HSC
-    name: gen2/sky_2014-07-14_022_HSC-I
-    datetime_begin: 2013-06-01 00:00:00
-    datetime_end: 2013-12-02 00:00:00
-  - instrument: HSC
-    name: gen2/sky_2014-11-12_023_HSC-R
-    datetime_begin: 2013-06-01 00:00:00
-    datetime_end: 2013-12-02 00:00:00
-  - instrument: HSC
-    name: gen2/sky_2014-07-14_010_HSC-I
-    datetime_begin: 2013-06-01 00:00:00
-    datetime_end: 2013-12-02 00:00:00
-  - instrument: HSC
-    name: gen2/sky_2014-11-12_018_HSC-R
-    datetime_begin: 2013-06-01 00:00:00
-    datetime_end: 2013-12-02 00:00:00
-  - instrument: HSC
-    name: gen2/sky_2014-07-14_004_HSC-I
-    datetime_begin: 2013-06-01 00:00:00
-    datetime_end: 2013-12-02 00:00:00
-  - instrument: HSC
-    name: gen2/sky_2014-07-14_005_HSC-I
-    datetime_begin: 2013-06-01 00:00:00
-    datetime_end: 2013-12-02 00:00:00
-  - instrument: HSC
-    name: gen2/sky_2014-07-14_025_HSC-I
-    datetime_begin: 2013-06-01 00:00:00
-    datetime_end: 2013-12-02 00:00:00
-  - instrument: HSC
-    name: gen2/sky_2014-11-12_022_HSC-R
-    datetime_begin: 2013-06-01 00:00:00
-    datetime_end: 2013-12-02 00:00:00
-  - instrument: HSC
-    name: gen2/sky_2014-07-14_012_HSC-I
-    datetime_begin: 2013-06-01 00:00:00
-    datetime_end: 2013-12-02 00:00:00
-  - instrument: HSC
-    name: gen2/sky_2014-11-12_100_HSC-R
-    datetime_begin: 2013-06-01 00:00:00
-    datetime_end: 2013-12-02 00:00:00
-  - instrument: HSC
-    name: gen2/sky_2014-07-14_016_HSC-I
-    datetime_begin: 2013-06-01 00:00:00
-    datetime_end: 2013-12-02 00:00:00
-  - instrument: HSC
-    name: gen2/sky_2014-07-14_001_HSC-I
-    datetime_begin: 2013-06-01 00:00:00
-    datetime_end: 2013-12-02 00:00:00
-  - instrument: HSC
-    name: gen2/sky_2014-07-14_023_HSC-I
-    datetime_begin: 2013-06-01 00:00:00
-    datetime_end: 2013-12-02 00:00:00
-  - instrument: HSC
-    name: gen2/sky_2014-07-14_011_HSC-I
-    datetime_begin: 2013-06-01 00:00:00
-    datetime_end: 2013-12-02 00:00:00
-  - instrument: HSC
-    name: gen2/sky_2014-11-12_005_HSC-R
-    datetime_begin: 2013-06-01 00:00:00
-    datetime_end: 2013-12-02 00:00:00
-  - instrument: HSC
-    name: gen2/sky_2014-11-12_012_HSC-R
-    datetime_begin: 2013-06-01 00:00:00
-    datetime_end: 2013-12-02 00:00:00
-  - instrument: HSC
-    name: gen2/sky_2014-07-14_000_HSC-I
-    datetime_begin: 2013-06-01 00:00:00
-    datetime_end: 2013-12-02 00:00:00
-  - instrument: HSC
-    name: gen2/sky_2014-11-12_017_HSC-R
-    datetime_begin: 2013-06-01 00:00:00
-    datetime_end: 2013-12-02 00:00:00
-  - instrument: HSC
-    name: gen2/sky_2014-11-12_024_HSC-R
-    datetime_begin: 2013-06-01 00:00:00
-    datetime_end: 2013-12-02 00:00:00
-  - instrument: HSC
-    name: gen2/sky_2014-07-14_018_HSC-I
-    datetime_begin: 2013-06-01 00:00:00
-    datetime_end: 2013-12-02 00:00:00
-  - instrument: HSC
-    name: gen2/sky_2014-11-12_006_HSC-R
-    datetime_begin: 2013-06-01 00:00:00
-    datetime_end: 2013-12-02 00:00:00
-  - instrument: HSC
-    name: gen2/sky_2014-11-12_025_HSC-R
-    datetime_begin: 2013-06-01 00:00:00
-    datetime_end: 2013-12-02 00:00:00
-  - instrument: HSC
-    name: gen2/sky_2014-11-12_016_HSC-R
-    datetime_begin: 2013-06-01 00:00:00
-    datetime_end: 2013-12-02 00:00:00
-  - instrument: HSC
-    name: gen2/sky_2014-07-14_100_HSC-I
-    datetime_begin: 2013-06-01 00:00:00
-    datetime_end: 2013-12-02 00:00:00
+  - dataset_id:
+    - 1141
+    data_id:
+    - instrument: HSC
+      detector: 24
+      physical_filter: HSC-R
+    path: CALIB/FLAT/2013-06-17/HSC-R/FLAT-2013-06-17-HSC-R-024.fits
+    formatter: lsst.obs.base.formatters.fitsExposure.FitsExposureFormatter
 - type: dataset_type
   name: sky
   dimensions:
   - band
   - instrument
-  - calibration_label
   - detector
   - physical_filter
   storage_class: ExposureF
-- type: run
-  name: HSC/calib
+  is_calibration: true
 - type: dataset
   dataset_type: sky
-  run: HSC/calib
+  run: HSC/calib/gen2/2014-11-12
   records:
   - dataset_id:
-    - 1441
+    - 1078
     data_id:
     - instrument: HSC
-      calibration_label: gen2/sky_2014-07-14_004_HSC-I
-      detector: 4
-      physical_filter: HSC-I
-    path: CALIB/SKY/2014-07-14/HSC-I/SKY-2014-07-14-HSC-I-004.fits
-    formatter: lsst.obs.base.formatters.fitsExposure.FitsExposureFormatter
-  - dataset_id:
-    - 1442
-    data_id:
-    - instrument: HSC
-      calibration_label: gen2/sky_2014-07-14_010_HSC-I
-      detector: 10
-      physical_filter: HSC-I
-    path: CALIB/SKY/2014-07-14/HSC-I/SKY-2014-07-14-HSC-I-010.fits
-    formatter: lsst.obs.base.formatters.fitsExposure.FitsExposureFormatter
-  - dataset_id:
-    - 1443
-    data_id:
-    - instrument: HSC
-      calibration_label: gen2/sky_2014-07-14_018_HSC-I
-      detector: 18
-      physical_filter: HSC-I
-    path: CALIB/SKY/2014-07-14/HSC-I/SKY-2014-07-14-HSC-I-018.fits
-    formatter: lsst.obs.base.formatters.fitsExposure.FitsExposureFormatter
-  - dataset_id:
-    - 1444
-    data_id:
-    - instrument: HSC
-      calibration_label: gen2/sky_2014-07-14_011_HSC-I
-      detector: 11
-      physical_filter: HSC-I
-    path: CALIB/SKY/2014-07-14/HSC-I/SKY-2014-07-14-HSC-I-011.fits
-    formatter: lsst.obs.base.formatters.fitsExposure.FitsExposureFormatter
-  - dataset_id:
-    - 1445
-    data_id:
-    - instrument: HSC
-      calibration_label: gen2/sky_2014-07-14_023_HSC-I
-      detector: 23
-      physical_filter: HSC-I
-    path: CALIB/SKY/2014-07-14/HSC-I/SKY-2014-07-14-HSC-I-023.fits
-    formatter: lsst.obs.base.formatters.fitsExposure.FitsExposureFormatter
-  - dataset_id:
-    - 1446
-    data_id:
-    - instrument: HSC
-      calibration_label: gen2/sky_2014-07-14_100_HSC-I
-      detector: 100
-      physical_filter: HSC-I
-    path: CALIB/SKY/2014-07-14/HSC-I/SKY-2014-07-14-HSC-I-100.fits
-    formatter: lsst.obs.base.formatters.fitsExposure.FitsExposureFormatter
-  - dataset_id:
-    - 1447
-    data_id:
-    - instrument: HSC
-      calibration_label: gen2/sky_2014-07-14_017_HSC-I
-      detector: 17
-      physical_filter: HSC-I
-    path: CALIB/SKY/2014-07-14/HSC-I/SKY-2014-07-14-HSC-I-017.fits
-    formatter: lsst.obs.base.formatters.fitsExposure.FitsExposureFormatter
-  - dataset_id:
-    - 1448
-    data_id:
-    - instrument: HSC
-      calibration_label: gen2/sky_2014-07-14_012_HSC-I
-      detector: 12
-      physical_filter: HSC-I
-    path: CALIB/SKY/2014-07-14/HSC-I/SKY-2014-07-14-HSC-I-012.fits
-    formatter: lsst.obs.base.formatters.fitsExposure.FitsExposureFormatter
-  - dataset_id:
-    - 1449
-    data_id:
-    - instrument: HSC
-      calibration_label: gen2/sky_2014-07-14_001_HSC-I
-      detector: 1
-      physical_filter: HSC-I
-    path: CALIB/SKY/2014-07-14/HSC-I/SKY-2014-07-14-HSC-I-001.fits
-    formatter: lsst.obs.base.formatters.fitsExposure.FitsExposureFormatter
-  - dataset_id:
-    - 1450
-    data_id:
-    - instrument: HSC
-      calibration_label: gen2/sky_2014-07-14_006_HSC-I
-      detector: 6
-      physical_filter: HSC-I
-    path: CALIB/SKY/2014-07-14/HSC-I/SKY-2014-07-14-HSC-I-006.fits
-    formatter: lsst.obs.base.formatters.fitsExposure.FitsExposureFormatter
-  - dataset_id:
-    - 1451
-    data_id:
-    - instrument: HSC
-      calibration_label: gen2/sky_2014-07-14_005_HSC-I
-      detector: 5
-      physical_filter: HSC-I
-    path: CALIB/SKY/2014-07-14/HSC-I/SKY-2014-07-14-HSC-I-005.fits
-    formatter: lsst.obs.base.formatters.fitsExposure.FitsExposureFormatter
-  - dataset_id:
-    - 1452
-    data_id:
-    - instrument: HSC
-      calibration_label: gen2/sky_2014-07-14_024_HSC-I
-      detector: 24
-      physical_filter: HSC-I
-    path: CALIB/SKY/2014-07-14/HSC-I/SKY-2014-07-14-HSC-I-024.fits
-    formatter: lsst.obs.base.formatters.fitsExposure.FitsExposureFormatter
-  - dataset_id:
-    - 1453
-    data_id:
-    - instrument: HSC
-      calibration_label: gen2/sky_2014-07-14_016_HSC-I
-      detector: 16
-      physical_filter: HSC-I
-    path: CALIB/SKY/2014-07-14/HSC-I/SKY-2014-07-14-HSC-I-016.fits
-    formatter: lsst.obs.base.formatters.fitsExposure.FitsExposureFormatter
-  - dataset_id:
-    - 1454
-    data_id:
-    - instrument: HSC
-      calibration_label: gen2/sky_2014-07-14_025_HSC-I
-      detector: 25
-      physical_filter: HSC-I
-    path: CALIB/SKY/2014-07-14/HSC-I/SKY-2014-07-14-HSC-I-025.fits
-    formatter: lsst.obs.base.formatters.fitsExposure.FitsExposureFormatter
-  - dataset_id:
-    - 1455
-    data_id:
-    - instrument: HSC
-      calibration_label: gen2/sky_2014-07-14_022_HSC-I
-      detector: 22
-      physical_filter: HSC-I
-    path: CALIB/SKY/2014-07-14/HSC-I/SKY-2014-07-14-HSC-I-022.fits
-    formatter: lsst.obs.base.formatters.fitsExposure.FitsExposureFormatter
-  - dataset_id:
-    - 1456
-    data_id:
-    - instrument: HSC
-      calibration_label: gen2/sky_2014-07-14_000_HSC-I
-      detector: 0
-      physical_filter: HSC-I
-    path: CALIB/SKY/2014-07-14/HSC-I/SKY-2014-07-14-HSC-I-000.fits
-    formatter: lsst.obs.base.formatters.fitsExposure.FitsExposureFormatter
-  - dataset_id:
-    - 1457
-    data_id:
-    - instrument: HSC
-      calibration_label: gen2/sky_2014-11-12_017_HSC-R
-      detector: 17
-      physical_filter: HSC-R
-    path: CALIB/SKY/2014-11-12/HSC-R/SKY-2014-11-12-HSC-R-017.fits
-    formatter: lsst.obs.base.formatters.fitsExposure.FitsExposureFormatter
-  - dataset_id:
-    - 1458
-    data_id:
-    - instrument: HSC
-      calibration_label: gen2/sky_2014-11-12_004_HSC-R
-      detector: 4
-      physical_filter: HSC-R
-    path: CALIB/SKY/2014-11-12/HSC-R/SKY-2014-11-12-HSC-R-004.fits
-    formatter: lsst.obs.base.formatters.fitsExposure.FitsExposureFormatter
-  - dataset_id:
-    - 1459
-    data_id:
-    - instrument: HSC
-      calibration_label: gen2/sky_2014-11-12_000_HSC-R
-      detector: 0
-      physical_filter: HSC-R
-    path: CALIB/SKY/2014-11-12/HSC-R/SKY-2014-11-12-HSC-R-000.fits
-    formatter: lsst.obs.base.formatters.fitsExposure.FitsExposureFormatter
-  - dataset_id:
-    - 1460
-    data_id:
-    - instrument: HSC
-      calibration_label: gen2/sky_2014-11-12_010_HSC-R
-      detector: 10
-      physical_filter: HSC-R
-    path: CALIB/SKY/2014-11-12/HSC-R/SKY-2014-11-12-HSC-R-010.fits
-    formatter: lsst.obs.base.formatters.fitsExposure.FitsExposureFormatter
-  - dataset_id:
-    - 1461
-    data_id:
-    - instrument: HSC
-      calibration_label: gen2/sky_2014-11-12_024_HSC-R
-      detector: 24
-      physical_filter: HSC-R
-    path: CALIB/SKY/2014-11-12/HSC-R/SKY-2014-11-12-HSC-R-024.fits
-    formatter: lsst.obs.base.formatters.fitsExposure.FitsExposureFormatter
-  - dataset_id:
-    - 1462
-    data_id:
-    - instrument: HSC
-      calibration_label: gen2/sky_2014-11-12_018_HSC-R
-      detector: 18
-      physical_filter: HSC-R
-    path: CALIB/SKY/2014-11-12/HSC-R/SKY-2014-11-12-HSC-R-018.fits
-    formatter: lsst.obs.base.formatters.fitsExposure.FitsExposureFormatter
-  - dataset_id:
-    - 1463
-    data_id:
-    - instrument: HSC
-      calibration_label: gen2/sky_2014-11-12_100_HSC-R
-      detector: 100
-      physical_filter: HSC-R
-    path: CALIB/SKY/2014-11-12/HSC-R/SKY-2014-11-12-HSC-R-100.fits
-    formatter: lsst.obs.base.formatters.fitsExposure.FitsExposureFormatter
-  - dataset_id:
-    - 1464
-    data_id:
-    - instrument: HSC
-      calibration_label: gen2/sky_2014-11-12_012_HSC-R
-      detector: 12
-      physical_filter: HSC-R
-    path: CALIB/SKY/2014-11-12/HSC-R/SKY-2014-11-12-HSC-R-012.fits
-    formatter: lsst.obs.base.formatters.fitsExposure.FitsExposureFormatter
-  - dataset_id:
-    - 1465
-    data_id:
-    - instrument: HSC
-      calibration_label: gen2/sky_2014-11-12_005_HSC-R
-      detector: 5
-      physical_filter: HSC-R
-    path: CALIB/SKY/2014-11-12/HSC-R/SKY-2014-11-12-HSC-R-005.fits
-    formatter: lsst.obs.base.formatters.fitsExposure.FitsExposureFormatter
-  - dataset_id:
-    - 1466
-    data_id:
-    - instrument: HSC
-      calibration_label: gen2/sky_2014-11-12_001_HSC-R
-      detector: 1
-      physical_filter: HSC-R
-    path: CALIB/SKY/2014-11-12/HSC-R/SKY-2014-11-12-HSC-R-001.fits
-    formatter: lsst.obs.base.formatters.fitsExposure.FitsExposureFormatter
-  - dataset_id:
-    - 1467
-    data_id:
-    - instrument: HSC
-      calibration_label: gen2/sky_2014-11-12_023_HSC-R
       detector: 23
       physical_filter: HSC-R
     path: CALIB/SKY/2014-11-12/HSC-R/SKY-2014-11-12-HSC-R-023.fits
     formatter: lsst.obs.base.formatters.fitsExposure.FitsExposureFormatter
   - dataset_id:
-    - 1468
+    - 1079
     data_id:
     - instrument: HSC
-      calibration_label: gen2/sky_2014-11-12_025_HSC-R
-      detector: 25
+      detector: 4
       physical_filter: HSC-R
-    path: CALIB/SKY/2014-11-12/HSC-R/SKY-2014-11-12-HSC-R-025.fits
+    path: CALIB/SKY/2014-11-12/HSC-R/SKY-2014-11-12-HSC-R-004.fits
     formatter: lsst.obs.base.formatters.fitsExposure.FitsExposureFormatter
   - dataset_id:
-    - 1469
+    - 1080
     data_id:
     - instrument: HSC
-      calibration_label: gen2/sky_2014-11-12_011_HSC-R
-      detector: 11
+      detector: 16
       physical_filter: HSC-R
-    path: CALIB/SKY/2014-11-12/HSC-R/SKY-2014-11-12-HSC-R-011.fits
+    path: CALIB/SKY/2014-11-12/HSC-R/SKY-2014-11-12-HSC-R-016.fits
     formatter: lsst.obs.base.formatters.fitsExposure.FitsExposureFormatter
   - dataset_id:
-    - 1470
+    - 1081
     data_id:
     - instrument: HSC
-      calibration_label: gen2/sky_2014-11-12_006_HSC-R
-      detector: 6
+      detector: 17
       physical_filter: HSC-R
-    path: CALIB/SKY/2014-11-12/HSC-R/SKY-2014-11-12-HSC-R-006.fits
+    path: CALIB/SKY/2014-11-12/HSC-R/SKY-2014-11-12-HSC-R-017.fits
     formatter: lsst.obs.base.formatters.fitsExposure.FitsExposureFormatter
   - dataset_id:
-    - 1471
+    - 1082
     data_id:
     - instrument: HSC
-      calibration_label: gen2/sky_2014-11-12_022_HSC-R
+      detector: 0
+      physical_filter: HSC-R
+    path: CALIB/SKY/2014-11-12/HSC-R/SKY-2014-11-12-HSC-R-000.fits
+    formatter: lsst.obs.base.formatters.fitsExposure.FitsExposureFormatter
+  - dataset_id:
+    - 1083
+    data_id:
+    - instrument: HSC
       detector: 22
       physical_filter: HSC-R
     path: CALIB/SKY/2014-11-12/HSC-R/SKY-2014-11-12-HSC-R-022.fits
     formatter: lsst.obs.base.formatters.fitsExposure.FitsExposureFormatter
   - dataset_id:
-    - 1472
+    - 1084
     data_id:
     - instrument: HSC
-      calibration_label: gen2/sky_2014-11-12_016_HSC-R
-      detector: 16
+      detector: 5
       physical_filter: HSC-R
-    path: CALIB/SKY/2014-11-12/HSC-R/SKY-2014-11-12-HSC-R-016.fits
+    path: CALIB/SKY/2014-11-12/HSC-R/SKY-2014-11-12-HSC-R-005.fits
     formatter: lsst.obs.base.formatters.fitsExposure.FitsExposureFormatter
+  - dataset_id:
+    - 1085
+    data_id:
+    - instrument: HSC
+      detector: 18
+      physical_filter: HSC-R
+    path: CALIB/SKY/2014-11-12/HSC-R/SKY-2014-11-12-HSC-R-018.fits
+    formatter: lsst.obs.base.formatters.fitsExposure.FitsExposureFormatter
+  - dataset_id:
+    - 1086
+    data_id:
+    - instrument: HSC
+      detector: 12
+      physical_filter: HSC-R
+    path: CALIB/SKY/2014-11-12/HSC-R/SKY-2014-11-12-HSC-R-012.fits
+    formatter: lsst.obs.base.formatters.fitsExposure.FitsExposureFormatter
+  - dataset_id:
+    - 1087
+    data_id:
+    - instrument: HSC
+      detector: 1
+      physical_filter: HSC-R
+    path: CALIB/SKY/2014-11-12/HSC-R/SKY-2014-11-12-HSC-R-001.fits
+    formatter: lsst.obs.base.formatters.fitsExposure.FitsExposureFormatter
+  - dataset_id:
+    - 1088
+    data_id:
+    - instrument: HSC
+      detector: 25
+      physical_filter: HSC-R
+    path: CALIB/SKY/2014-11-12/HSC-R/SKY-2014-11-12-HSC-R-025.fits
+    formatter: lsst.obs.base.formatters.fitsExposure.FitsExposureFormatter
+  - dataset_id:
+    - 1089
+    data_id:
+    - instrument: HSC
+      detector: 100
+      physical_filter: HSC-R
+    path: CALIB/SKY/2014-11-12/HSC-R/SKY-2014-11-12-HSC-R-100.fits
+    formatter: lsst.obs.base.formatters.fitsExposure.FitsExposureFormatter
+  - dataset_id:
+    - 1090
+    data_id:
+    - instrument: HSC
+      detector: 10
+      physical_filter: HSC-R
+    path: CALIB/SKY/2014-11-12/HSC-R/SKY-2014-11-12-HSC-R-010.fits
+    formatter: lsst.obs.base.formatters.fitsExposure.FitsExposureFormatter
+  - dataset_id:
+    - 1091
+    data_id:
+    - instrument: HSC
+      detector: 6
+      physical_filter: HSC-R
+    path: CALIB/SKY/2014-11-12/HSC-R/SKY-2014-11-12-HSC-R-006.fits
+    formatter: lsst.obs.base.formatters.fitsExposure.FitsExposureFormatter
+  - dataset_id:
+    - 1092
+    data_id:
+    - instrument: HSC
+      detector: 11
+      physical_filter: HSC-R
+    path: CALIB/SKY/2014-11-12/HSC-R/SKY-2014-11-12-HSC-R-011.fits
+    formatter: lsst.obs.base.formatters.fitsExposure.FitsExposureFormatter
+  - dataset_id:
+    - 1093
+    data_id:
+    - instrument: HSC
+      detector: 24
+      physical_filter: HSC-R
+    path: CALIB/SKY/2014-11-12/HSC-R/SKY-2014-11-12-HSC-R-024.fits
+    formatter: lsst.obs.base.formatters.fitsExposure.FitsExposureFormatter
+- type: dataset_type
+  name: sky
+  dimensions:
+  - band
+  - instrument
+  - detector
+  - physical_filter
+  storage_class: ExposureF
+  is_calibration: true
+- type: dataset
+  dataset_type: sky
+  run: HSC/calib/gen2/2014-07-14
+  records:
+  - dataset_id:
+    - 1094
+    data_id:
+    - instrument: HSC
+      detector: 17
+      physical_filter: HSC-I
+    path: CALIB/SKY/2014-07-14/HSC-I/SKY-2014-07-14-HSC-I-017.fits
+    formatter: lsst.obs.base.formatters.fitsExposure.FitsExposureFormatter
+  - dataset_id:
+    - 1095
+    data_id:
+    - instrument: HSC
+      detector: 22
+      physical_filter: HSC-I
+    path: CALIB/SKY/2014-07-14/HSC-I/SKY-2014-07-14-HSC-I-022.fits
+    formatter: lsst.obs.base.formatters.fitsExposure.FitsExposureFormatter
+  - dataset_id:
+    - 1096
+    data_id:
+    - instrument: HSC
+      detector: 10
+      physical_filter: HSC-I
+    path: CALIB/SKY/2014-07-14/HSC-I/SKY-2014-07-14-HSC-I-010.fits
+    formatter: lsst.obs.base.formatters.fitsExposure.FitsExposureFormatter
+  - dataset_id:
+    - 1097
+    data_id:
+    - instrument: HSC
+      detector: 11
+      physical_filter: HSC-I
+    path: CALIB/SKY/2014-07-14/HSC-I/SKY-2014-07-14-HSC-I-011.fits
+    formatter: lsst.obs.base.formatters.fitsExposure.FitsExposureFormatter
+  - dataset_id:
+    - 1098
+    data_id:
+    - instrument: HSC
+      detector: 24
+      physical_filter: HSC-I
+    path: CALIB/SKY/2014-07-14/HSC-I/SKY-2014-07-14-HSC-I-024.fits
+    formatter: lsst.obs.base.formatters.fitsExposure.FitsExposureFormatter
+  - dataset_id:
+    - 1099
+    data_id:
+    - instrument: HSC
+      detector: 6
+      physical_filter: HSC-I
+    path: CALIB/SKY/2014-07-14/HSC-I/SKY-2014-07-14-HSC-I-006.fits
+    formatter: lsst.obs.base.formatters.fitsExposure.FitsExposureFormatter
+  - dataset_id:
+    - 1100
+    data_id:
+    - instrument: HSC
+      detector: 12
+      physical_filter: HSC-I
+    path: CALIB/SKY/2014-07-14/HSC-I/SKY-2014-07-14-HSC-I-012.fits
+    formatter: lsst.obs.base.formatters.fitsExposure.FitsExposureFormatter
+  - dataset_id:
+    - 1101
+    data_id:
+    - instrument: HSC
+      detector: 16
+      physical_filter: HSC-I
+    path: CALIB/SKY/2014-07-14/HSC-I/SKY-2014-07-14-HSC-I-016.fits
+    formatter: lsst.obs.base.formatters.fitsExposure.FitsExposureFormatter
+  - dataset_id:
+    - 1102
+    data_id:
+    - instrument: HSC
+      detector: 25
+      physical_filter: HSC-I
+    path: CALIB/SKY/2014-07-14/HSC-I/SKY-2014-07-14-HSC-I-025.fits
+    formatter: lsst.obs.base.formatters.fitsExposure.FitsExposureFormatter
+  - dataset_id:
+    - 1103
+    data_id:
+    - instrument: HSC
+      detector: 5
+      physical_filter: HSC-I
+    path: CALIB/SKY/2014-07-14/HSC-I/SKY-2014-07-14-HSC-I-005.fits
+    formatter: lsst.obs.base.formatters.fitsExposure.FitsExposureFormatter
+  - dataset_id:
+    - 1104
+    data_id:
+    - instrument: HSC
+      detector: 1
+      physical_filter: HSC-I
+    path: CALIB/SKY/2014-07-14/HSC-I/SKY-2014-07-14-HSC-I-001.fits
+    formatter: lsst.obs.base.formatters.fitsExposure.FitsExposureFormatter
+  - dataset_id:
+    - 1105
+    data_id:
+    - instrument: HSC
+      detector: 18
+      physical_filter: HSC-I
+    path: CALIB/SKY/2014-07-14/HSC-I/SKY-2014-07-14-HSC-I-018.fits
+    formatter: lsst.obs.base.formatters.fitsExposure.FitsExposureFormatter
+  - dataset_id:
+    - 1106
+    data_id:
+    - instrument: HSC
+      detector: 23
+      physical_filter: HSC-I
+    path: CALIB/SKY/2014-07-14/HSC-I/SKY-2014-07-14-HSC-I-023.fits
+    formatter: lsst.obs.base.formatters.fitsExposure.FitsExposureFormatter
+  - dataset_id:
+    - 1107
+    data_id:
+    - instrument: HSC
+      detector: 100
+      physical_filter: HSC-I
+    path: CALIB/SKY/2014-07-14/HSC-I/SKY-2014-07-14-HSC-I-100.fits
+    formatter: lsst.obs.base.formatters.fitsExposure.FitsExposureFormatter
+  - dataset_id:
+    - 1108
+    data_id:
+    - instrument: HSC
+      detector: 4
+      physical_filter: HSC-I
+    path: CALIB/SKY/2014-07-14/HSC-I/SKY-2014-07-14-HSC-I-004.fits
+    formatter: lsst.obs.base.formatters.fitsExposure.FitsExposureFormatter
+  - dataset_id:
+    - 1109
+    data_id:
+    - instrument: HSC
+      detector: 0
+      physical_filter: HSC-I
+    path: CALIB/SKY/2014-07-14/HSC-I/SKY-2014-07-14-HSC-I-000.fits
+    formatter: lsst.obs.base.formatters.fitsExposure.FitsExposureFormatter
+- type: associations
+  collection: HSC/calib
+  collection_type: CALIBRATION
+  validity_ranges:
+  - begin: !butler_time/tai/iso '2013-05-07 00:00:00.000000000'
+    end: !butler_time/tai/iso '2014-05-03 00:00:00.000000000'
+    dataset_ids:
+    - 1164
+    - 1158
+    - 1172
+    - 1165
+    - 1171
+    - 1160
+    - 1168
+    - 1169
+    - 1167
+    - 1161
+    - 1170
+    - 1173
+    - 1163
+    - 1166
+    - 1162
+    - 1159
+    - 1148
+    - 1143
+    - 1145
+    - 1142
+    - 1157
+    - 1152
+    - 1144
+    - 1147
+    - 1153
+    - 1154
+    - 1151
+    - 1155
+    - 1150
+    - 1146
+    - 1156
+    - 1149
+    - 1114
+    - 1120
+    - 1121
+    - 1117
+    - 1124
+    - 1110
+    - 1115
+    - 1116
+    - 1113
+    - 1122
+    - 1111
+    - 1125
+    - 1112
+    - 1119
+    - 1118
+    - 1123
+  - begin: !butler_time/tai/iso '2012-12-19 00:00:00.000000000'
+    end: !butler_time/tai/iso '2013-12-15 00:00:00.000000000'
+    dataset_ids:
+    - 1137
+    - 1128
+    - 1141
+    - 1129
+    - 1133
+    - 1134
+    - 1131
+    - 1136
+    - 1130
+    - 1135
+    - 1127
+    - 1138
+    - 1126
+    - 1132
+    - 1139
+    - 1140
+  - begin: !butler_time/tai/iso '2013-06-01 00:00:00.000000000'
+    end: !butler_time/tai/iso '2013-12-02 00:00:00.000000000'
+    dataset_ids:
+    - 1081
+    - 1079
+    - 1082
+    - 1090
+    - 1093
+    - 1085
+    - 1089
+    - 1086
+    - 1084
+    - 1087
+    - 1078
+    - 1088
+    - 1092
+    - 1091
+    - 1083
+    - 1080
+    - 1108
+    - 1096
+    - 1105
+    - 1097
+    - 1106
+    - 1107
+    - 1094
+    - 1100
+    - 1104
+    - 1099
+    - 1103
+    - 1098
+    - 1101
+    - 1102
+    - 1095
+    - 1109

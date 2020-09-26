@@ -1,6 +1,6 @@
 The "external.yaml" file here is produced by running:
 
-    bin/exportExternalData.py $CI_HSC_GEN2_DIR/DATA resources/external.yaml
+    bin/exportExternalData.py $CI_HSC_GEN2_DIR/DATAgen3 resources/external.yaml
 
 with a built copy of ci_hsc_gen2 set up.
 

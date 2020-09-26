@@ -6,7 +6,7 @@ import logging
 
 import lsst.log
 from lsst.utils import getPackageDir
-from lsst.daf.butler import Butler, FileDataset
+from lsst.daf.butler import Butler, CollectionType, FileDataset
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(
@@ -39,7 +39,7 @@ if __name__ == "__main__":
     def rewrite(dataset: FileDataset) -> FileDataset:
         # Join the datastore root to the exported path.  This should yield
         # absolute paths that start with $CI_HSC_GEN2_DIR.
-        dataset.path = os.path.join(butler.datastore.root, dataset.path)
+        dataset.path = os.path.join(butler.datastore.root.ospath, dataset.path)
         # Remove symlinks in the path; this should result in absolute paths
         # that start with $TESTDATA_CI_HSC_DIR, because ci_hsc_gen2 always
         # symlinks these datasets from there.
@@ -56,5 +56,6 @@ if __name__ == "__main__":
                                 elements=(), rewrite=rewrite)
         for datasetTypeName in ("bias", "dark", "flat", "sky"):
             export.saveDatasets(butler.registry.queryDatasets(datasetTypeName, collections=...),
-                                elements=[butler.registry.dimensions["calibration_label"]],
-                                rewrite=rewrite)
+                                elements=(), rewrite=rewrite)
+        for collection in butler.registry.queryCollections(..., collectionTypes={CollectionType.CALIBRATION}):
+            export.saveCollection(collection)
