@@ -74,10 +74,10 @@ class PrerequisiteConnectionLookupFunctionTest(unittest.TestCase):
 
         graphBuilder = pipeBase.GraphBuilder(butler.registry)
         graph = graphBuilder.makeGraph(pipeline, ["HSC/calib"], None, None)
-        outputs = list(graph.quanta())
+        outputs = list(graph)
         # verify the graph contains no datasetRefs for brighter fatter kernels
         # instead of the datasetRefs that exist in the registry.
-        numberOfInputs = len(outputs[0][1].predictedInputs['bfKernel'])
+        numberOfInputs = len(outputs[0].quantum.inputs['bfKernel'])
         self.assertEqual(numberOfInputs, 0)
 
 

@@ -141,4 +141,4 @@ env.Alias("install", "SConstruct")
 env.Alias("all", everything)
 Default(everything)
 
-env.Clean(everything, [y for x in everything for y in x])
+env.Clean(everything, [y for x in everything for y in x]+['DATA'])
