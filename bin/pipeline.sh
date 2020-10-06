@@ -12,11 +12,11 @@ QGRAPH_FILE=$(mktemp)
 trap 'rm -f $QGRAPH_FILE' EXIT
 
 pipetask qgraph -d "patch = 69" -b "$2"/butler.yaml \
-    -i "$INPUTCOLL" -o "$COLLECTION" \
+    --input "$INPUTCOLL" --output "$COLLECTION" \
     -p "$CI_HSC_GEN3_DIR"/pipelines/CiHsc.yaml \
     --save-qgraph "$QGRAPH_FILE"
 
 pipetask run -j "$1" -b "$2"/butler.yaml \
-    -i "$INPUTCOLL" -o "$COLLECTION" \
+    --input "$INPUTCOLL" --output "$COLLECTION" \
     --register-dataset-types \
     --qgraph "$QGRAPH_FILE"
