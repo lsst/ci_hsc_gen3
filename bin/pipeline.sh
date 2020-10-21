@@ -13,7 +13,7 @@ trap 'rm -f $QGRAPH_FILE' EXIT
 
 pipetask qgraph -d "patch = 69" -b "$2"/butler.yaml \
     --input "$INPUTCOLL" --output "$COLLECTION" \
-    -p "$CI_HSC_GEN3_DIR"/pipelines/CiHsc.yaml \
+    -p "$OBS_SUBARU_DIR"/pipelines/DRP.yaml \
     --save-qgraph "$QGRAPH_FILE"
 
 pipetask run -j "$1" -b "$2"/butler.yaml \
