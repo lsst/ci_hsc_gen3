@@ -1,5 +1,5 @@
 import os
-from SCons.Script import SConscript, Environment, GetOption, Default, Dir, Touch
+from SCons.Script import AddOption, SConscript, Environment, GetOption, Default, Dir, Touch
 from lsst.sconsUtils.utils import libraryLoaderEnvironment
 SConscript(os.path.join(".", "bin.src", "SConscript"))
 
@@ -90,7 +90,7 @@ env.Alias("curatedCalibrations", curatedCalibrations)
 
 skymap = env.Command(os.path.join(REPO_ROOT, "skymaps"), curatedCalibrations,
                      [getExecutableCmd("pipe_tasks", "makeGen3Skymap.py", REPO_ROOT,
-                                       "-C", os.path.join(PKG_ROOT, "configs", "skymap.py"), "skymaps")])
+                                       "-C", os.path.join(PKG_ROOT, "configs", "skymap.py"))])
 env.Alias("skymap", skymap)
 
 raws = env.Command(os.path.join(REPO_ROOT, "raw"), [curatedCalibrations, skymap],

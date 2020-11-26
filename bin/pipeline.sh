@@ -2,8 +2,8 @@
 
 set -e
 
-COLLECTION=shared/ci_hsc_output
-INPUTCOLL=HSC/calib,HSC/raw/all,HSC/masks,refcats,skymaps
+COLLECTION=HSC/runs/ci_hsc
+INPUTCOLL=HSC/defaults
 
 export DYLD_LIBRARY_PATH=$LSST_LIBRARY_PATH
 

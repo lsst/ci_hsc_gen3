@@ -6,7 +6,7 @@ import logging
 
 import lsst.log
 from lsst.utils import getPackageDir
-from lsst.daf.butler import Butler, CollectionType, FileDataset
+from lsst.daf.butler import Butler, FileDataset
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(
@@ -57,5 +57,6 @@ if __name__ == "__main__":
         for datasetTypeName in ("bias", "dark", "flat", "sky"):
             export.saveDatasets(butler.registry.queryDatasets(datasetTypeName, collections=...),
                                 elements=(), rewrite=rewrite)
-        for collection in butler.registry.queryCollections(..., collectionTypes={CollectionType.CALIBRATION}):
+        for collection in butler.registry.queryCollections("HSC/defaults", includeChains=True,
+                                                           flattenChains=True):
             export.saveCollection(collection)
