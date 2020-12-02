@@ -89,8 +89,8 @@ curatedCalibrations = env.Command(os.path.join(REPO_ROOT, "calib"), instrument,
 env.Alias("curatedCalibrations", curatedCalibrations)
 
 skymap = env.Command(os.path.join(REPO_ROOT, "skymaps"), curatedCalibrations,
-                     [getExecutableCmd("pipe_tasks", "makeGen3Skymap.py", REPO_ROOT,
-                                       "-C", os.path.join(PKG_ROOT, "configs", "skymap.py"))])
+                     [getExecutableCmd("daf_butler", "butler", "register-skymap",
+                                       REPO_ROOT, "-C", os.path.join(PKG_ROOT, "configs", "skymap.py"))])
 env.Alias("skymap", skymap)
 
 raws = env.Command(os.path.join(REPO_ROOT, "raw"), [curatedCalibrations, skymap],
