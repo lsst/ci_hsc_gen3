@@ -8,7 +8,7 @@ INPUTCOLL=HSC/defaults
 export DYLD_LIBRARY_PATH=$LSST_LIBRARY_PATH
 
 # exercise saving of the generated quantum graph to a file and reading it back
-QGRAPH_FILE=$(mktemp).pickle
+QGRAPH_FILE=$(mktemp).qgraph
 trap 'rm -f $QGRAPH_FILE' EXIT
 
 pipetask qgraph -d "skymap='discrete/ci_hsc' AND tract=0 AND patch=69" -b "$2"/butler.yaml \
