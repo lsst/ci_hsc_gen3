@@ -78,7 +78,7 @@ class PipelineLoadSubsetTest(unittest.TestCase):
         """This function tests loading a specific list of labels
         """
         labels = ("charImage", "calibrate", "makeWarpTask")
-        path = os.path.expandvars(f"{self.temp_pipeline_name}:{','.join(labels)}")
+        path = os.path.expandvars(f"{self.temp_pipeline_name}#{','.join(labels)}")
         pipeline = pipeBase.Pipeline.fromFile(path)
         self.assertEqual(set(labels), pipeline._pipelineIR.tasks.keys())
 
@@ -86,14 +86,14 @@ class PipelineLoadSubsetTest(unittest.TestCase):
         """This function tests loading a specific label
         """
         label = "charImage"
-        path = os.path.expandvars(f"{self.temp_pipeline_name}:{label}")
+        path = os.path.expandvars(f"{self.temp_pipeline_name}#{label}")
         pipeline = pipeBase.Pipeline.fromFile(path)
         self.assertEqual(set((label,)), pipeline._pipelineIR.tasks.keys())
 
     def testLoadBoundedRange(self):
         """This function tests loading a bounded range
         """
-        path = os.path.expandvars(f"{self.temp_pipeline_name}:charImage..assembleCoadd")
+        path = os.path.expandvars(f"{self.temp_pipeline_name}#charImage..assembleCoadd")
         pipeline = pipeBase.Pipeline.fromFile(path)
         self.assertEqual(set(('charImage', 'calibrate', 'makeWarpTask', 'assembleCoadd')),
                          pipeline._pipelineIR.tasks.keys())
@@ -101,7 +101,7 @@ class PipelineLoadSubsetTest(unittest.TestCase):
     def testLoadUpperBound(self):
         """This function tests loading a range that only has an upper bound
         """
-        path = os.path.expandvars(f"{self.temp_pipeline_name}:..assembleCoadd")
+        path = os.path.expandvars(f"{self.temp_pipeline_name}#..assembleCoadd")
         pipeline = pipeBase.Pipeline.fromFile(path)
         self.assertEqual(set(('isr', 'charImage', 'calibrate', 'makeWarpTask', 'assembleCoadd')),
                          pipeline._pipelineIR.tasks.keys())
@@ -109,7 +109,7 @@ class PipelineLoadSubsetTest(unittest.TestCase):
     def testLoadLowerBound(self):
         """This function tests loading a range that only has an upper bound
         """
-        path = os.path.expandvars(f"{self.temp_pipeline_name}:mergeDetections..")
+        path = os.path.expandvars(f"{self.temp_pipeline_name}#mergeDetections..")
         pipeline = pipeBase.Pipeline.fromFile(path)
         self.assertEqual(set(('mergeDetections', 'deblend', 'measure', 'mergeMeasurements', 'forcedPhotCcd',
                              'forcedPhotCoadd')),
@@ -117,17 +117,17 @@ class PipelineLoadSubsetTest(unittest.TestCase):
 
     def testLabelChecks(self):
         # test a bad list
-        path = os.path.expandvars(f"{self.temp_pipeline_name}:FakeLabel")
+        path = os.path.expandvars(f"{self.temp_pipeline_name}#FakeLabel")
         with self.assertRaises(ValueError):
             pipeBase.Pipeline.fromFile(path)
 
         # test a bad end label
-        path = os.path.expandvars(f"{self.temp_pipeline_name}:..FakeEndLabel")
+        path = os.path.expandvars(f"{self.temp_pipeline_name}#..FakeEndLabel")
         with self.assertRaises(ValueError):
             pipeBase.Pipeline.fromFile(path)
 
         # test a bad begin label
-        path = os.path.expandvars(f"{self.temp_pipeline_name}:FakeBeginLabel..")
+        path = os.path.expandvars(f"{self.temp_pipeline_name}#FakeBeginLabel..")
         with self.assertRaises(ValueError):
             pipeBase.Pipeline.fromFile(path)
 
