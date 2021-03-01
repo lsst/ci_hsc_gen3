@@ -14,6 +14,8 @@ trap 'rm -f $QGRAPH_FILE' EXIT
 pipetask qgraph -d "skymap='discrete/ci_hsc' AND tract=0 AND patch=69" -b "$2"/butler.yaml \
     --input "$INPUTCOLL" --output "$COLLECTION" \
     -p "$OBS_SUBARU_DIR"/pipelines/DRP.yaml \
+    -c makeWarp:connections.photoCalibName=jointcal \
+    -c makeWarp:useGlobalExternalPhotoCalib=False \
     --save-qgraph "$QGRAPH_FILE"
 
 pipetask run -j "$1" -b "$2"/butler.yaml \

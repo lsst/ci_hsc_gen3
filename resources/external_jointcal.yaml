@@ -1,0 +1,233 @@
+description: Butler Data Repository Export
+version: 1.0.1
+data:
+- type: dataset_type
+  name: jointcalPhotoCalibCatalog
+  dimensions:
+  - band
+  - instrument
+  - skymap
+  - physical_filter
+  - tract
+  - visit_system
+  - visit
+  storage_class: ExposureCatalog
+  is_calibration: false
+- type: dataset
+  dataset_type: jointcalPhotoCalibCatalog
+  run: HSC/external
+  records:
+  - dataset_id:
+    - 10000
+    data_id:
+    - instrument: HSC
+      skymap: discrete/ci_hsc
+      tract: 0
+      visit: 903334
+    path: jointcal/jointcal_photoCalibCatalog-0903334.fits
+    formatter: lsst.obs.base.formatters.fitsGeneric.FitsGenericFormatter
+  - dataset_id:
+    - 10002
+    data_id:
+    - instrument: HSC
+      skymap: discrete/ci_hsc
+      tract: 0
+      visit: 903336
+    path: jointcal/jointcal_photoCalibCatalog-0903336.fits
+    formatter: lsst.obs.base.formatters.fitsGeneric.FitsGenericFormatter
+  - dataset_id:
+    - 10004
+    data_id:
+    - instrument: HSC
+      skymap: discrete/ci_hsc
+      tract: 0
+      visit: 903338
+    path: jointcal/jointcal_photoCalibCatalog-0903338.fits
+    formatter: lsst.obs.base.formatters.fitsGeneric.FitsGenericFormatter
+  - dataset_id:
+    - 10006
+    data_id:
+    - instrument: HSC
+      skymap: discrete/ci_hsc
+      tract: 0
+      visit: 903342
+    path: jointcal/jointcal_photoCalibCatalog-0903342.fits
+    formatter: lsst.obs.base.formatters.fitsGeneric.FitsGenericFormatter
+  - dataset_id:
+    - 10008
+    data_id:
+    - instrument: HSC
+      skymap: discrete/ci_hsc
+      tract: 0
+      visit: 903344
+    path: jointcal/jointcal_photoCalibCatalog-0903344.fits
+    formatter: lsst.obs.base.formatters.fitsGeneric.FitsGenericFormatter
+  - dataset_id:
+    - 10010
+    data_id:
+    - instrument: HSC
+      skymap: discrete/ci_hsc
+      tract: 0
+      visit: 903346
+    path: jointcal/jointcal_photoCalibCatalog-0903346.fits
+    formatter: lsst.obs.base.formatters.fitsGeneric.FitsGenericFormatter
+  - dataset_id:
+    - 10012
+    data_id:
+    - instrument: HSC
+      skymap: discrete/ci_hsc
+      tract: 0
+      visit: 903986
+    path: jointcal/jointcal_photoCalibCatalog-0903986.fits
+    formatter: lsst.obs.base.formatters.fitsGeneric.FitsGenericFormatter
+  - dataset_id:
+    - 10014
+    data_id:
+    - instrument: HSC
+      skymap: discrete/ci_hsc
+      tract: 0
+      visit: 903988
+    path: jointcal/jointcal_photoCalibCatalog-0903988.fits
+    formatter: lsst.obs.base.formatters.fitsGeneric.FitsGenericFormatter
+  - dataset_id:
+    - 10016
+    data_id:
+    - instrument: HSC
+      skymap: discrete/ci_hsc
+      tract: 0
+      visit: 903990
+    path: jointcal/jointcal_photoCalibCatalog-0903990.fits
+    formatter: lsst.obs.base.formatters.fitsGeneric.FitsGenericFormatter
+  - dataset_id:
+    - 10018
+    data_id:
+    - instrument: HSC
+      skymap: discrete/ci_hsc
+      tract: 0
+      visit: 904010
+    path: jointcal/jointcal_photoCalibCatalog-0904010.fits
+    formatter: lsst.obs.base.formatters.fitsGeneric.FitsGenericFormatter
+  - dataset_id:
+    - 10020
+    data_id:
+    - instrument: HSC
+      skymap: discrete/ci_hsc
+      tract: 0
+      visit: 904014
+    path: jointcal/jointcal_photoCalibCatalog-0904014.fits
+    formatter: lsst.obs.base.formatters.fitsGeneric.FitsGenericFormatter
+- type: dataset_type
+  name: jointcalSkyWcsCatalog
+  dimensions:
+  - band
+  - instrument
+  - skymap
+  - physical_filter
+  - tract
+  - visit_system
+  - visit
+  storage_class: ExposureCatalog
+  is_calibration: false
+- type: dataset
+  dataset_type: jointcalSkyWcsCatalog
+  run: HSC/external
+  records:
+  - dataset_id:
+    - 10000
+    data_id:
+    - instrument: HSC
+      skymap: discrete/ci_hsc
+      tract: 0
+      visit: 903334
+    path: jointcal/jointcal_wcsCatalog-0903334.fits
+    formatter: lsst.obs.base.formatters.fitsGeneric.FitsGenericFormatter
+  - dataset_id:
+    - 10002
+    data_id:
+    - instrument: HSC
+      skymap: discrete/ci_hsc
+      tract: 0
+      visit: 903336
+    path: jointcal/jointcal_wcsCatalog-0903336.fits
+    formatter: lsst.obs.base.formatters.fitsGeneric.FitsGenericFormatter
+  - dataset_id:
+    - 10004
+    data_id:
+    - instrument: HSC
+      skymap: discrete/ci_hsc
+      tract: 0
+      visit: 903338
+    path: jointcal/jointcal_wcsCatalog-0903338.fits
+    formatter: lsst.obs.base.formatters.fitsGeneric.FitsGenericFormatter
+  - dataset_id:
+    - 10006
+    data_id:
+    - instrument: HSC
+      skymap: discrete/ci_hsc
+      tract: 0
+      visit: 903342
+    path: jointcal/jointcal_wcsCatalog-0903342.fits
+    formatter: lsst.obs.base.formatters.fitsGeneric.FitsGenericFormatter
+  - dataset_id:
+    - 10008
+    data_id:
+    - instrument: HSC
+      skymap: discrete/ci_hsc
+      tract: 0
+      visit: 903344
+    path: jointcal/jointcal_wcsCatalog-0903344.fits
+    formatter: lsst.obs.base.formatters.fitsGeneric.FitsGenericFormatter
+  - dataset_id:
+    - 10010
+    data_id:
+    - instrument: HSC
+      skymap: discrete/ci_hsc
+      tract: 0
+      visit: 903346
+    path: jointcal/jointcal_wcsCatalog-0903346.fits
+    formatter: lsst.obs.base.formatters.fitsGeneric.FitsGenericFormatter
+  - dataset_id:
+    - 10012
+    data_id:
+    - instrument: HSC
+      skymap: discrete/ci_hsc
+      tract: 0
+      visit: 903986
+    path: jointcal/jointcal_wcsCatalog-0903986.fits
+    formatter: lsst.obs.base.formatters.fitsGeneric.FitsGenericFormatter
+  - dataset_id:
+    - 10014
+    data_id:
+    - instrument: HSC
+      skymap: discrete/ci_hsc
+      tract: 0
+      visit: 903988
+    path: jointcal/jointcal_wcsCatalog-0903988.fits
+    formatter: lsst.obs.base.formatters.fitsGeneric.FitsGenericFormatter
+  - dataset_id:
+    - 10016
+    data_id:
+    - instrument: HSC
+      skymap: discrete/ci_hsc
+      tract: 0
+      visit: 903990
+    path: jointcal/jointcal_wcsCatalog-0903990.fits
+    formatter: lsst.obs.base.formatters.fitsGeneric.FitsGenericFormatter
+  - dataset_id:
+    - 10018
+    data_id:
+    - instrument: HSC
+      skymap: discrete/ci_hsc
+      tract: 0
+      visit: 904010
+    path: jointcal/jointcal_wcsCatalog-0904010.fits
+    formatter: lsst.obs.base.formatters.fitsGeneric.FitsGenericFormatter
+  - dataset_id:
+    - 10020
+    data_id:
+    - instrument: HSC
+      skymap: discrete/ci_hsc
+      tract: 0
+      visit: 904014
+    path: jointcal/jointcal_wcsCatalog-0904014.fits
+    formatter: lsst.obs.base.formatters.fitsGeneric.FitsGenericFormatter
