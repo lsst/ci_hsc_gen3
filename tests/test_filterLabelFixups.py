@@ -133,6 +133,17 @@ class TestFilterLabelFixups(lsst.utils.tests.TestCase):
             visit_system=0,
         )
         self.assertTrue(calexpBadDataId.hasFull())
+
+        # Some tests are only relevant when reading full calexps.
+        # By definition a disassembled exposure will have a correct
+        # filterlabel written out.
+        # In this situation the test becomes moot since the filterLabel
+        # formatter will not force a correct filter label into an
+        # incorrect filter label based on DataId.
+        _, components = self.butler.getURIs("calexp", calexpBadDataId)
+        if components:
+            raise unittest.SkipTest("Test not relevant because composite has been disassembled")
+
         with self.assertWarns(Warning):
             calexp = self.butler.get("calexp", calexpBadDataId)
         with self.assertWarns(Warning):
