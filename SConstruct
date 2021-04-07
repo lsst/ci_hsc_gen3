@@ -61,8 +61,10 @@ REPO_ROOT = GetOption("root")
 AddOption("--enable-profile", nargs="?", const="profile", dest="enable_profile",
           help=("Profile base filename; output will be <basename>-<sequence#>-<script>.pstats; "
                 "(Note: this option is for profiling the scripts, while --profile is for scons)"))
-AddOption("--butler-config", dest="butler_conf", default="",
-          help="Path to an external Butler config used to create a data repository.")
+AddOption("--butler-config", dest="butler_conf",
+          default=os.path.join(PKG_ROOT, "configs", "butler-seed.yaml"),
+          help=("Path to an external Butler config used to create a data repository. "
+                "Default is configs/registry.yaml"))
 AddOption("--config-override", action="store_true", dest="conf_override",
           help="Override the default config root with the given repo-root.")
 
