@@ -1,0 +1,3 @@
+registry:
+  managers:
+    datasets: lsst.daf.butler.registry.datasets.byDimensions.ByDimensionsDatasetRecordStorageManagerUUID
