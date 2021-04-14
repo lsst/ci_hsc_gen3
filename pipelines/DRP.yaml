@@ -1,0 +1,14 @@
+description: The DRP pipeline specialized for the ci_hsc test dataset.
+instrument: lsst.obs.subaru.HyperSuprimeCam
+imports:
+  location: "${OBS_SUBARU_DIR}/pipelines/DRP.yaml"
+  exclude:
+    # Don't run jointcal here...
+    - jointcal
+tasks:
+  makeWarp:
+    config:
+      # ...but do expect its outputs to be present (rather than FGCM's), since
+      # that's what the (unusual) ci_hsc repo is set up to have.
+      connections.photoCalibName: "jointcal"
+      useGlobalExternalPhotoCalib: false
