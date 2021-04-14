@@ -64,7 +64,7 @@ AddOption("--enable-profile", nargs="?", const="profile", dest="enable_profile",
 AddOption("--butler-config", dest="butler_conf",
           default=os.path.join(PKG_ROOT, "configs", "butler-seed.yaml"),
           help=("Path to an external Butler config used to create a data repository. "
-                "Default is configs/registry.yaml"))
+                "Default is configs/butler-seed.yaml"))
 AddOption("--config-override", action="store_true", dest="conf_override",
           help="Override the default config root with the given repo-root.")
 
