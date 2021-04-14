@@ -11,7 +11,12 @@ export DYLD_LIBRARY_PATH=$LSST_LIBRARY_PATH
 QGRAPH_FILE=$(mktemp).qgraph
 trap 'rm -f $QGRAPH_FILE' EXIT
 
-pipetask qgraph -d "skymap='discrete/ci_hsc' AND tract=0 AND patch=69" -b "$2"/butler.yaml \
+# TODO DM-29751: Remove exclusion of 2 detectors after the safe handling
+# of their expected failures
+pipetask qgraph \
+    -d "skymap='discrete/ci_hsc' AND tract=0 AND patch=69
+        AND NOT (visit=903342 AND detector=100) AND NOT (visit=904010 AND detector=100)" \
+    -b "$2"/butler.yaml \
     --input "$INPUTCOLL" --output "$COLLECTION" \
     -p "$CI_HSC_GEN3_DIR"/pipelines/DRP.yaml \
     --save-qgraph "$QGRAPH_FILE"
