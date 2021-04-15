@@ -1,0 +1,20 @@
+description: Butler Data Repository Export
+version: 1.0.1
+data:
+- type: dataset_type
+  name: fakes_fakeSourceCat
+  dimensions:
+  - skymap
+  - tract
+  storage_class: DataFrame
+  is_calibration: false
+- type: dataset
+  dataset_type: fakes_fakeSourceCat
+  run: HSC/external
+  records:
+  - dataset_id:
+    - 9999
+    data_id:
+      skymap: discrete/ci_hsc
+      tract: 0
+    path: fakes/fakeSourceCat_0.parq
