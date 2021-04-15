@@ -3,6 +3,7 @@ instrument: lsst.obs.subaru.HyperSuprimeCam
 imports:
   location: "${OBS_SUBARU_DIR}/pipelines/DRP.yaml"
   exclude:
+    - fgcm
     # Don't run jointcal here...
     - jointcal
 tasks:
