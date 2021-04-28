@@ -19,7 +19,14 @@ tasks:
     # Significantly limit the number of sources to deblend, which saves time
     # in both deblending and measurement
     config:
-      # Only run on the first 10 parents with between 5-10 children
+      # Only run the deblender on a small subset of bleneded parents
       - multibandDeblend.useCiLimits: true
       # Do not run the deblender on isolated sources
       - multibandDeblend.processSingles: false
+  calibrate:
+    class: lsst.pipe.tasks.calibrate.CalibrateTask
+    # Significantly limit the number of sources to deblend, which saves time
+    # in both deblending and measurement
+    config:
+      # Only run the deblender on a small subset of bleneded parents
+      - deblend.useCiLimits: true
