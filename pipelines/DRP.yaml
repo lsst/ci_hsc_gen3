@@ -14,3 +14,19 @@ tasks:
       # that's what the (unusual) ci_hsc repo is set up to have.
       connections.photoCalibName: "jointcal"
       useGlobalExternalPhotoCalib: false
+  deblend:
+    class: lsst.pipe.tasks.deblendCoaddSourcesPipeline.DeblendCoaddSourcesMultiTask
+    # Significantly limit the number of sources to deblend, which saves time
+    # in both deblending and measurement
+    config:
+      # Only run the deblender on a small subset of bleneded parents
+      - multibandDeblend.useCiLimits: true
+      # Do not run the deblender on isolated sources
+      - multibandDeblend.processSingles: false
+  calibrate:
+    class: lsst.pipe.tasks.calibrate.CalibrateTask
+    # Significantly limit the number of sources to deblend, which saves time
+    # in both deblending and measurement
+    config:
+      # Only run the deblender on a small subset of bleneded parents
+      - deblend.useCiLimits: true
