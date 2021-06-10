@@ -30,3 +30,10 @@ tasks:
     config:
       # Only run the deblender on a small subset of bleneded parents
       - deblend.useCiLimits: true
+  imageDifference:
+    class: lsst.pipe.tasks.imageDifference.ImageDifferenceTask
+    # Increase required area of usable template so that
+    # visit IN (903342, 904010) AND detector=100 raise NoWorkFound
+    # instead of bringing down ci_hsc.
+    config:
+      - requiredTemplateFraction: 0.2
