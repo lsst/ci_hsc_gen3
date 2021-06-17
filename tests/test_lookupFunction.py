@@ -45,6 +45,7 @@ class LookupTestConnections(pipeBase.PipelineTaskConnections,
         lookupFunction=lookupFunctionTester,
         dimensions=("instrument",),
         isCalibration=True,
+        minimum=0,
     )
 
 
