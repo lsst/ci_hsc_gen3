@@ -6,6 +6,10 @@ imports:
     - fgcm
     # Don't run jointcal here...
     - jointcal
+    # Exclude faro because the dataset is not sufficient for most faro metrics.
+    # (Don't exclude faro_step2, because that operates on single visits.)
+    - faro_step3
+    - faro_step5
 tasks:
   makeWarp:
     class: lsst.pipe.tasks.makeCoaddTempExp.MakeWarpTask
