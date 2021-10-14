@@ -6,7 +6,9 @@ imports:
     - fgcm
     # Don't run jointcal here...
     - jointcal
-    - faro
+    - faro_step2
+    - faro_step3
+    - faro_step5
     - isr
     - characterizeImage
     - calibrate
