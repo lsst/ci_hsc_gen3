@@ -1,97 +1,32 @@
 description: The DRP pipeline specialized for the ci_hsc test dataset.
 instrument: lsst.obs.subaru.HyperSuprimeCam
 imports:
-  location: "${OBS_SUBARU_DIR}/pipelines/DRP.yaml"
+  location: "${OBS_SUBARU_DIR}/pipelines/DRPFakes.yaml"
   exclude:
-    - fgcm
-    # Don't run jointcal here...
-    - jointcal
     - faro_step2
     - faro_step3
     - faro_step5
-    - isr
-    - characterizeImage
-    - calibrate
-    - selectGoodSeeingVisits
-    - templateGen
-    - imageDifference
-    - forcedPhotDiffim
+
 tasks:
   processCcdWithFakes:
     class: lsst.pipe.tasks.processCcdWithFakes.ProcessCcdWithFakesTask
     config:
       insertFakes.doProcessAllDataIds: True
-      doApplyExternalPhotoCalib: True
-      doApplyExternalSkyWcs: True
-  writeSourceTable:
-    class: lsst.pipe.tasks.postprocess.WriteSourceTableTask
-    config:
-      connections.catalogType: "fakes_"
-  transformSourceTable:
-    class: lsst.pipe.tasks.postprocess.TransformSourceTableTask
-    config:
-      connections.catalogType: "fakes_"
-  consolidateSourceTable:
-    class: lsst.pipe.tasks.postprocess.ConsolidateSourceTableTask
-    config:
-      connections.catalogType: "fakes_"
-  consolidateVisitSummary:
-    class: lsst.pipe.tasks.postprocess.ConsolidateVisitSummaryTask
-    config:
-      connections.calexpType: "fakes_"
-  assembleCoadd:
-    class: lsst.pipe.tasks.assembleCoadd.CompareWarpAssembleCoaddTask
-    config:
-      connections.inputCoaddName: "fakes_deep"
-      connections.outputCoaddName: "fakes_deep"
+      doApplyExternalTractSkyWcs: True
+      doApplyExternalTractPhotoCalib: True
+      doApplyExternalGlobalPhotoCalib: False
+      connections.photoCalibName: "jointcal"
   makeWarp:
     class: lsst.pipe.tasks.makeCoaddTempExp.MakeWarpTask
     config:
-      # ...but do expect its outputs to be present (rather than FGCM's), since
-      # that's what the (unusual) ci_hsc repo is set up to have.
       connections.photoCalibName: "jointcal"
-      useGlobalExternalPhotoCalib: false
+      useGlobalExternalPhotoCalib: False
       connections.coaddName: "fakes_deep"
       connections.calexpType: "fakes_"
-  detection:
-    class: lsst.pipe.tasks.multiBand.DetectCoaddSourcesTask
-    config:
-      connections.inputCoaddName: "fakes_deep"
-      connections.outputCoaddName: "fakes_deep"
-  mergeDetections:
-    class: lsst.pipe.tasks.mergeDetections.MergeDetectionsTask
-    config:
-      connections.inputCoaddName: "fakes_deep"
-      connections.outputCoaddName: "fakes_deep"
   deblend:
     class: lsst.pipe.tasks.deblendCoaddSourcesPipeline.DeblendCoaddSourcesMultiTask
     config:
       connections.inputCoaddName: "fakes_deep"
       connections.outputCoaddName: "fakes_deep"
-  measure:
-    class: lsst.pipe.tasks.multiBand.MeasureMergedCoaddSourcesTask
-    config:
-      connections.inputCoaddName: "fakes_deep"
-      connections.outputCoaddName: "fakes_deep"
-  mergeMeasurements:
-    class: lsst.pipe.tasks.mergeMeasurements.MergeMeasurementsTask
-    config:
-      connections.inputCoaddName: "fakes_deep"
-      connections.outputCoaddName: "fakes_deep"
-  writeObjectTable:
-    class: lsst.pipe.tasks.postprocess.WriteObjectTableTask
-    config:
-      connections.coaddName: "fakes_deep"
-  transformObjectTable:
-    class: lsst.pipe.tasks.postprocess.TransformObjectCatalogTask
-    config:
-      connections.coaddName: "fakes_deep"
-  forcedPhotCcd:
-    class: lsst.meas.base.forcedPhotCcd.ForcedPhotCcdTask
-    config:
-      connections.inputCoaddName: "fakes_deep"
-  forcedPhotCoadd:
-    class: lsst.meas.base.forcedPhotCoadd.ForcedPhotCoaddTask
-    config:
-      connections.inputCoaddName: "fakes_deep"
-      connections.outputCoaddName: "fakes_deep"
+      multibandDeblend.useCiLimits: True
+      multibandDeblend.processSingles: False
