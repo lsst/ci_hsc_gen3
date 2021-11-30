@@ -8,7 +8,7 @@ imports:
     - faro_step5
 
 tasks:
-  processCcdWithFakes:
+  singleFrameWithFakes:
     class: lsst.pipe.tasks.processCcdWithFakes.ProcessCcdWithFakesTask
     config:
       insertFakes.doProcessAllDataIds: True
