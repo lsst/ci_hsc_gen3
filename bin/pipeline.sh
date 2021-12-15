@@ -7,7 +7,7 @@ INPUTCOLL=HSC/defaults
 FAKES_COLLECTION=HSC/runs/ci_hsc_fakes
 FARO_COLLECTION=HSC/runs/ci_hsc_faro
 
-export DYLD_LIBRARY_PATH=$LSST_LIBRARY_PATH
+export DYLD_LIBRARY_PATH="$LSST_LIBRARY_PATH"
 # exercise saving of the generated quantum graph to a file and reading it back
 QGRAPH_FILE=$(mktemp).qgraph
 trap 'rm -f $QGRAPH_FILE' EXIT
