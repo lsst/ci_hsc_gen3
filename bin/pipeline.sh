@@ -55,7 +55,7 @@ pipetask --long-log --log-level="$loglevel" qgraph \
     -d "skymap='discrete/ci_hsc' AND tract=0 AND patch=69" \
     -b "$repo"/butler.yaml \
     --input "$INPUTCOLL" --output "$COLLECTION" \
-    -p "$CI_HSC_GEN3_DIR"/pipelines/DRP.yaml \
+    -p "$DRP_PIPE_DIR/pipelines/HSC/DRP-ci_hsc.yaml" \
     --save-qgraph "$QGRAPH_FILE"
 
 pipetask --long-log --log-level="$loglevel" run \
@@ -68,7 +68,7 @@ pipetask --long-log --log-level="$loglevel" qgraph \
     -d "skymap='discrete/ci_hsc' AND tract=0 AND patch=69" \
     -b "$repo"/butler.yaml \
     --input "$COLLECTION" --output "$FAKES_COLLECTION" \
-    -p "$CI_HSC_GEN3_DIR"/pipelines/DRPFakes.yaml \
+    -p "$DRP_PIPE_DIR/pipelines/HSC/DRP-ci_hsc+fakes.yaml" \
     --save-qgraph "$FAKES_QGRAPH_FILE"
 
 pipetask --long-log --log-level="$loglevel" run \
