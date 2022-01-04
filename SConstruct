@@ -67,6 +67,8 @@ AddOption("--butler-config", dest="butler_conf",
                 "Default is configs/butler-seed.yaml"))
 AddOption("--config-override", action="store_true", dest="conf_override",
           help="Override the default config root with the given repo-root.")
+AddOption("--mock", action="store_true", dest="mock",
+          help="Execute mock pipeline.")
 
 conf = GetOption("butler_conf")
 butler_conf = f"--seed-config {conf}" if conf != "" else ""
@@ -86,7 +88,7 @@ instrument = env.Command(os.path.join(REPO_ROOT, "instrument"), butler,
 env.Alias("instrument", instrument)
 
 # Write curated calibrations
-curatedCalibrations = env.Command(os.path.join(REPO_ROOT, "calib"), instrument,
+curatedCalibrations = env.Command(os.path.join(REPO_ROOT, "HSC", "calib"), instrument,
                                   [getExecutableCmd("daf_butler", "butler", "write-curated-calibrations",
                                                     REPO_ROOT, "HSC")])
 env.Alias("curatedCalibrations", curatedCalibrations)
@@ -96,7 +98,7 @@ skymap = env.Command(os.path.join(REPO_ROOT, "skymaps"), curatedCalibrations,
                                        REPO_ROOT, "-C", os.path.join(PKG_ROOT, "configs", "skymap.py"))])
 env.Alias("skymap", skymap)
 
-raws = env.Command(os.path.join(REPO_ROOT, "raw"), [curatedCalibrations, skymap],
+raws = env.Command(os.path.join(REPO_ROOT, "HSC", "raw"), [curatedCalibrations, skymap],
                    [getExecutableCmd("daf_butler", "butler", "ingest-raws", REPO_ROOT,
                                      os.path.join(TESTDATA_ROOT, "raw"))])
 
@@ -105,9 +107,9 @@ visits = env.Command(os.path.join(REPO_ROOT, "visits"), [raws],
                                        "--collections", "HSC/raw/all"),
                      Touch(os.path.join(REPO_ROOT, "visits"))])
 
-external = env.Command([Dir(os.path.join(REPO_ROOT, "masks")),
-                        Dir(os.path.join(REPO_ROOT, "ref_cats")),
-                        Dir(os.path.join(REPO_ROOT, "shared"))],
+external = env.Command([Dir(os.path.join(REPO_ROOT, "HSC", "masks")),
+                        Dir(os.path.join(REPO_ROOT, "refcats")),
+                        Dir(os.path.join(REPO_ROOT, "HSC", "external"))],
                        [curatedCalibrations, skymap, raws, visits],
                        [getExecutableCmd("daf_butler", "butler", "import", REPO_ROOT,
                                          env.ProductDir("testdata_ci_hsc"),
@@ -127,12 +129,13 @@ env.Alias("external", external)
 
 # Use name ingest to run everything up to but not including running the
 # pipeline
-ingest = env.Alias("ingest", raws + visits)
+ingest = env.Alias("ingest", external)
 
 num_process = GetOption('num_jobs')
+mock = GetOption('mock')
 
 pipeline = env.Command(os.path.join(REPO_ROOT, "shared", "ci_hsc_output"), ingest,
-                       ["bin/pipeline.sh {} {}".format(num_process, REPO_ROOT)])
+                       [f"bin/pipeline.sh -j {num_process} {'-m' if mock else ''} {REPO_ROOT}"])
 
 tests = []
 executable = os.path.join(PKG_ROOT, "bin", "sip_safe_python.sh")
