@@ -43,6 +43,13 @@ class TestSchemaMatch(lsst.utils.tests.TestCase):
         """Check the schema of the parquet dataset match that in the DDL.
         Only the column names are checked currently.
         """
+        try:
+            # if mock dataset type exists then skip the test
+            self.butler.registry.getDatasetType(f"_mock_{dataset}")
+            raise unittest.SkipTest("Skipping due to mock dataset type present")
+        except KeyError:
+            pass
+
         sdmSchema = [table for table in self.schema if table['name'] == tableName]
         self.assertEqual(len(sdmSchema), 1)
         expectedColumnNames = set(column['name'] for column in sdmSchema[0]['columns'])
