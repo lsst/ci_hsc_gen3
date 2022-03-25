@@ -39,6 +39,7 @@ COLLECTION=HSC/runs/ci_hsc
 INPUTCOLL=HSC/defaults
 FAKES_COLLECTION=HSC/runs/ci_hsc_fakes
 FARO_COLLECTION=HSC/runs/ci_hsc_faro
+RESOURCE_USAGE_COLLECTION=HSC/runs/ci_hsc_resource_usage
 
 export DYLD_LIBRARY_PATH="$LSST_LIBRARY_PATH"
 # exercise saving of the generated quantum graph to a file and reading it back
@@ -50,6 +51,9 @@ trap 'rm -f $FAKES_QGRAPH_FILE' EXIT
 
 FARO_QGRAPH_FILE=$(mktemp)_faro.qgraph
 trap 'rm -f $FARO_QGRAPH_FILE' EXIT
+
+RESOURCE_USAGE_QGRAPH_FILE=$(mktemp)_resource_usage.qgraph
+trap 'rm -f $RESOURCE_USAGE_QGRAPH_FILE' EXIT
 
 pipetask --long-log --log-level="$loglevel" qgraph \
     -d "skymap='discrete/ci_hsc' AND tract=0 AND patch=69" \
@@ -90,3 +94,10 @@ pipetask --long-log --log-level="$loglevel" run \
     --register-dataset-types $mock \
     --qgraph "$FARO_QGRAPH_FILE"
 
+build-gather-resource-usage-qg "$repo" "$RESOURCE_USAGE_QGRAPH_FILE" "$COLLECTION"
+
+pipetask --long-log --log-level="$loglevel" run \
+    -j "$jobs" -b "$repo"/butler.yaml \
+    --output "$RESOURCE_USAGE_COLLECTION" \
+    --register-dataset-types $mock \
+    -g "$RESOURCE_USAGE_QGRAPH_FILE"
