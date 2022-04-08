@@ -20,3 +20,5 @@ setupRequired(daf_butler)
 setupRequired(testdata_ci_hsc)
 setupRequired(drp_pipe)
 setupRequired(analysis_drp)
+
+envPrepend(PYTHONPATH, ${PRODUCT_DIR}/python)
