@@ -26,6 +26,7 @@ import numpy as np
 from lsst.daf.butler import Butler
 import lsst.geom as geom
 import lsst.meas.algorithms
+import lsst.afw.image
 
 from lsst.utils import getPackageDir
 
@@ -53,9 +54,9 @@ class TestCoaddOutputs(unittest.TestCase):
         """Test that forced photometry ID fields are named as expected
         (DM-8210).
 
-        Specifically, coadd forced photometry should have only "id" and "parent"
-        fields, while CCD forced photometry should have those, "objectId", and
-        "parentObjectId".
+        Specifically, coadd forced photometry should have only "id" and
+        "parent" fields, while CCD forced photometry should have those,
+        "objectId", and "parentObjectId".
         """
         coadd_schema = self.butler.get("deepCoadd_forced_src_schema").schema
         self.assertIn("id", coadd_schema)
@@ -230,8 +231,8 @@ class TestCoaddOutputs(unittest.TestCase):
             self.assertEqual(det_record.getBBox(), exp_bbox)
             self.assertIsNotNone(det_record.getTransmissionCurve())
             center = det_record.getBBox().getCenter()
-            # TODO: DM-XXXXX This needs to be updated to the "final" psf when that is
-            # made the default.
+            # TODO: DM-XXXXX This needs to be updated to the "final" psf
+            # when that is made the default.
             np.testing.assert_array_almost_equal(
                 det_record.getPsf().computeKernelImage(center).array,
                 exp_psf.computeKernelImage(center).array
@@ -277,8 +278,8 @@ class TestCoaddOutputs(unittest.TestCase):
             self.assertEqual(det_record.getBBox(), exp_bbox)
             self.assertIsNotNone(det_record.getTransmissionCurve())
             center = det_record.getBBox().getCenter()
-            # TODO: DM-XXXXX This needs to be updated to the "final" psf when that is
-            # made the default.
+            # TODO: DM-XXXXX This needs to be updated to the "final" psf
+            # when that is made the default.
             np.testing.assert_array_almost_equal(
                 det_record.getPsf().computeKernelImage(center).array,
                 exp_psf.computeKernelImage(center).array
@@ -287,8 +288,6 @@ class TestCoaddOutputs(unittest.TestCase):
 
     def test_psf_installation(self):
         """Test that the coadd psf is installed."""
-        skymap = self.butler.get("skyMap")
-        tract_info = skymap[self._tract]
         for band in self._bands:
             wcs = self.butler.get("deepCoadd_calexp.wcs", band=band, tract=self._tract, patch=self._patch)
             inputs = self.butler.get(
@@ -321,7 +320,45 @@ class TestCoaddOutputs(unittest.TestCase):
                 self.assertEqual(coadd_psf.getBBox(n), record.getBBox())
                 self.assertEqual(new_psf.getBBox(n), record.getBBox())
 
+    def test_coadd_psf(self):
+        """Test that the stars on the coadd are well represented by
+        the attached PSF.
+        """
+        n_object_test = 10
+        n_good_test = 5
+        ctx = np.random.RandomState(12345)
+
+        for band in self._bands:
+            exp = self.butler.get("deepCoadd_calexp", band=band, tract=self._tract, patch=self._patch)
+            coadd_psf = exp.getPsf()
+            cat = self.butler.get("objectTable", band=band, tract=self._tract, patch=self._patch)
+
+            star_cat = cat[(cat["i_extendedness"] < 0.5)
+                           & (cat["detect_isPrimary"])
+                           & (cat[f"{band}_psfFlux"] > 0.0)
+                           & (cat[f"{band}_psfFlux"]/cat[f"{band}_psfFluxErr"] > 50.0)
+                           & (cat[f"{band}_psfFlux"]/cat[f"{band}_psfFluxErr"] < 200.0)]
+
+            to_check = ctx.choice(len(star_cat), size=n_object_test, replace=False)
+            n_good = 0
+            for index in to_check:
+                position = geom.Point2D(star_cat["x"].values[index], star_cat["y"].values[index])
+                psf_image = coadd_psf.computeImage(position)
+                psf_image_bbox = psf_image.getBBox()
+                star_image = lsst.afw.image.ImageF(
+                    exp.maskedImage.image,
+                    psf_image_bbox
+                ).convertD()
+                star_image /= star_image.array.sum()
+                psf_image /= psf_image.array.sum()
+                residuals = lsst.afw.image.ImageD(star_image, True)
+                residuals -= psf_image
+                # This is just a sanity check
+                if np.max(np.abs(residuals.array)) < 0.01:
+                    n_good += 1
+
+            self.assertGreater(n_good, n_good_test)
+
 
 if __name__ == "__main__":
     unittest.main()
-
