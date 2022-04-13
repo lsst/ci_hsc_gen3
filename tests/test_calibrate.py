@@ -21,15 +21,15 @@
 
 import os
 import unittest
-import numpy as np
 
-from lsst.daf.butler import Butler
 import lsst.utils.tests
-
+import numpy as np
+from lsst.ci.hsc.gen3.tests import MockCheckMixin
+from lsst.daf.butler import Butler
 from lsst.utils import getPackageDir
 
 
-class TestCalibrateOutputs(lsst.utils.tests.TestCase):
+class TestCalibrateOutputs(lsst.utils.tests.TestCase, MockCheckMixin):
     """Test the output data products of calibrate task make sense
 
     This is a regression test and not intended for scientific validation
@@ -38,6 +38,7 @@ class TestCalibrateOutputs(lsst.utils.tests.TestCase):
     def setUp(self):
         self.butler = Butler(os.path.join(getPackageDir("ci_hsc_gen3"), "DATA"),
                              writeable=False, collections=["HSC/runs/ci_hsc"])
+        self.skip_mock()
         self.dataId = {"instrument": "HSC", "detector": 100, "visit": 903334}
         self.calexp = self.butler.get("calexp", self.dataId)
         self.src = self.butler.get("src", self.dataId)

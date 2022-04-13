@@ -16,3 +16,4 @@ CALIB
 shared
 gen3.sqlite3
 DATA
+*.pyc

@@ -18,22 +18,22 @@
 #
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
+
+import numbers
 import os
 import unittest
-import numbers
-import numpy as np
 
-from lsst.daf.butler import Butler
+import lsst.afw.image
 import lsst.geom as geom
 import lsst.meas.algorithms
-import lsst.afw.image
-
+import numpy as np
+from lsst.ci.hsc.gen3 import DATA_IDS
+from lsst.ci.hsc.gen3.tests import MockCheckMixin
+from lsst.daf.butler import Butler
 from lsst.utils import getPackageDir
 
-from lsst.ci.hsc.gen3 import DATA_IDS
 
-
-class TestCoaddOutputs(unittest.TestCase):
+class TestCoaddOutputs(unittest.TestCase, MockCheckMixin):
     """Check that coadd outputs are as expected.
 
     Many tests here are ported from
@@ -44,7 +44,7 @@ class TestCoaddOutputs(unittest.TestCase):
         self.butler = Butler(os.path.join(getPackageDir("ci_hsc_gen3"), "DATA"),
                              instrument="HSC", skymap="discrete/ci_hsc",
                              writeable=False, collections=["HSC/runs/ci_hsc"])
-
+        self.skip_mock()
         self._tract = 0
         self._patch = 69
         self._bands = ['r', 'i']
