@@ -21,14 +21,13 @@
 import os
 import unittest
 
+from lsst.ci.hsc.gen3 import DATA_IDS
+from lsst.ci.hsc.gen3.tests import MockCheckMixin
 from lsst.daf.butler import Butler
-
 from lsst.utils import getPackageDir
 
-from lsst.ci.hsc.gen3 import DATA_IDS
 
-
-class TestValidateOutputs(unittest.TestCase):
+class TestValidateOutputs(unittest.TestCase, MockCheckMixin):
     """Check that ci_hsc_gen3 outputs are as expected."""
 
     def setUp(self):
@@ -76,6 +75,9 @@ class TestValidateOutputs(unittest.TestCase):
             Additional keywords to send to ``additional_checks``.
         """
         for dataset_type in dataset_types:
+
+            self.skip_mock(dataset_type)
+
             datasets = set(self.butler.registry.queryDatasets(dataset_type))
 
             self.assertEqual(len(datasets), n_expected, msg=f"Number of {dataset_type}")
@@ -106,6 +108,9 @@ class TestValidateOutputs(unittest.TestCase):
             Additional keywords to send to ``additional_checks``.
         """
         for source_dataset_type in source_dataset_types:
+
+            self.skip_mock(source_dataset_type)
+
             datasets = set(self.butler.registry.queryDatasets(source_dataset_type))
 
             self.assertEqual(len(datasets), n_expected, msg=f"Number of {source_dataset_type}")

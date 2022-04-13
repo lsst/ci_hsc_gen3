@@ -22,14 +22,14 @@
 import os
 import unittest
 
-from lsst.geom import Box2I, Point2I
-from lsst.daf.butler import Butler, DataCoordinate
 import lsst.utils.tests
-
+from lsst.ci.hsc.gen3.tests import MockCheckMixin
+from lsst.daf.butler import Butler, DataCoordinate
+from lsst.geom import Box2I, Point2I
 from lsst.utils import getPackageDir
 
 
-class TestFilterLabelFixups(lsst.utils.tests.TestCase):
+class TestFilterLabelFixups(lsst.utils.tests.TestCase, MockCheckMixin):
     """Tests for the logic in
     lsst.obs.base.formatters.fitsExposure.FitsExposureFormatter._fixFilterLabels
     that uses the data ID passed to a formatter to fix and/or check the
@@ -66,15 +66,6 @@ class TestFilterLabelFixups(lsst.utils.tests.TestCase):
         # Parameters with bbox to test that logic still works on subimage gets.
         self.parameters = {"bbox": Box2I(Point2I(0, 0), Point2I(8, 7))}
 
-    def _skipMock(self, datasetType="_mock_calexp"):
-        """Skip the test if mock dataset type exists"""
-        try:
-            # if mock dataset type exists then skip the test
-            self.butler.registry.getDatasetType(datasetType)
-            raise unittest.SkipTest("Skipping due to mock dataset type present")
-        except KeyError:
-            pass
-
     def testReadingOldFileWithIncompleteDataId(self):
         """If we try to read an old flat with an incomplete data ID, we should
         get a warning.  It is unspecified what the FilterLabel will have in
@@ -106,7 +97,7 @@ class TestFilterLabelFixups(lsst.utils.tests.TestCase):
         reader should recognize that it can't check the filters and just trust
         the file.
         """
-        self._skipMock()
+        self.skip_mock()
         calexp = self.butler.get("calexp", self.calexpMinimalDataId)
         calexpFilterLabel = self.butler.get("calexp.filterLabel", self.calexpMinimalDataId)
         self.assertTrue(calexp.getFilterLabel().hasPhysicalLabel())
@@ -120,7 +111,7 @@ class TestFilterLabelFixups(lsst.utils.tests.TestCase):
         should check the filters in the file for consistency with the data ID
         (and in this case, find them consistent).
         """
-        self._skipMock()
+        self.skip_mock()
         calexpFullDataId = self.butler.registry.expandDataId(self.calexpMinimalDataId)
         calexp = self.butler.get("calexp", calexpFullDataId)
         self.assertEqual(calexp.getFilterLabel().bandLabel, calexpFullDataId["band"])
@@ -137,7 +128,7 @@ class TestFilterLabelFixups(lsst.utils.tests.TestCase):
         (and in this case, find them inconsistent, which should result in
         warnings and returning what's in the data ID).
         """
-        self._skipMock()
+        self.skip_mock()
         calexpBadDataId = DataCoordinate.standardize(
             self.calexpMinimalDataId,
             band="g",
