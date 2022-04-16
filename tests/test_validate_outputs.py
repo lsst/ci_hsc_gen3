@@ -407,8 +407,8 @@ class TestValidateOutputs(unittest.TestCase, MockCheckMixin):
         """Test existence of dia source tables."""
         self.check_pipetasks(["consolidateAssocDiaSourceTable"], 1, 1)
         self.check_pipetasks(["consolidateDiaSourceTable"], self._num_visits, self._num_visits)
-        self.check_sources(["diaSourceTable"], self._num_visits, self._min_sources)
-        self.check_sources(["diaSourceTable_tract"], self._num_tracts, self._min_sources)
+        self.check_sources(["diaSourceTable"], self._num_visits, self._min_sources//2)
+        self.check_sources(["diaSourceTable_tract"], self._num_tracts, self._min_sources//2)
 
     def test_forced_source_tables(self):
         """Test existence of forces source tables."""
@@ -428,7 +428,7 @@ class TestValidateOutputs(unittest.TestCase, MockCheckMixin):
         )
         self.check_sources(["forced_diff_diaObject"], self._num_exposures_good_templates, self._min_sources)
         # There are fewer forced sources
-        self.check_sources(["forced_src_diaObject"], self._num_exposures, self._min_sources/2)
+        self.check_sources(["forced_src_diaObject"], self._num_exposures, self._min_sources//4)
         self.check_datasets(["forced_diff_diaObject_schema", "forced_src_diaObject_schema"], 1)
 
     def test_skymap(self):
