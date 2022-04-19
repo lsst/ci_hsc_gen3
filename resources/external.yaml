@@ -48,21 +48,10 @@ data:
   timespan_end: null
 - type: collection
   collection_type: RUN
-  name: refcats/gen2
-  host: null
-  timespan_begin: null
-  timespan_end: null
-- type: collection
-  collection_type: RUN
   name: skymaps
   host: null
   timespan_begin: null
   timespan_end: null
-- type: collection
-  collection_type: CHAINED
-  name: refcats
-  children:
-  - refcats/gen2
 - type: collection
   collection_type: CHAINED
   name: HSC/defaults
@@ -1325,28 +1314,6 @@ data:
       tract: 0
       visit: 904014
     path: jointcal/jointcal_wcs-0904014-012.fits
-    formatter: lsst.obs.base.formatters.fitsGeneric.FitsGenericFormatter
-- type: dataset_type
-  name: ps1_pv3_3pi_20170110
-  dimensions:
-  - htm7
-  storage_class: SimpleCatalog
-  is_calibration: false
-- type: dataset
-  dataset_type: ps1_pv3_3pi_20170110
-  run: refcats/gen2
-  records:
-  - dataset_id:
-    - 1011
-    data_id:
-    - htm7: 189584
-    path: ps1_pv3_3pi_20170110/189584.fits
-    formatter: lsst.obs.base.formatters.fitsGeneric.FitsGenericFormatter
-  - dataset_id:
-    - 1012
-    data_id:
-    - htm7: 189648
-    path: ps1_pv3_3pi_20170110/189648.fits
     formatter: lsst.obs.base.formatters.fitsGeneric.FitsGenericFormatter
 - type: dataset_type
   name: sky
