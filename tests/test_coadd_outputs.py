@@ -233,6 +233,12 @@ class TestCoaddOutputs(unittest.TestCase, MockCheckMixin):
                 det_record.getPsf().computeKernelImage(center).array,
                 final_psf_cat.find(det_record["ccd"]).getPsf().computeKernelImage(center).array
             )
+            input_map = det_record.getApCorrMap()
+            final_map = final_psf_cat.find(det_record["ccd"]).getApCorrMap()
+            self.assertEqual(len(input_map), len(final_map))
+            for key in input_map.keys():
+                self.assertEqual(input_map[key], final_map[key])
+            self.assertIsNotNone(coadd_inputs.visits.find(det_record["visit"]))
 
     def test_coadd_inputs(self):
         """Test that the coadds have the correct inputs."""
@@ -280,6 +286,11 @@ class TestCoaddOutputs(unittest.TestCase, MockCheckMixin):
                 det_record.getPsf().computeKernelImage(center).array,
                 final_psf_cat.find(det_record["ccd"]).getPsf().computeKernelImage(center).array
             )
+            input_map = det_record.getApCorrMap()
+            final_map = final_psf_cat.find(det_record["ccd"]).getApCorrMap()
+            self.assertEqual(len(input_map), len(final_map))
+            for key in input_map.keys():
+                self.assertEqual(input_map[key], final_map[key])
             self.assertIsNotNone(coadd_inputs.visits.find(det_record["visit"]))
 
     def test_psf_installation(self):
