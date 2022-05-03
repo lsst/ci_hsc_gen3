@@ -209,16 +209,15 @@ class TestCoaddOutputs(unittest.TestCase, MockCheckMixin):
                 visit=visit_record.getId(),
                 tract=self._tract
             )
+            final_psf_cat = self.butler.get(
+                "finalized_psf_ap_corr_catalog",
+                visit=visit_record.getId()
+            )
 
             # We only need to test one input ccd
             det_record = coadd_inputs.ccds[0]
             exp_bbox = self.butler.get(
                 "calexp.bbox",
-                visit=det_record["visit"],
-                detector=det_record["ccd"]
-            )
-            exp_psf = self.butler.get(
-                "calexp.psf",
                 visit=det_record["visit"],
                 detector=det_record["ccd"]
             )
@@ -230,12 +229,16 @@ class TestCoaddOutputs(unittest.TestCase, MockCheckMixin):
             self.assertEqual(det_record.getBBox(), exp_bbox)
             self.assertIsNotNone(det_record.getTransmissionCurve())
             center = det_record.getBBox().getCenter()
-            # TODO: DM-34391 This needs to be updated to the "final" psf
-            # when that is made the default.
             np.testing.assert_array_almost_equal(
                 det_record.getPsf().computeKernelImage(center).array,
-                exp_psf.computeKernelImage(center).array
+                final_psf_cat.find(det_record["ccd"]).getPsf().computeKernelImage(center).array
             )
+            input_map = det_record.getApCorrMap()
+            final_map = final_psf_cat.find(det_record["ccd"]).getApCorrMap()
+            self.assertEqual(len(input_map), len(final_map))
+            for key in input_map.keys():
+                self.assertEqual(input_map[key], final_map[key])
+            self.assertIsNotNone(coadd_inputs.visits.find(det_record["visit"]))
 
     def test_coadd_inputs(self):
         """Test that the coadds have the correct inputs."""
@@ -262,13 +265,12 @@ class TestCoaddOutputs(unittest.TestCase, MockCheckMixin):
                 visit=det_record["visit"],
                 tract=self._tract
             )
+            final_psf_cat = self.butler.get(
+                "finalized_psf_ap_corr_catalog",
+                visit=det_record["visit"]
+            )
             exp_bbox = self.butler.get(
                 "calexp.bbox",
-                visit=det_record["visit"],
-                detector=det_record["ccd"]
-            )
-            exp_psf = self.butler.get(
-                "calexp.psf",
                 visit=det_record["visit"],
                 detector=det_record["ccd"]
             )
@@ -280,12 +282,15 @@ class TestCoaddOutputs(unittest.TestCase, MockCheckMixin):
             self.assertEqual(det_record.getBBox(), exp_bbox)
             self.assertIsNotNone(det_record.getTransmissionCurve())
             center = det_record.getBBox().getCenter()
-            # TODO: DM-34391 This needs to be updated to the "final" psf
-            # when that is made the default.
             np.testing.assert_array_almost_equal(
                 det_record.getPsf().computeKernelImage(center).array,
-                exp_psf.computeKernelImage(center).array
+                final_psf_cat.find(det_record["ccd"]).getPsf().computeKernelImage(center).array
             )
+            input_map = det_record.getApCorrMap()
+            final_map = final_psf_cat.find(det_record["ccd"]).getApCorrMap()
+            self.assertEqual(len(input_map), len(final_map))
+            for key in input_map.keys():
+                self.assertEqual(input_map[key], final_map[key])
             self.assertIsNotNone(coadd_inputs.visits.find(det_record["visit"]))
 
     def test_psf_installation(self):
