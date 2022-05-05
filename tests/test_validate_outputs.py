@@ -149,7 +149,7 @@ class TestValidateOutputs(unittest.TestCase, MockCheckMixin):
     def test_source_tables(self):
         """Test existence of source tables."""
         self.check_pipetasks(
-            ["writeSourceTable", "transformSourceTable"],
+            ["writeRecalibratedSourceTable", "transformSourceTable"],
             self._num_exposures,
             self._num_exposures
         )
