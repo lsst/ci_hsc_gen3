@@ -40,6 +40,7 @@ INPUTCOLL=HSC/defaults
 FAKES_COLLECTION=HSC/runs/ci_hsc_fakes
 FARO_COLLECTION=HSC/runs/ci_hsc_faro
 RESOURCE_USAGE_COLLECTION=HSC/runs/ci_hsc_resource_usage
+HIPS_COLLECTION=HSC/runs/ci_hsc_hips
 
 export DYLD_LIBRARY_PATH="$LSST_LIBRARY_PATH"
 # exercise saving of the generated quantum graph to a file and reading it back
@@ -54,6 +55,9 @@ trap 'rm -f $FARO_QGRAPH_FILE' EXIT
 
 RESOURCE_USAGE_QGRAPH_FILE=$(mktemp)_resource_usage.qgraph
 trap 'rm -f $RESOURCE_USAGE_QGRAPH_FILE' EXIT
+
+HIPS_QGRAPH_FILE=$(mktemp)_hips.qgraph
+trap 'rm -f $HIPS_QGRAPH_FILE' EXIT
 
 pipetask --long-log --log-level="$loglevel" qgraph \
     -d "skymap='discrete/ci_hsc' AND tract=0 AND patch=69" \
@@ -101,3 +105,14 @@ pipetask --long-log --log-level="$loglevel" run \
     --output "$RESOURCE_USAGE_COLLECTION" \
     --register-dataset-types $mock \
     -g "$RESOURCE_USAGE_QGRAPH_FILE"
+
+# The output from this is unused, but this will exercise that the code runs.
+build-high-resolution-hips-qg segment -b "$repo" -p "$CI_HSC_GEN3_DIR/resources/highres_hips.yaml" -i "$COLLECTION"
+
+build-high-resolution-hips-qg build -b "$repo" -p "$CI_HSC_GEN3_DIR/resources/highres_hips.yaml" -i "$COLLECTION" --pixels 18 -q "$HIPS_QGRAPH_FILE"
+
+pipetask --long-log --log-level="$loglevel" run \
+    -j "$jobs" -b "$repo"/butler.yaml \
+    --output "$HIPS_COLLECTION" \
+    --register-dataset-types $mock \
+    -g "$HIPS_QGRAPH_FILE"
