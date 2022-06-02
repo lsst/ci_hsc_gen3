@@ -260,10 +260,20 @@ class TestValidateOutputs(unittest.TestCase, MockCheckMixin):
         self.check_datasets(["deepCoadd_calexp"], self._num_patches*self._num_bands)
         self.check_sources(
             ["deepCoadd_det",
-             "deepCoadd_deblendedFlux",
              "deepCoadd_meas"],
             n_output,
             self._min_sources
+        )
+
+        self.check_sources(
+            ["deepCoadd_deblendedCatalog"],
+            self._num_patches,
+            self._min_sources
+        )
+
+        self.check_datasets(
+            ["deepCoadd_scarletModelData"],
+            self._num_patches,
         )
 
         def check_propagated_flags(catalog, **kwargs):
