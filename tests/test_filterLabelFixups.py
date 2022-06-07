@@ -76,7 +76,7 @@ class TestFilterLabelFixups(lsst.utils.tests.TestCase, MockCheckMixin):
         with self.assertWarns(Warning):
             self.butler.get("flat", self.flatMinimalDataId, parameters=self.parameters)
         with self.assertWarns(Warning):
-            self.butler.get("flat.filterLabel", self.flatMinimalDataId)
+            self.butler.get("flat.filter", self.flatMinimalDataId)
 
     def testFixingReadingOldFile(self):
         """If we read an old flat with a complete data ID, we fix the
@@ -86,7 +86,7 @@ class TestFilterLabelFixups(lsst.utils.tests.TestCase, MockCheckMixin):
         flat = self.butler.get("flat", flatFullDataId)
         self.assertEqual(flat.getFilterLabel().bandLabel, flatFullDataId["band"])
         self.assertEqual(flat.getFilterLabel().physicalLabel, flatFullDataId["physical_filter"])
-        flatFilterLabel = self.butler.get("flat.filterLabel", flatFullDataId)
+        flatFilterLabel = self.butler.get("flat.filter", flatFullDataId)
         self.assertEqual(flatFilterLabel.bandLabel, flatFullDataId["band"])
         self.assertEqual(flatFilterLabel.physicalLabel, flatFullDataId["physical_filter"])
         flatSub = self.butler.get("flat", flatFullDataId, parameters=self.parameters)
@@ -99,7 +99,7 @@ class TestFilterLabelFixups(lsst.utils.tests.TestCase, MockCheckMixin):
         """
         self.skip_mock()
         calexp = self.butler.get("calexp", self.calexpMinimalDataId)
-        calexpFilterLabel = self.butler.get("calexp.filterLabel", self.calexpMinimalDataId)
+        calexpFilterLabel = self.butler.get("calexp.filter", self.calexpMinimalDataId)
         self.assertTrue(calexp.getFilterLabel().hasPhysicalLabel())
         self.assertTrue(calexp.getFilterLabel().hasBandLabel())
         self.assertEqual(calexp.getFilterLabel(), calexpFilterLabel)
@@ -116,7 +116,7 @@ class TestFilterLabelFixups(lsst.utils.tests.TestCase, MockCheckMixin):
         calexp = self.butler.get("calexp", calexpFullDataId)
         self.assertEqual(calexp.getFilterLabel().bandLabel, calexpFullDataId["band"])
         self.assertEqual(calexp.getFilterLabel().physicalLabel, calexpFullDataId["physical_filter"])
-        calexpFilterLabel = self.butler.get("calexp.filterLabel", calexpFullDataId)
+        calexpFilterLabel = self.butler.get("calexp.filter", calexpFullDataId)
         self.assertEqual(calexpFilterLabel.bandLabel, calexpFullDataId["band"])
         self.assertEqual(calexpFilterLabel.physicalLabel, calexpFullDataId["physical_filter"])
         calexpSub = self.butler.get("calexp", calexpFullDataId, parameters=self.parameters)
@@ -150,7 +150,7 @@ class TestFilterLabelFixups(lsst.utils.tests.TestCase, MockCheckMixin):
         with self.assertWarns(Warning):
             calexp = self.butler.get("calexp", calexpBadDataId)
         with self.assertWarns(Warning):
-            calexpFilterLabel = self.butler.get("calexp.filterLabel", calexpBadDataId)
+            calexpFilterLabel = self.butler.get("calexp.filter", calexpBadDataId)
         self.assertEqual(calexp.getFilterLabel(), calexpFilterLabel)
         self.assertEqual(calexp.getFilterLabel().bandLabel, calexpBadDataId["band"])
         self.assertEqual(calexp.getFilterLabel().physicalLabel, calexpBadDataId["physical_filter"])
