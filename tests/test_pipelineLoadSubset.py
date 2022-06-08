@@ -46,6 +46,9 @@ class PipelineLoadSubsetTest(unittest.TestCase):
                 class: lsst.pipe.tasks.deblendCoaddSourcesPipeline.DeblendCoaddSourcesSingleTask
               measure:
                 class: lsst.pipe.tasks.multiBand.MeasureMergedCoaddSourcesTask
+                config:
+                - inputCatalog: deblendedFlux
+                - doAddFootprints: false
               mergeMeasurements:
                 class: lsst.pipe.tasks.mergeMeasurements.MergeMeasurementsTask
                 config:
