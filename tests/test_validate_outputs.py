@@ -440,16 +440,6 @@ class TestValidateOutputs(unittest.TestCase, MockCheckMixin):
         self.check_pipetasks(["skyCorr"], self._num_visits, self._num_visits)
         self.check_datasets(["skyCorr"], self._num_exposures)
 
-    def test_faro(self):
-        """Test faro outputs."""
-        self.check_pipetasks(["nsrcMeasVisit", "TE3", "TE4"], self._num_visits, self._num_visits)
-        self.check_datasets(
-            ["metricvalue_info_nsrcMeasVisit",
-             "metricvalue_validate_drp_TE3",
-             "metricvalue_validate_drp_TE4"],
-            self._num_visits
-        )
-
     def check_aperture_corrections(self, catalog, **kwargs):
         for alg in ("base_PsfFlux", "base_GaussianFlux"):
             self.assertTrue(f"{alg}_apCorr" in catalog.schema, msg=f"{alg}_apCorr in schema")
