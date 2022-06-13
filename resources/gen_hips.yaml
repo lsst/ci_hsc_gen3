@@ -1,0 +1,21 @@
+description: Run GenerateHipsTask
+instrument: lsst.obs.subaru.HyperSuprimeCam
+tasks:
+  generateHips:
+    class: lsst.pipe.tasks.hips.GenerateHipsTask
+    config:
+      python: |
+        config.properties.creator_did_template = "temp://lsst/ci_hsc/hips/images/band_{band}"
+        config.properties.obs_title_template = "CI HSC for band {band}"
+        config.properties.obs_description_template = "Coadded data from ci_hsc, band {band}."
+        config.properties.prov_progenitor = ["Coadded data from the ci_hsc test dataset.",
+                                             "HiPS generation: internal pre-release code (https://pipelines.lsst.io/v/w_2022_22/index.html)"]
+  generateColorHips:
+    class: lsst.pipe.tasks.hips.GenerateColorHipsTask
+    config:
+      python: |
+        config.properties.creator_did_template = "temp://lsst/ci_hsc/hips/images/color_gri"
+        config.properties.obs_title_template = "CI HSC: gri color visualization"
+        config.properties.obs_description_template = "Color visualization of coadded data from ci_imsim (red: band i, green: band r, blue: band g) with a hue-preserving stretch."
+        config.properties.prov_progenitor = ["Coadded data from the ci_hsc test dataset.",
+                                             "HiPS generation: internal pre-release code (https://pipelines.lsst.io/v/w_2022_22/index.html)"]
