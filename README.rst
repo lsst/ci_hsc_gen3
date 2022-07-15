@@ -30,12 +30,8 @@ One way to accomplish this is as follows::
 Running the tests
 -----------------
 
-Execute ``scons``. On a Mac running OSX 10.11 or greater, you must specify a
-Python interpreter followed by a full path to ``scons``::
-
-  $ python $(which scons)
-
-On other systems, simply running ``scons`` should be sufficient.
+Execute ``scons -jN``, where ``N`` is the number of CPU cores to use.
+Note that running these tests can take a few hours, depending on the speed of your machine and the number of cores available.
 
 This will create a butler repository at ``DATA/``, ingest the raw data into ``HSC/raw/all``, create a chained ``HSC/defaults`` collection for all of the input data, and write the output of the pipeline run to ``HSC/runs/ci_hsc``.
 It will also run various checks of the data integrity of the processed output.
