@@ -37,6 +37,9 @@ Python interpreter followed by a full path to ``scons``::
 
 On other systems, simply running ``scons`` should be sufficient.
 
+This will create a butler repository at ``DATA/``, ingest the raw data into ``HSC/raw/all``, create a chained ``HSC/defaults`` collection for all of the input data, and write the output of the pipeline run to ``HSC/runs/ci_hsc``.
+It will also run various checks of the data integrity of the processed output.
+
 Cleaning up
 -----------
 After each run of this test, and before the next the repository should be cleaned as follows (with appropriate
