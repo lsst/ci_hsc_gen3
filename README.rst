@@ -35,6 +35,7 @@ Note that running these tests can take a few hours, depending on the speed of yo
 
 This will create a butler repository at ``DATA/``, ingest the raw data into ``HSC/raw/all``, create a chained ``HSC/defaults`` collection for all of the input data, and write the output of the pipeline run to ``HSC/runs/ci_hsc``.
 It will also run various checks of the data integrity of the processed output.
+The resulting repository in ``DATA/`` will take up about 18GB.
 
 Cleaning up
 -----------
