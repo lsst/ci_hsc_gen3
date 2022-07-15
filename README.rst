@@ -1,15 +1,16 @@
-==========
-``ci_hsc_gen3``
-==========
+######
+ci_hsc
+######
 
-``gen2_ci_hsc`` provides scripts which use the LSST stack to perform single frame and coadd processing based
-on engineering test data from Hyper Suprime-Cam.
+``ci_hsc`` provides scripts which use the LSST stack to perform single frame and coadd processing based on engineering test data from Hyper Suprime-Cam.
 
 Obtaining test data
 ===================
 
-The data used by ``gen2_ci_hsc`` is linked against data installed by ``testdata_ci_hsc``, please
-setup that package before running scons on this one.
+``ci_hsc`` uses the the files in `testdata_ci_hsc`_ to run its tests.
+That package must be setup first, before running ``scons`` (see below).
+
+.. _testdata_ci_hsc: https://github.com/lsst/testdata_ci_hsc/
 
 Running the tests
 =================
@@ -17,10 +18,14 @@ Running the tests
 Set up the package
 ------------------
 
-The package must be set up in the usual way before running::
+Both `testdata_ci_hsc`_ both and ``ci_hsc`` must be setup in eups in order to run the tests in this package.
+One way to accomplish this is as follows::
 
-  $ cd ci_hsc_gen3
-  $ setup -j -r .
+  $ cd PATH_TO_TESTDATA_CI_HSC
+  $ setup -r .
+  $ cd PATH_TO_CI_HSC
+  $ setup -kr .
+
 
 Running the tests
 -----------------
