@@ -1,5 +1,4 @@
 setupRequired(ctrl_mpexec)
-setupRequired(daf_persistence)
 setupRequired(faro)
 setupRequired(log)
 setupRequired(meas_algorithms)
