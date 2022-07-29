@@ -409,7 +409,11 @@ class TestValidateOutputs(unittest.TestCase, MockCheckMixin):
 
     def test_image_difference(self):
         """Test existence of image differences."""
-        self.check_pipetasks(["imageDifference"], self._num_exposures, self._num_exposures)
+        self.check_pipetasks(
+            ["subtractImages", "detectAndMeasureDiaSources"],
+            self._num_exposures,
+            self._num_exposures
+        )
         self.check_datasets(["goodSeeingDiff_differenceExp"], self._num_exposures_good_templates)
         self.check_datasets(["goodSeeingDiff_diaSrc_schema"], 1)
 
