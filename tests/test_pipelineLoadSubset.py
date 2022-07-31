@@ -21,7 +21,7 @@ class PipelineLoadSubsetTest(unittest.TestCase):
               calibrate:
                 class: lsst.pipe.tasks.calibrate.CalibrateTask
               makeWarpTask:
-                class: lsst.pipe.tasks.makeCoaddTempExp.MakeWarpTask
+                class: lsst.pipe.tasks.makeWarp.MakeWarpTask
                 config:
                 - python: config.warpAndPsfMatch.psfMatch.kernel['AL'].alardSigGauss = [1.0, 2.0,
                     4.5]
