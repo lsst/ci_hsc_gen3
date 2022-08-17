@@ -116,3 +116,12 @@ pipetask --long-log --log-level="$loglevel" run \
     --output "$HIPS_COLLECTION" \
     --register-dataset-types $mock \
     -g "$HIPS_QGRAPH_FILE"
+
+pipetask --long-log --log-level="$loglevel" run \
+    -j "$jobs" -b "$repo"/butler.yaml \
+    -i "$HIPS_COLLECTION" \
+    --output "$HIPS_COLLECTION" \
+    -p "$CI_HSC_GEN3_DIR/resources/gen_hips.yaml" \
+    -c "generateHips:hips_base_uri=$repo/hips" \
+    -c "generateColorHips:hips_base_uri=$repo/hips" \
+    --register-dataset-types $mock
