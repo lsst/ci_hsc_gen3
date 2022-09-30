@@ -53,3 +53,12 @@ DATA_IDS = [
     {'visit': 903988, 'detector': 23, 'physical_filter': 'HSC-I'},
     {'visit': 903988, 'detector': 24, 'physical_filter': 'HSC-I'},
 ]
+# The following lists the dataIds that fail the astrometry check with
+# the config override calibrate.astrometry.maxMeanDistanceArcsec=0.025
+# set.  This list is sensitive to the astrometry algorithms and dataset
+# under consideration, so may require updating if either of those change
+# in the context of this repository.
+ASTROMETRY_FALURE_DATA_IDS = [
+    {'visit': 903344, 'detector': 0, 'physical_filter': 'HSC-R'},
+    {'visit': 903346, 'detector': 1, 'physical_filter': 'HSC-R'},
+]
