@@ -237,7 +237,10 @@ class TestValidateOutputs(unittest.TestCase, MockCheckMixin):
              "deepCoadd_psf_maglim_map_weighted_mean",
              "deepCoadd_psf_size_map_weighted_mean",
              "deepCoadd_sky_background_map_weighted_mean",
-             "deepCoadd_sky_noise_map_weighted_mean"],
+             "deepCoadd_sky_noise_map_weighted_mean",
+             "deepCoadd_epoch_map_mean",
+             "deepCoadd_epoch_map_min",
+             "deepCoadd_epoch_map_max"],
             self._num_tracts*self._num_bands
         )
         self.check_datasets(
@@ -251,7 +254,10 @@ class TestValidateOutputs(unittest.TestCase, MockCheckMixin):
              "deepCoadd_psf_maglim_consolidated_map_weighted_mean",
              "deepCoadd_psf_size_consolidated_map_weighted_mean",
              "deepCoadd_sky_background_consolidated_map_weighted_mean",
-             "deepCoadd_sky_noise_consolidated_map_weighted_mean"],
+             "deepCoadd_sky_noise_consolidated_map_weighted_mean",
+             "deepCoadd_epoch_consolidated_map_mean",
+             "deepCoadd_epoch_consolidated_map_min",
+             "deepCoadd_epoch_consolidated_map_max"],
             self._num_bands
         )
 
