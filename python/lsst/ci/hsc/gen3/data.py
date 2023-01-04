@@ -58,7 +58,15 @@ DATA_IDS = [
 # set.  This list is sensitive to the astrometry algorithms and dataset
 # under consideration, so may require updating if either of those change
 # in the context of this repository.
-ASTROMETRY_FALURE_DATA_IDS = [
+ASTROMETRY_FAILURE_DATA_IDS = [
     {'visit': 903344, 'detector': 0, 'physical_filter': 'HSC-R'},
     {'visit': 903346, 'detector': 1, 'physical_filter': 'HSC-R'},
+]
+# The following lists the dataIds that fail the PSF Model robustness check
+# with the config override makeWarp.select.maxPsfTraceRadiusDelta=0.2 set.
+# This list is sensitive to (at least) the PSF algorithms and dataset under
+# consideration, so may require updating if either of those change in the
+# context of this repository.
+PSF_MODEL_ROBUSTNESS_FAILURE_DATA_IDS = [
+    {'visit': 903334, 'detector': 22, 'physical_filter': 'HSC-R'},
 ]

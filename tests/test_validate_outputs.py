@@ -21,7 +21,7 @@
 import os
 import unittest
 
-from lsst.ci.hsc.gen3 import DATA_IDS, ASTROMETRY_FALURE_DATA_IDS
+from lsst.ci.hsc.gen3 import DATA_IDS, ASTROMETRY_FAILURE_DATA_IDS
 from lsst.ci.hsc.gen3.tests import MockCheckMixin
 from lsst.daf.butler import Butler
 from lsst.utils import getPackageDir
@@ -36,7 +36,7 @@ class TestValidateOutputs(unittest.TestCase, MockCheckMixin):
                              writeable=False, collections=["HSC/runs/ci_hsc"])
 
         self._num_exposures = len(DATA_IDS)
-        self._num_forced_astrom_failures = len(ASTROMETRY_FALURE_DATA_IDS)
+        self._num_forced_astrom_failures = len(ASTROMETRY_FAILURE_DATA_IDS)
         self._num_exposures_good_templates = 29
         self._num_visits = len({data_id["visit"] for data_id in DATA_IDS})
         self._num_tracts = 1
