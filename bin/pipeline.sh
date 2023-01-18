@@ -64,6 +64,7 @@ pipetask --long-log --log-level="$loglevel" qgraph \
     -b "$repo"/butler.yaml \
     --input "$INPUTCOLL" --output "$COLLECTION" \
     -p "$DRP_PIPE_DIR/pipelines/HSC/DRP-ci_hsc.yaml" \
+    -c makeWarp:select.maxPsfTraceRadiusDelta=0.2 \
     --save-qgraph "$QGRAPH_FILE"
 
 pipetask --long-log --log-level="$loglevel" run \

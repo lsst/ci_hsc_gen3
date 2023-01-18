@@ -53,3 +53,11 @@ DATA_IDS = [
     {'visit': 903988, 'detector': 23, 'physical_filter': 'HSC-I'},
     {'visit': 903988, 'detector': 24, 'physical_filter': 'HSC-I'},
 ]
+# The following lists the dataIds that fail the PSF Model robustness check
+# with the config override makeWarp.select.maxPsfTraceRadiusDelta=0.2 set.
+# This list is sensitive to (at least) the PSF algorithms and dataset under
+# consideration, so may require updating if either of those change in the
+# context of this repository.
+PSF_MODEL_ROBUSTNESS_FAILURE_DATA_IDS = [
+    {'visit': 903334, 'detector': 22, 'physical_filter': 'HSC-R'},
+]
