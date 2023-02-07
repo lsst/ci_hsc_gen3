@@ -200,7 +200,7 @@ class TestCoaddOutputs(unittest.TestCase, MockCheckMixin):
             self.assertGreater(len(coadd_inputs.ccds), 0)
 
             wcs_cat = self.butler.get(
-                "jointcalSkyWcsCatalog",
+                "gbdesAstrometricFitSkyWcsCatalog",
                 visit=visit_record.getId(),
                 tract=self._tract
             )
@@ -256,7 +256,7 @@ class TestCoaddOutputs(unittest.TestCase, MockCheckMixin):
             # We only need to test one input ccd
             det_record = coadd_inputs.ccds[0]
             wcs_cat = self.butler.get(
-                "jointcalSkyWcsCatalog",
+                "gbdesAstrometricFitSkyWcsCatalog",
                 visit=det_record["visit"],
                 tract=self._tract
             )
