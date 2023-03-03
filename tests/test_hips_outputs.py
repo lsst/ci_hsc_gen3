@@ -50,7 +50,7 @@ class TestHipsOutputs(unittest.TestCase, MockCheckMixin):
             for dataset in datasets:
                 self.assertTrue(self.butler.datastore.exists(dataset), msg="File exists for deepCoadd_hpx")
 
-            exp = self.butler.getDirect(list(datasets)[0])
+            exp = self.butler.get(list(datasets)[0])
 
             self.assertEqual(exp.wcs.getFitsMetadata()["CTYPE1"], "RA---HPX")
             self.assertEqual(exp.wcs.getFitsMetadata()["CTYPE2"], "DEC--HPX")

@@ -87,7 +87,7 @@ class TestValidateOutputs(unittest.TestCase, MockCheckMixin):
                 self.assertTrue(self.butler.datastore.exists(dataset), msg=f"File exists for {dataset}")
 
                 if additional_checks:
-                    data = self.butler.getDirect(dataset)
+                    data = self.butler.get(dataset)
                     for additional_check in additional_checks:
                         additional_check(data, **kwargs)
 
@@ -117,7 +117,7 @@ class TestValidateOutputs(unittest.TestCase, MockCheckMixin):
             self.assertEqual(len(datasets), n_expected, msg=f"Number of {source_dataset_type}")
 
             for dataset in datasets:
-                catalog = self.butler.getDirect(dataset)
+                catalog = self.butler.get(dataset)
                 self.assertGreater(len(catalog), min_src, msg=f"Number of sources in {dataset}")
 
                 for additional_check in additional_checks:
