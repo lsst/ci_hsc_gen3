@@ -190,7 +190,7 @@ class TestCoaddOutputs(unittest.TestCase, MockCheckMixin):
             # We only need to test one dataset
             dataset = list(datasets)[0]
 
-            warp = self.butler.getDirect(dataset)
+            warp = self.butler.get(dataset)
             self.assertEqual(warp.wcs, tract_info.wcs)
             coadd_inputs = warp.getInfo().getCoaddInputs()
             self.assertEqual(len(coadd_inputs.visits), 1)
