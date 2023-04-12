@@ -291,6 +291,12 @@ class TestValidateOutputs(unittest.TestCase):
             self._num_bands
         )
 
+    def check_strip_footprints(self, catalog):
+        """Test that heavy footprints were stripped from the catalog."""
+        children = catalog[catalog["parent"] != 0]
+        for child in children:
+            self.assertEqual(child.getFootprint(), None)
+
     def test_coadd_detection(self):
         """Test existence of coadd detection catalogs."""
         n_output = self._num_patches*self._num_bands
@@ -306,7 +312,8 @@ class TestValidateOutputs(unittest.TestCase):
             ["deepCoadd_det",
              "deepCoadd_meas"],
             n_output,
-            self._min_sources
+            self._min_sources,
+            additional_checks=[self.check_strip_footprints]
         )
 
         self.check_sources(
@@ -450,7 +457,7 @@ class TestValidateOutputs(unittest.TestCase):
             ["deepCoadd_forced_src"],
             n_output,
             self._min_sources,
-            additional_checks=[self.check_aperture_corrections]
+            additional_checks=[self.check_aperture_corrections, self.check_strip_footprints]
         )
 
     def test_forced_phot_dia(self):
