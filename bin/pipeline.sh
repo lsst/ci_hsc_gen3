@@ -102,7 +102,7 @@ pipetask --long-log --log-level="$loglevel" run \
     --register-dataset-types $mock \
     --qgraph "$FARO_QGRAPH_FILE"
 
-build-gather-resource-usage-qg "$repo" "$RESOURCE_USAGE_QGRAPH_FILE" "$COLLECTION"
+build-gather-resource-usage-qg --output "$RESOURCE_USAGE_COLLECTION" "$repo" "$RESOURCE_USAGE_QGRAPH_FILE" "$COLLECTION"
 
 pipetask --long-log --log-level="$loglevel" run \
     -j "$jobs" -b "$repo"/butler.yaml \
@@ -113,7 +113,10 @@ pipetask --long-log --log-level="$loglevel" run \
 # The output from this is unused, but this will exercise that the code runs.
 build-high-resolution-hips-qg segment -b "$repo" -p "$CI_HSC_GEN3_DIR/resources/highres_hips.yaml" -i "$COLLECTION"
 
-build-high-resolution-hips-qg build -b "$repo" -p "$CI_HSC_GEN3_DIR/resources/highres_hips.yaml" -i "$COLLECTION" --pixels 18 -q "$HIPS_QGRAPH_FILE"
+build-high-resolution-hips-qg build \
+    -b "$repo" -p "$CI_HSC_GEN3_DIR/resources/highres_hips.yaml" \
+    -i "$COLLECTION" --output "$HIPS_COLLECTION" \
+    --pixels 18 -q "$HIPS_QGRAPH_FILE"
 
 pipetask --long-log --log-level="$loglevel" run \
     -j "$jobs" -b "$repo"/butler.yaml \
