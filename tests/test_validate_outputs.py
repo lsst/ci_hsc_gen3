@@ -381,7 +381,9 @@ class TestValidateOutputs(unittest.TestCase, MockCheckMixin):
             ["forced_src"],
             self._num_exposures,
             self._min_sources,
-            additional_checks=[self.check_aperture_corrections]
+            additional_checks=[self.check_aperture_corrections],
+            # We only measure psfFlux in single-detector forced photometry.
+            aperture_algorithms=("base_PsfFlux", ),
         )
         self.check_datasets(["forced_src_schema"], 1)
         # Despite the two detectors with SFM astrometric failures, the external
@@ -503,8 +505,9 @@ class TestValidateOutputs(unittest.TestCase, MockCheckMixin):
         self.check_pipetasks(["skyCorr"], self._num_visits, self._num_visits)
         self.check_datasets(["skyCorr"], self._num_exposures)
 
-    def check_aperture_corrections(self, catalog, **kwargs):
-        for alg in ("base_PsfFlux", "base_GaussianFlux"):
+    def check_aperture_corrections(self, catalog, aperture_algorithms=("base_PsfFlux", "base_GaussianFlux"),
+                                   **kwargs):
+        for alg in aperture_algorithms:
             self.assertTrue(f"{alg}_apCorr" in catalog.schema, msg=f"{alg}_apCorr in schema")
             self.assertTrue(f"{alg}_apCorrErr" in catalog.schema, msg=f"{alg}_apCorrErr in schema")
             self.assertTrue(f"{alg}_flag_apCorr" in catalog.schema, msg=f"{alg}_flag_apCorr in schema")
