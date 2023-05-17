@@ -74,7 +74,7 @@ class PrerequisiteConnectionLookupFunctionTest(unittest.TestCase):
         pipeline.addTask(LookupTestPipelineTask, "test")
 
         graphBuilder = pipeBase.GraphBuilder(butler.registry)
-        graph = graphBuilder.makeGraph(pipeline, ["HSC/calib"], None, None)
+        graph = graphBuilder.makeGraph(pipeline, ["HSC/calib"], "output/run", None)
         outputs = list(graph)
         # verify the graph contains no datasetRefs for brighter fatter kernels
         # instead of the datasetRefs that exist in the registry.

@@ -45,19 +45,12 @@ HIPS_COLLECTION=HSC/runs/ci_hsc_hips
 export DYLD_LIBRARY_PATH="$LSST_LIBRARY_PATH"
 # exercise saving of the generated quantum graph to a file and reading it back
 QGRAPH_FILE=$(mktemp).qgraph
-trap 'rm -f $QGRAPH_FILE' EXIT
-
 FAKES_QGRAPH_FILE=$(mktemp)_fakes.qgraph
-trap 'rm -f $FAKES_QGRAPH_FILE' EXIT
-
 FARO_QGRAPH_FILE=$(mktemp)_faro.qgraph
-trap 'rm -f $FARO_QGRAPH_FILE' EXIT
-
 RESOURCE_USAGE_QGRAPH_FILE=$(mktemp)_resource_usage.qgraph
-trap 'rm -f $RESOURCE_USAGE_QGRAPH_FILE' EXIT
-
 HIPS_QGRAPH_FILE=$(mktemp)_hips.qgraph
-trap 'rm -f $HIPS_QGRAPH_FILE' EXIT
+
+trap 'rm -f $QGRAPH_FILE $FAKES_QGRAPH_FILE $FARO_QGRAPH_FILE $RESOURCE_USAGE_QGRAPH_FILE $HIPS_QGRAPH_FILE' EXIT
 
 pipetask --long-log --log-level="$loglevel" qgraph \
     -d "skymap='discrete/ci_hsc' AND tract=0 AND patch=69" \
