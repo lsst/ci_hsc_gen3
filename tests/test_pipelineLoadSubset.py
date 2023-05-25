@@ -62,7 +62,7 @@ class PipelineLoadSubsetTest(unittest.TestCase):
                   doApplyExternalSkyWcs: false
                   doApplySkyCorr: false
               forcedPhotCoadd:
-                class: lsst.meas.base.forcedPhotCoadd.ForcedPhotCoaddTask
+                class: lsst.drp.tasks.forcedPhotCoadd.ForcedPhotCoaddTask
             """)
         self.temp_pipeline_name = ""
         while not self.temp_pipeline_name:
