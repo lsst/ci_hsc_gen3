@@ -10,6 +10,7 @@ Obtaining test data
 ``ci_hsc`` uses the the files in `testdata_ci_hsc`_ to run its tests.
 That package must be setup first, before running ``scons`` (see below).
 
+ .. _testdata_ci_hsc: https://github.com/lsst/testdata_ci_hsc/
 
 Running the tests
 =================
@@ -69,4 +70,6 @@ If the problem occurs in one of the fakes or faro pipeline runs, the following c
 Cleaning up
 -----------
 After each run of this test (and, in particular, before re-running it), the repository should be cleaned as follows::
- $ scons --clean
+
+  $ scons --clean
+
