@@ -47,8 +47,9 @@ class TestHipsOutputs(unittest.TestCase, MockCheckMixin):
             # There are 64 HIPS images for each band.
             self.assertEqual(len(datasets), 64)
 
+            stored = self.butler.stored_many(datasets)
             for dataset in datasets:
-                self.assertTrue(self.butler.datastore.exists(dataset), msg="File exists for deepCoadd_hpx")
+                self.assertTrue(stored[dataset], msg="File exists for deepCoadd_hpx")
 
             exp = self.butler.get(list(datasets)[0])
 
