@@ -8,7 +8,7 @@ import lsst.utils.tests
 from lsst.utils import getPackageDir
 
 
-class PrerequisiteLookupFunctionTestException(Exception):
+class PrerequisiteLookupFunctionTestError(Exception):
     """An exception class to clearly identify when an unexpected situation
     has occurred in the test for prerequisite input lookup functions.
     """
@@ -25,7 +25,7 @@ def lookupFunctionTester(datasetType, registry, quantumDataId, collections):
     # Verify that brighter fatter kernels could be found in the registry
     # as to not have this test pass due to some unrelated error
     if result is None:
-        raise PrerequisiteLookupFunctionTestException(
+        raise PrerequisiteLookupFunctionTestError(
             f"No bfKernels found in registry for {quantumDataId}, but there should be some."
         )
     # instead of returning the datasetRefs, return something clearly different,
