@@ -55,13 +55,13 @@ class TestFilterLabelFixups(lsst.utils.tests.TestCase, MockCheckMixin):
         # doesn't know.
         self.flatMinimalDataId = DataCoordinate.standardize(
             instrument="HSC", detector=0, physical_filter="HSC-R",
-            universe=self.butler.registry.dimensions,
+            universe=self.butler.dimensions,
         )
         # For a calexp, the minimal data ID just has exposure and detector,
         # so both band and physical_filter are implied and not known here.
         self.calexpMinimalDataId = DataCoordinate.standardize(
             instrument="HSC", detector=100, visit=903334,
-            universe=self.butler.registry.dimensions,
+            universe=self.butler.dimensions,
         )
         # Parameters with bbox to test that logic still works on subimage gets.
         self.parameters = {"bbox": Box2I(Point2I(0, 0), Point2I(8, 7))}
