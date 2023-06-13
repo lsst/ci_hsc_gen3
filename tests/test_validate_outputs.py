@@ -83,8 +83,9 @@ class TestValidateOutputs(unittest.TestCase, MockCheckMixin):
 
             self.assertEqual(len(datasets), n_expected, msg=f"Number of {dataset_type}")
 
+            stored = self.butler.stored_many(datasets)
             for dataset in datasets:
-                self.assertTrue(self.butler.datastore.exists(dataset), msg=f"File exists for {dataset}")
+                self.assertTrue(stored[dataset], msg=f"File exists for {dataset}")
 
                 if additional_checks:
                     data = self.butler.get(dataset)

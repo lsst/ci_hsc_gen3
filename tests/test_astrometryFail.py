@@ -42,7 +42,7 @@ class TestAstrometryFails(lsst.utils.tests.TestCase):
         self.visit = 903344
         self.calexpMinimalDataId = DataCoordinate.standardize(
             instrument="HSC", detector=self.detector, visit=self.visit,
-            universe=self.butler.registry.dimensions,
+            universe=self.butler.dimensions,
         )
 
     def tearDown(self):

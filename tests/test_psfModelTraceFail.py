@@ -41,7 +41,7 @@ class TestPsfModelTraceRadiusFails(lsst.utils.tests.TestCase):
         self.band = "r"
         self.coaddDataId = DataCoordinate.standardize(
             instrument="HSC", skymap=self.skymap, tract=self.tract, patch=self.patch, band=self.band,
-            universe=self.butler.registry.dimensions,
+            universe=self.butler.dimensions,
         )
 
     def tearDown(self):
