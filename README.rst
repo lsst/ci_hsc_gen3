@@ -57,11 +57,7 @@ After fixing any problems, the processing can be resumed with the following comm
 Debugging Other Runs
 --------------------
 
-If the problem occurs in one of the fakes or faro pipeline runs, the following calls may be of use.
-
-.. code-block:: bash
-
-   pipetask run -b DATA -j 1 -i HSC/runs/ci_hsc_fakes -o u/USER/testing -p "${DRP_PIPE_DIR}/pipelines/HSC/DRP-ci_hsc+fakes.yaml#taskLabelToRerun" -d "skymap='discrete/ci_hsc' AND tract=0 AND patch=69"
+If the problem occurs in the faro pipeline run, the following call may be of use.
 
 .. code-block:: bash
 
