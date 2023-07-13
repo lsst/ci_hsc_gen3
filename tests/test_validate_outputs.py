@@ -487,15 +487,9 @@ class TestValidateOutputs(unittest.TestCase, MockCheckMixin):
             self._min_sources
         )
         # There are fewer forced sources
-        self.check_sources(
-            ["forced_src_diaObject"],
-            self._num_exposures - self._num_forced_astrom_failures,
-            self._min_sources//4)
+        self.check_sources(["forced_src_diaObject"], self._num_exposures, self._min_sources//4)
         self.check_datasets(["forced_diff_diaObject_schema", "forced_src_diaObject_schema"], 1)
-        self.check_datasets(
-            ["forced_src_diaObject"],
-            self._num_exposures - self._num_forced_astrom_failures
-        )
+        self.check_datasets(["forced_src_diaObject"], self._num_exposures)
 
     def test_skymap(self):
         """Test existence of skymap."""

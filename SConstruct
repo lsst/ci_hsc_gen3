@@ -135,11 +135,7 @@ external = env.Command([Dir(os.path.join(REPO_ROOT, "HSC", "masks")),
                                          env.ProductDir("testdata_ci_hsc"),
                                          "--export-file", os.path.join(PKG_ROOT, "resources",
                                                                        "external_jointcal.yaml")),
-
-                        getExecutableCmd("daf_butler", "butler", "import", REPO_ROOT,
-                                         env.ProductDir("testdata_ci_hsc"),
-                                         "--export-file", os.path.join(PKG_ROOT, "resources",
-                                                                       "external_fakes.yaml"))])
+                        ])
 env.Alias("external", external)
 
 # Use name ingest to run everything up to but not including running the
