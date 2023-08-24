@@ -68,7 +68,7 @@ pipetask --long-log --log-level="$loglevel" run \
     --qgraph "$QGRAPH_FILE"
 
 pipetask --long-log --log-level="$loglevel" qgraph \
-    -d "skymap='discrete/ci_hsc' AND tract=0 AND patch=69" \
+    -d "skymap='discrete/ci_hsc' AND tract=0 AND patch=69 AND band in ('r', 'i')" \
     -b "$repo"/butler.yaml \
     --input "$COLLECTION" --output "$FARO_COLLECTION" \
     -p "$FARO_DIR"/pipelines/metrics_pipeline.yaml \
