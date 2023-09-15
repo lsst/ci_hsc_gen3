@@ -107,6 +107,7 @@ visits = env.Command(os.path.join(REPO_ROOT, "visits"), [raws],
                                        "--collections", "HSC/raw/all"),
                      Touch(os.path.join(REPO_ROOT, "visits"))])
 
+# TODO: DM-40797 Remove Gaia DR2 once it is no longer needed for analysis_tools
 external = env.Command([Dir(os.path.join(REPO_ROOT, "HSC", "masks")),
                         Dir(os.path.join(REPO_ROOT, "refcats")),
                         Dir(os.path.join(REPO_ROOT, "HSC", "external"))],
@@ -117,6 +118,13 @@ external = env.Command([Dir(os.path.join(REPO_ROOT, "HSC", "masks")),
                                          "--prefix", TESTDATA_ROOT,
                                          REPO_ROOT, "gaia_dr2_20200414", "refcats",
                                          os.path.join(TESTDATA_ROOT, "gaia_dr2_20200414.ecsv")),
+
+                        getExecutableCmd("daf_butler", "butler", "register-dataset-type", REPO_ROOT,
+                                         "gaia_dr3_20230707", "SimpleCatalog", "htm7"),
+                        getExecutableCmd("daf_butler", "butler", "ingest-files",
+                                         "--prefix", TESTDATA_ROOT,
+                                         REPO_ROOT, "gaia_dr3_20230707", "refcats",
+                                         os.path.join(TESTDATA_ROOT, "gaia_dr3_20230707.ecsv")),
 
                         getExecutableCmd("daf_butler", "butler", "register-dataset-type", REPO_ROOT,
                                          "ps1_pv3_3pi_20170110", "SimpleCatalog", "htm7"),
