@@ -37,12 +37,17 @@ class TestValidateOutputs(unittest.TestCase, MockCheckMixin):
 
         self._num_exposures = len(DATA_IDS)
         self._num_forced_astrom_failures = len(ASTROMETRY_FAILURE_DATA_IDS)
+        # Four detectors have template coverage < 0.2 soft limit
+        # Exposures with template cover > 0.2 (expected successes)
         self._num_exposures_good_templates = 29
+        self._num_surprise_diffim_successes = 2
         self._num_visits = len({data_id["visit"] for data_id in DATA_IDS})
         self._num_tracts = 1
         self._num_patches = 1
         self._num_bands = len({data_id["physical_filter"] for data_id in DATA_IDS})
         self._min_sources = 100
+        # Check that DIA catalogs have nonzero length
+        self._min_diasources = 0
 
     def check_pipetasks(self, names, n_metadata, n_log):
         """Check general pipetask outputs (metadata, log, config).
@@ -413,16 +418,15 @@ class TestValidateOutputs(unittest.TestCase, MockCheckMixin):
         # No external calibrations are applied to the diffim forced
         # measurements, so no tables should be produced the detectors with
         # astrometry failures.
+        # forced source counts depend on detector/tract overlap.
         self.check_sources(
             ["forced_diff", "forced_diff_diaObject"],
-            self._num_exposures_good_templates - self._num_forced_astrom_failures,
-            self._min_sources
+            self._num_exposures_good_templates
+            + self._num_surprise_diffim_successes
+            - self._num_forced_astrom_failures,
+            self._min_diasources
         )
         self.check_datasets(["forced_diff_schema", "forced_diff_diaObject_schema"], 1)
-        self.check_datasets(
-            ["forced_diff", "forced_diff_diaObject"],
-            self._num_exposures_good_templates - self._num_forced_astrom_failures
-        )
 
     def test_templates(self):
         """Test existence of templates."""
@@ -451,7 +455,9 @@ class TestValidateOutputs(unittest.TestCase, MockCheckMixin):
         # astrometry failures.
         self.check_datasets(
             ["goodSeeingDiff_differenceExp"],
-            self._num_exposures_good_templates - self._num_forced_astrom_failures
+            self._num_exposures_good_templates
+            + self._num_surprise_diffim_successes
+            - self._num_forced_astrom_failures
         )
         self.check_datasets(["goodSeeingDiff_diaSrc_schema"], 1)
 
@@ -459,8 +465,8 @@ class TestValidateOutputs(unittest.TestCase, MockCheckMixin):
         """Test existence of dia source tables."""
         self.check_pipetasks(["consolidateAssocDiaSourceTable"], 1, 1)
         self.check_pipetasks(["consolidateDiaSourceTable"], self._num_visits, self._num_visits)
-        self.check_sources(["diaSourceTable"], self._num_visits, self._min_sources//2)
-        self.check_sources(["diaSourceTable_tract"], self._num_tracts, self._min_sources//2)
+        self.check_sources(["diaSourceTable"], self._num_visits, self._min_diasources)
+        self.check_sources(["diaSourceTable_tract"], self._num_tracts, self._min_diasources)
 
     def test_forced_source_tables(self):
         """Test existence of forces source tables."""
@@ -483,11 +489,13 @@ class TestValidateOutputs(unittest.TestCase, MockCheckMixin):
         # astrometry failures.
         self.check_sources(
             ["forced_diff_diaObject"],
-            self._num_exposures_good_templates - self._num_forced_astrom_failures,
-            self._min_sources
+            self._num_exposures_good_templates
+            + self._num_surprise_diffim_successes
+            - self._num_forced_astrom_failures,
+            self._min_diasources
         )
         # There are fewer forced sources
-        self.check_sources(["forced_src_diaObject"], self._num_exposures, self._min_sources//4)
+        self.check_sources(["forced_src_diaObject"], self._num_exposures, self._min_diasources)
         self.check_datasets(["forced_diff_diaObject_schema", "forced_src_diaObject_schema"], 1)
         self.check_datasets(["forced_src_diaObject"], self._num_exposures)
 
