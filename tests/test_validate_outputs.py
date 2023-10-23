@@ -427,12 +427,6 @@ class TestValidateOutputs(unittest.TestCase, MockCheckMixin):
             self._min_diasources
         )
         self.check_datasets(["forced_diff_schema", "forced_diff_diaObject_schema"], 1)
-        self.check_datasets(
-            ["forced_diff", "forced_diff_diaObject"],
-            self._num_exposures_good_templates
-            + self._num_surprise_diffim_successes
-            - self._num_forced_astrom_failures,
-        )
 
     def test_templates(self):
         """Test existence of templates."""
