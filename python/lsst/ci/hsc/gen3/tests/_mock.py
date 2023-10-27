@@ -61,7 +61,7 @@ class MockCheckMixin:
             raise ValueError("No butler instance provided")
         try:
             # check for mock dataset type
-            butler.registry.getDatasetType(f"_mock_{dataset_type}")
+            butler.get_dataset_type(f"_mock_{dataset_type}")
             return True
         except KeyError:
             return False
