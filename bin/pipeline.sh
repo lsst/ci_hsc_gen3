@@ -37,6 +37,8 @@ repo=$1
 
 COLLECTION=HSC/runs/ci_hsc
 INPUTCOLL=HSC/defaults
+INJECTION_COLLECTION=HSC/runs/ci_hsc_injection
+INJECTION_INPUTCOLL=injection_catalogs
 FARO_COLLECTION=HSC/runs/ci_hsc_faro
 RESOURCE_USAGE_COLLECTION=HSC/runs/ci_hsc_resource_usage
 HIPS_COLLECTION=HSC/runs/ci_hsc_hips
@@ -44,11 +46,13 @@ HIPS_COLLECTION=HSC/runs/ci_hsc_hips
 export DYLD_LIBRARY_PATH="$LSST_LIBRARY_PATH"
 # exercise saving of the generated quantum graph to a file and reading it back
 QGRAPH_FILE=$(mktemp).qgraph
+INJECTION_QGRAPH_FILE=$(mktemp)_injection.qgraph
 FARO_QGRAPH_FILE=$(mktemp)_faro.qgraph
 RESOURCE_USAGE_QGRAPH_FILE=$(mktemp)_resource_usage.qgraph
 HIPS_QGRAPH_FILE=$(mktemp)_hips.qgraph
 
-trap 'rm -f $QGRAPH_FILE $FARO_QGRAPH_FILE $RESOURCE_USAGE_QGRAPH_FILE $HIPS_QGRAPH_FILE' EXIT
+trap 'rm -f $QGRAPH_FILE $INJECTION_QGRAPH_FILE $FARO_QGRAPH_FILE $RESOURCE_USAGE_QGRAPH_FILE \
+$HIPS_QGRAPH_FILE' EXIT
 
 pipetask --long-log --log-level="$loglevel" qgraph \
     -d "skymap='discrete/ci_hsc' AND tract=0 AND patch=69" \
@@ -66,6 +70,19 @@ pipetask --long-log --log-level="$loglevel" run \
     --input "$INPUTCOLL" --output "$COLLECTION" \
     --register-dataset-types $mock \
     --qgraph "$QGRAPH_FILE"
+
+pipetask --long-log --log-level="$loglevel" qgraph \
+    -d "skymap='discrete/ci_hsc' AND tract=0 AND patch=69" \
+    -b "$repo"/butler.yaml \
+    --input "$COLLECTION","$INJECTION_INPUTCOLL" --output "$INJECTION_COLLECTION" \
+    -p "$repo"/DRP-ci_hsc+injection.yaml \
+    --save-qgraph "$INJECTION_QGRAPH_FILE"
+
+pipetask --long-log --log-level="$loglevel" run \
+    -j "$jobs" -b "$repo"/butler.yaml \
+    --input "$COLLECTION","$INJECTION_INPUTCOLL" --output "$INJECTION_COLLECTION" \
+    --register-dataset-types $mock \
+    --qgraph "$INJECTION_QGRAPH_FILE"
 
 pipetask --long-log --log-level="$loglevel" qgraph \
     -d "skymap='discrete/ci_hsc' AND tract=0 AND patch=69 AND band in ('r', 'i')" \
