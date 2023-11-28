@@ -50,9 +50,8 @@ class TestSchemaMatch(lsst.utils.tests.TestCase, MockCheckMixin):
         self.assertEqual(len(sdmSchema), 1)
         expectedColumnNames = set(column['name'] for column in sdmSchema[0]['columns'])
 
-        df = self.butler.get(dataset, dataId)
-        df.reset_index(inplace=True)
-        outputColumnNames = set(df.columns.to_list())
+        df = self.butler.get(dataset, dataId, storageClass="ArrowAstropy")
+        outputColumnNames = set(df.colnames)
         self.assertEqual(outputColumnNames, expectedColumnNames)
 
     def testObjectSchemaMatch(self):
