@@ -133,7 +133,7 @@ class TestFilterLabelFixups(lsst.utils.tests.TestCase, MockCheckMixin):
             self.calexpMinimalDataId,
             band="g",
             physical_filter="HSC-G",
-            visit_system=0,
+            day_obs=20240101,
         )
         self.assertTrue(calexpBadDataId.hasFull())
 
