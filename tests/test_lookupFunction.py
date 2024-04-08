@@ -5,6 +5,7 @@ import lsst.daf.butler as dafButler
 import lsst.pipe.base as pipeBase
 import lsst.utils.tests
 
+from lsst.pipe.base.all_dimensions_quantum_graph_builder import AllDimensionsQuantumGraphBuilder
 from lsst.utils import getPackageDir
 
 
@@ -73,8 +74,10 @@ class PrerequisiteConnectionLookupFunctionTest(unittest.TestCase):
         pipeline = pipeBase.Pipeline("Test LookupFunction Pipeline")
         pipeline.addTask(LookupTestPipelineTask, "test")
 
-        graphBuilder = pipeBase.GraphBuilder(butler.registry)
-        graph = graphBuilder.makeGraph(pipeline, ["HSC/calib"], "output/run", None)
+        graphBuilder = AllDimensionsQuantumGraphBuilder(
+            pipeline.to_graph(), butler, input_collections=["HSC/calib"], output_run="output/run"
+        )
+        graph = graphBuilder.build()
         outputs = list(graph)
         # verify the graph contains no datasetRefs for brighter fatter kernels
         # instead of the datasetRefs that exist in the registry.
