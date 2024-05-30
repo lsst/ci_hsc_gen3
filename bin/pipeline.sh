@@ -62,7 +62,7 @@ pipetask --long-log --log-level="$loglevel" qgraph \
     -c calibrate:astrometry.maxMeanDistanceArcsec=0.025 \
     -c calibrate:requireAstrometry=False \
     -c calibrate:requirePhotoCal=False \
-    -c makeWarp:select.maxPsfTraceRadiusDelta=0.2 \
+    -c makeDirectWarp:select.maxPsfTraceRadiusDelta=0.2 \
     --save-qgraph "$QGRAPH_FILE"
 
 pipetask --long-log --log-level="$loglevel" run \
