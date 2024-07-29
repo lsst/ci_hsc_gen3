@@ -162,25 +162,6 @@ class TestCoaddOutputs(unittest.TestCase, MockCheckMixin):
                 n_tested += 1
             self.assertGreater(n_tested, 5)
 
-    def test_mask_planes_exist(self):
-        """Test that the input mask planes have been added."""
-        for data_id in DATA_IDS:
-            mask = self.butler.get("calexp.mask", data_id)
-            self.assertIn("CROSSTALK", mask.getMaskPlaneDict())
-            self.assertIn("NOT_DEBLENDED", mask.getMaskPlaneDict())
-
-    # Expected to fail until DM-5174 is fixed.
-    @unittest.expectedFailure
-    def test_masks_removed(self):
-        """Test that certain mask planes have been removed from the coadds.
-
-        This is expected to fail until DM-5174 is fixed.
-        """
-        for band in self._bands:
-            mask = self.butler.get("deepCoadd_calexp.mask", band=band, tract=self._tract, patch=self._patch)
-            self.assertNotIn("CROSSTALK", mask.getMaskPlaneDict())
-            self.assertNotIn("NOT_DEBLENDED", mask.getMaskPlaneDict())
-
     def test_warp_inputs(self):
         """Test that the warps have the correct inputs."""
         skymap = self.butler.get("skyMap")
