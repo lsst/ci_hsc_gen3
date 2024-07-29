@@ -82,6 +82,10 @@ class TestCalibrateOutputs(lsst.utils.tests.TestCase, MockCheckMixin):
                                 - record['base_LocalWcs_CDMatrix_2_1']*record['base_LocalWcs_CDMatrix_1_2'])))
 
 
+def setup_module(module):
+    lsst.utils.tests.init()
+
+
 if __name__ == "__main__":
     lsst.utils.tests.init()
     unittest.main()

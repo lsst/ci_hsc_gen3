@@ -65,6 +65,10 @@ class TestSchemaMatch(lsst.utils.tests.TestCase, MockCheckMixin):
         self._validateSchema("sourceTable_visit", dataId, "Source")
 
 
+def setup_module(module):
+    lsst.utils.tests.init()
+
+
 if __name__ == "__main__":
     lsst.utils.tests.init()
     unittest.main()
