@@ -149,10 +149,10 @@ class TestValidateOutputs(unittest.TestCase, MockCheckMixin):
         "Test existence of raw exposures."""
         self.check_datasets(["raw"], len(self._raws))
 
-    def test_isr_characterize_calibrate(self):
+    def test_isr_calibrateImage(self):
         """Test existence of isr/calibration related files."""
         self.check_pipetasks(
-            ["isr", "characterizeImage", "calibrate"],
+            ["isr", "calibrateImage"],
             len(self._raws),
             len(self._raws)
         )
@@ -160,7 +160,7 @@ class TestValidateOutputs(unittest.TestCase, MockCheckMixin):
             ["postISRCCD", "icExp", "icExpBackground", "icSrc", "calexp", "calexpBackground"],
             len(self._raws)
         )
-        self.check_datasets(["icSrc_schema", "src_schema"], 1)
+        self.check_datasets(["initial_stars_schema"], 1)
         self.check_sources(
             ["src"],
             len(self._raws),
@@ -172,7 +172,7 @@ class TestValidateOutputs(unittest.TestCase, MockCheckMixin):
     def test_source_tables(self):
         """Test existence of source tables."""
         self.check_pipetasks(
-            ["writeRecalibratedSourceTable", "transformSourceTable"],
+            ["reprocessVisitImage", "transformSourceTable"],
             len(self._raws),
             len(self._raws)
         )
@@ -184,13 +184,6 @@ class TestValidateOutputs(unittest.TestCase, MockCheckMixin):
         """Test existence of visit summaries."""
         self.check_pipetasks(["consolidateVisitSummary"], self._num_visits, self._num_visits)
         self.check_datasets(["visitSummary"], self._num_visits)
-
-    def test_match_catalogs(self):
-        """Test existence of srcMatch and srcMatchFull catalogs."""
-        self.check_datasets(
-            ["srcMatch", "srcMatchFull"],
-            len(self._raws - self._forced_astrom_failures)
-        )
 
     def test_isolated_star_association(self):
         """Test existence of isolated star tables."""
