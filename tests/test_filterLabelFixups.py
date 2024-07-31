@@ -41,7 +41,7 @@ class TestFilterLabelFixups(lsst.utils.tests.TestCase, MockCheckMixin):
     This test lives here instead of obs_base because it relies on having
     Exposure FITS files written both before and after standardization in a Gen3
     butler, something trivial to obtain here: the flats are old (from
-    testdata_ci_hsc) - while calexps are new (written by Gen3 pipelines).
+    testdata_ci_hsc) - while pvis are new (written by Gen3 pipelines).
     And this package already has the dependency on a concrete obs package
     (obs_subaru in this case) necessary to set up a full butler repository,
     something that obs_base can by definition never have.
@@ -57,9 +57,9 @@ class TestFilterLabelFixups(lsst.utils.tests.TestCase, MockCheckMixin):
             instrument="HSC", detector=0, physical_filter="HSC-R",
             universe=self.butler.dimensions,
         )
-        # For a calexp, the minimal data ID just has exposure and detector,
+        # For a pvi, the minimal data ID just has exposure and detector,
         # so both band and physical_filter are implied and not known here.
-        self.calexpMinimalDataId = DataCoordinate.standardize(
+        self.pviMinimalDataId = DataCoordinate.standardize(
             instrument="HSC", detector=100, visit=903334,
             universe=self.butler.dimensions,
         )
@@ -93,72 +93,72 @@ class TestFilterLabelFixups(lsst.utils.tests.TestCase, MockCheckMixin):
         self.assertEqual(flat.getFilter(), flatSub.getFilter())
 
     def testReadingNewFileWithIncompleteDataId(self):
-        """If we try to read a new calexp with an incomplete data ID, the
+        """If we try to read a new initial_pvi with an incomplete data ID, the
         reader should recognize that it can't check the filters and just trust
         the file.
         """
         self.skip_mock()
-        calexp = self.butler.get("calexp", self.calexpMinimalDataId)
-        calexpFilterLabel = self.butler.get("calexp.filter", self.calexpMinimalDataId)
-        self.assertTrue(calexp.getFilter().hasPhysicalLabel())
-        self.assertTrue(calexp.getFilter().hasBandLabel())
-        self.assertEqual(calexp.getFilter(), calexpFilterLabel)
-        calexpSub = self.butler.get("calexp", self.calexpMinimalDataId, parameters=self.parameters)
-        self.assertEqual(calexp.getFilter(), calexpSub.getFilter())
+        pvi = self.butler.get("initial_pvi", self.pviMinimalDataId)
+        pviFilterLabel = self.butler.get("initial_pvi.filter", self.pviMinimalDataId)
+        self.assertTrue(pvi.getFilter().hasPhysicalLabel())
+        self.assertTrue(pvi.getFilter().hasBandLabel())
+        self.assertEqual(pvi.getFilter(), pviFilterLabel)
+        pviSub = self.butler.get("initial_pvi", self.pviMinimalDataId, parameters=self.parameters)
+        self.assertEqual(pvi.getFilter(), pviSub.getFilter())
 
     def testReadingNewFileWithFullDataId(self):
-        """If we try to read a new calexp with a full data ID, the reader
+        """If we try to read a new pvi with a full data ID, the reader
         should check the filters in the file for consistency with the data ID
         (and in this case, find them consistent).
         """
         self.skip_mock()
-        calexpFullDataId = self.butler.registry.expandDataId(self.calexpMinimalDataId)
-        calexp = self.butler.get("calexp", calexpFullDataId)
-        self.assertEqual(calexp.getFilter().bandLabel, calexpFullDataId["band"])
-        self.assertEqual(calexp.getFilter().physicalLabel, calexpFullDataId["physical_filter"])
-        calexpFilterLabel = self.butler.get("calexp.filter", calexpFullDataId)
-        self.assertEqual(calexpFilterLabel.bandLabel, calexpFullDataId["band"])
-        self.assertEqual(calexpFilterLabel.physicalLabel, calexpFullDataId["physical_filter"])
-        calexpSub = self.butler.get("calexp", calexpFullDataId, parameters=self.parameters)
-        self.assertEqual(calexp.getFilter(), calexpSub.getFilter())
+        pviFullDataId = self.butler.registry.expandDataId(self.pviMinimalDataId)
+        pvi = self.butler.get("initial_pvi", pviFullDataId)
+        self.assertEqual(pvi.getFilter().bandLabel, pviFullDataId["band"])
+        self.assertEqual(pvi.getFilter().physicalLabel, pviFullDataId["physical_filter"])
+        pviFilterLabel = self.butler.get("initial_pvi.filter", pviFullDataId)
+        self.assertEqual(pviFilterLabel.bandLabel, pviFullDataId["band"])
+        self.assertEqual(pviFilterLabel.physicalLabel, pviFullDataId["physical_filter"])
+        pviSub = self.butler.get("initial_pvi", pviFullDataId, parameters=self.parameters)
+        self.assertEqual(pvi.getFilter(), pviSub.getFilter())
 
     def testReadingBadNewFileWithFullDataId(self):
-        """If we try to read a new calexp with a full data ID, the reader
+        """If we try to read a new pvi with a full data ID, the reader
         should check the filters in the file for consistency with the data ID
         (and in this case, find them inconsistent, which should result in
         warnings and returning what's in the data ID).
         """
         self.skip_mock()
-        calexpBadDataId = DataCoordinate.standardize(
-            self.calexpMinimalDataId,
+        pviBadDataId = DataCoordinate.standardize(
+            self.pviMinimalDataId,
             band="g",
             physical_filter="HSC-G",
             day_obs=20240101,
         )
-        self.assertTrue(calexpBadDataId.hasFull())
+        self.assertTrue(pviBadDataId.hasFull())
 
-        # Some tests are only relevant when reading full calexps.
+        # Some tests are only relevant when reading full pvis.
         # By definition a disassembled exposure will have a correct
         # filterlabel written out.
         # In this situation the test becomes moot since the filterLabel
         # formatter will not force a correct filter label into an
         # incorrect filter label based on DataId.
-        _, components = self.butler.getURIs("calexp", calexpBadDataId)
+        _, components = self.butler.getURIs("initial_pvi", pviBadDataId)
         if components:
             raise unittest.SkipTest("Test not relevant because composite has been disassembled")
 
         with self.assertWarns(Warning):
-            calexp = self.butler.get("calexp", calexpBadDataId)
+            pvi = self.butler.get("initial_pvi", pviBadDataId)
         with self.assertWarns(Warning):
-            calexpFilterLabel = self.butler.get("calexp.filter", calexpBadDataId)
-        self.assertEqual(calexp.getFilter(), calexpFilterLabel)
-        self.assertEqual(calexp.getFilter().bandLabel, calexpBadDataId["band"])
-        self.assertEqual(calexp.getFilter().physicalLabel, calexpBadDataId["physical_filter"])
-        self.assertEqual(calexpFilterLabel.bandLabel, calexpBadDataId["band"])
-        self.assertEqual(calexpFilterLabel.physicalLabel, calexpBadDataId["physical_filter"])
+            pviFilterLabel = self.butler.get("initial_pvi.filter", pviBadDataId)
+        self.assertEqual(pvi.getFilter(), pviFilterLabel)
+        self.assertEqual(pvi.getFilter().bandLabel, pviBadDataId["band"])
+        self.assertEqual(pvi.getFilter().physicalLabel, pviBadDataId["physical_filter"])
+        self.assertEqual(pviFilterLabel.bandLabel, pviBadDataId["band"])
+        self.assertEqual(pviFilterLabel.physicalLabel, pviBadDataId["physical_filter"])
         with self.assertWarns(Warning):
-            calexpSub = self.butler.get("calexp", calexpBadDataId, parameters=self.parameters)
-        self.assertEqual(calexp.getFilter(), calexpSub.getFilter())
+            pviSub = self.butler.get("initial_pvi", pviBadDataId, parameters=self.parameters)
+        self.assertEqual(pvi.getFilter(), pviSub.getFilter())
 
 
 def setup_module(module):

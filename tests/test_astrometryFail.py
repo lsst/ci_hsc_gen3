@@ -40,7 +40,7 @@ class TestAstrometryFails(lsst.utils.tests.TestCase):
         # the pipeline.
         self.detector = 0
         self.visit = 903344
-        self.calexpMinimalDataId = DataCoordinate.standardize(
+        self.pviMinimalDataId = DataCoordinate.standardize(
             instrument="HSC", detector=self.detector, visit=self.visit,
             universe=self.butler.dimensions,
         )
@@ -57,20 +57,20 @@ class TestAstrometryFails(lsst.utils.tests.TestCase):
         An exposure with a failed astrometric fit should have WCS and
         photoCalib set to None.
         """
-        calexp = self.butler.get("calexp", self.calexpMinimalDataId)
-        self.assertTrue(calexp.getWcs() is None)
-        self.assertTrue(calexp.getPhotoCalib() is None)
+        pvi = self.butler.get("initial_pvi", self.pviMinimalDataId)
+        self.assertTrue(pvi.getWcs() is None)
+        self.assertTrue(pvi.getPhotoCalib() is None)
 
-        calexpWcs = self.butler.get("calexp.wcs", self.calexpMinimalDataId)
-        self.assertTrue(calexpWcs is None)
+        pviWcs = self.butler.get("initial_pvi.wcs", self.pviMinimalDataId)
+        self.assertTrue(pviWcs is None)
 
-        calexpPhotoCalib = self.butler.get("calexp.photoCalib", self.calexpMinimalDataId)
-        self.assertTrue(calexpPhotoCalib is None)
+        pviPhotoCalib = self.butler.get("initial_pvi.photoCalib", self.pviMinimalDataId)
+        self.assertTrue(pviPhotoCalib is None)
 
     def testSrcCoordsAreNanForFailedAstrom(self):
         """Test coord values in all source catalogs.
 
-        The coord values in the src catalogs, i.e. the results from SFM,
+        The coord values in the catalogs, i.e. the results from SFM,
         should all be `numpy.nan` for a failed astrometric fit.  However,
         when applying external calibrations, the coordinates can indeed get
         successfully "reevaluated" if the associated calibration does indeed
@@ -79,29 +79,29 @@ class TestAstrometryFails(lsst.utils.tests.TestCase):
         files do indeed exist in the ci_hsc_gen3 repo, so the ``source`` and
         ``sourceTable`` catalogs will have valid coord entries.
         """
-        sourceCat = self.butler.get("src", self.calexpMinimalDataId)
+        sourceCat = self.butler.get("initial_stars_footprints_detector", self.pviMinimalDataId)
         self.assertTrue(np.all(np.isnan(sourceCat["coord_ra"])))
         self.assertTrue(np.all(np.isnan(sourceCat["coord_dec"])))
         for catStr in ["source", "sourceTable"]:
-            sourceCat = self.butler.get(catStr, self.calexpMinimalDataId)
+            sourceCat = self.butler.get(catStr, self.pviMinimalDataId)
             self.assertFalse(np.all(np.isnan(sourceCat["coord_ra"])))
             self.assertFalse(np.all(np.isnan(sourceCat["coord_dec"])))
 
     def testCentroidsAreNotNanForFailedAstrom(self):
-        """Test that at least some src catalog centroids have finite values.
+        """Test that at least some catalog centroids have finite values.
 
-        The coord values in the src catalogs, i.e. the results from SFM,
+        The coord values in the catalogs, i.e. the results from SFM,
         should all be `numpy.nan` for a failed astrometric fit.  However,
         the centroid x and y values should have (at least some) valid entries.
         This is also true for the ``source`` and ``sourceTable`` catalogs,
         so check those as well.
         """
-        for catStr in ["src", "source"]:
-            sourceCat = self.butler.get(catStr, self.calexpMinimalDataId)
+        for catStr in ["initial_stars_footprints_detector", "source"]:
+            sourceCat = self.butler.get(catStr, self.pviMinimalDataId)
             self.assertFalse(np.all(np.isnan(sourceCat["slot_Centroid_x"])))
             self.assertFalse(np.all(np.isnan(sourceCat["slot_Centroid_y"])))
         for catStr in ["sourceTable"]:
-            sourceCat = self.butler.get(catStr, self.calexpMinimalDataId)
+            sourceCat = self.butler.get(catStr, self.pviMinimalDataId)
             self.assertFalse(np.all(np.isnan(sourceCat["x"])))
             self.assertFalse(np.all(np.isnan(sourceCat["y"])))
 
@@ -114,10 +114,10 @@ class TestAstrometryFails(lsst.utils.tests.TestCase):
         in the visitSummary should be finite even if the fit was deemed a
         falilure according to the value of the maxMeanDistanceArcsec config.
         """
-        visitTable = self.butler.get("visitTable", self.calexpMinimalDataId)
+        visitTable = self.butler.get("visitTable", self.pviMinimalDataId)
         self.assertTrue(np.all(np.isfinite(visitTable["ra"])))
 
-        visitSummary = self.butler.get("visitSummary", self.calexpMinimalDataId)
+        visitSummary = self.butler.get("visitSummary", self.pviMinimalDataId)
         self.assertTrue(np.isfinite(visitSummary["id" == self.detector]["astromOffsetMean"]))
         self.assertTrue(np.isfinite(visitSummary["id" == self.detector]["astromOffsetStd"]))
         self.assertTrue(np.all(np.isnan(visitSummary["id" == 1]["raCorners"])))
@@ -130,9 +130,9 @@ class TestAstrometryFails(lsst.utils.tests.TestCase):
         get added to the metadata, even if the fit was deemed a failure
         according to the value of the maxMeanDistanceArcsec config.
         """
-        calexpMetadata = self.butler.get("calexp.metadata", self.calexpMinimalDataId)
-        self.assertTrue(np.isfinite(calexpMetadata["SFM_ASTROM_OFFSET_MEAN"]))
-        self.assertTrue(np.isfinite(calexpMetadata["SFM_ASTROM_OFFSET_STD"]))
+        pviMetadata = self.butler.get("initial_pvi.metadata", self.pviMinimalDataId)
+        self.assertTrue(np.isfinite(pviMetadata["SFM_ASTROM_OFFSET_MEAN"]))
+        self.assertTrue(np.isfinite(pviMetadata["SFM_ASTROM_OFFSET_STD"]))
 
 
 class MemoryTester(lsst.utils.tests.MemoryTestCase):
