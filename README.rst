@@ -44,9 +44,9 @@ If the run fails on a given task for the primary ``HSC/runs/ci_hsc`` run, you ca
 
 .. code-block:: bash
 
-    pipetask run -b DATA -j 1 -i HSC/runs/ci_hsc -o u/USER/testing -p "${DRP_PIPE_DIR}/pipelines/HSC/DRP-ci_hsc.yaml#taskLabelToRerun" -d "skymap='discrete/ci_hsc' AND tract=0 AND patch=69"
+    pipetask run -b DATA -j 1 -i HSC/runs/ci_hsc -o u/$USER/testing -p "${DRP_PIPE_DIR}/pipelines/HSC/DRP-ci_hsc.yaml#taskLabelToRerun" -d "skymap='discrete/ci_hsc' AND tract=0 AND patch=69"
 
-This will pick up the outputs from everything that had been run prior to the task that failed and rerun the task with the output going to a new collection called ``u/USER/testing``.
+This will pick up the outputs from everything that had been run prior to the task that failed and rerun the task with the output going to a new collection called ``u/$USER/testing``.
 
 After fixing any problems, the processing can be resumed with the following command (note the ``..`` at the end of the task label):
 
@@ -61,7 +61,7 @@ If the problem occurs in the faro pipeline run, the following call may be of use
 
 .. code-block:: bash
 
-   pipetask run -b DATA -j 1 -i HSC/runs/ci_hsc_faro -o u/USER/testing -p "${FARO_DIR}/pipelines/metrics_pipeline.yaml#taskLabelToRerun" -d "skymap='discrete/ci_hsc' AND tract=0 AND patch=69"
+   pipetask run -b DATA -j 1 -i HSC/runs/ci_hsc_faro -o u/$USER/testing -p "${FARO_DIR}/pipelines/metrics_pipeline.yaml#taskLabelToRerun" -d "skymap='discrete/ci_hsc' AND tract=0 AND patch=69"
 
 Cleaning up
 -----------
