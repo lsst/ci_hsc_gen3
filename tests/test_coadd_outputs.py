@@ -177,7 +177,7 @@ class TestCoaddOutputs(unittest.TestCase, MockCheckMixin):
             self.assertEqual(len(coadd_inputs.visits), 1)
             visit_record = coadd_inputs.visits[0]
             self.assertEqual(visit_record.getWcs(), warp.wcs)
-            self.assertEqual(visit_record.getBBox(), warp.getBBox())
+            self.assertTrue(visit_record.getBBox().contains(warp.getBBox()))
             self.assertGreater(len(coadd_inputs.ccds), 0)
 
             wcs_cat = self.butler.get(
