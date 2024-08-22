@@ -58,7 +58,7 @@ pipetask --long-log --log-level="$loglevel" qgraph \
     -b "$repo"/butler.yaml \
     --input "$INPUTCOLL" --output "$COLLECTION" \
     -p "$DRP_PIPE_DIR/pipelines/HSC/DRP-ci_hsc.yaml" \
-    -c calibrateImage:astrometry.maxMeanDistanceArcsec=0.025 \
+    -c calibrateImage:astrometry.maxMeanDistanceArcsec=0.020 \
     -c makeWarp:select.maxPsfTraceRadiusDelta=0.2 \
     --save-qgraph "$QGRAPH_FILE"
 

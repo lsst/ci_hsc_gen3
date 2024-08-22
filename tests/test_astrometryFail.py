@@ -36,7 +36,7 @@ class TestAstrometryFails(lsst.utils.tests.TestCase):
         self.butler = Butler(os.path.join(getPackageDir("ci_hsc_gen3"), "DATA"), writeable=False,
                              collections=["HSC/calib/2013-06-17", "HSC/runs/ci_hsc"])
         # The dataId here represents one of the astrometry fit failures
-        # imposed by setting astrometry.maxMeanDistanceArcsec: 0.025 in
+        # imposed by setting astrometry.maxMeanDistanceArcsec: 0.020 in
         # the pipeline.
         self.detector = 0
         self.visit = 903344
@@ -93,14 +93,14 @@ class TestAstrometryFails(lsst.utils.tests.TestCase):
         The coord values in the src catalogs, i.e. the results from SFM,
         should all be `numpy.nan` for a failed astrometric fit.  However,
         the centroid x and y values should have (at least some) valid entries.
-        This is also true for the ``source`` and ``sourceTable`` catalogs,
-        so check those as well.
+        This is also true for the ``preSource`` and ``preSourceTable``
+        catalogs, so check those as well.
         """
-        for catStr in ["src", "source"]:
+        for catStr in ["src", "preSource"]:
             sourceCat = self.butler.get(catStr, self.calexpMinimalDataId)
             self.assertFalse(np.all(np.isnan(sourceCat["slot_Centroid_x"])))
             self.assertFalse(np.all(np.isnan(sourceCat["slot_Centroid_y"])))
-        for catStr in ["sourceTable"]:
+        for catStr in ["preSourceTable"]:
             sourceCat = self.butler.get(catStr, self.calexpMinimalDataId)
             self.assertFalse(np.all(np.isnan(sourceCat["x"])))
             self.assertFalse(np.all(np.isnan(sourceCat["y"])))
