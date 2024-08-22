@@ -45,12 +45,6 @@ class TestAstrometryFails(lsst.utils.tests.TestCase):
             universe=self.butler.dimensions,
         )
 
-    def tearDown(self):
-        del self.butler
-        del self.detector
-        del self.visit
-        del self.calexpMinimalDataId
-
     def testWcsAndPhotoCalibIsNoneForFailedAstrom(self):
         """Test the WCS and photoCalib objects attached to failed WCS exposure.
 

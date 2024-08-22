@@ -44,14 +44,6 @@ class TestPsfModelTraceRadiusFails(lsst.utils.tests.TestCase):
             universe=self.butler.dimensions,
         )
 
-    def tearDown(self):
-        del self.butler
-        del self.skymap
-        del self.tract
-        del self.patch
-        del self.band
-        del self.coaddDataId
-
     def testFailedPsfTraceRadiusDeltaNotInCoadd(self):
         """Check that the detectors failing the maxPsfTraceRadiusDelta
         criterion are not included in the coadd.
