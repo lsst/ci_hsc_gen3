@@ -29,6 +29,8 @@ from lsst.daf.butler import Butler, DataCoordinate
 from lsst.utils import getPackageDir
 
 
+# DM-46272: not forcing these failures until we can handle partial outputs;
+# remove the expectedFailures as that ticket is sorted out.
 class TestAstrometryFails(lsst.utils.tests.TestCase):
     """Tests the outputs of the forced astrometry failures.
     """
@@ -45,6 +47,7 @@ class TestAstrometryFails(lsst.utils.tests.TestCase):
             universe=self.butler.dimensions,
         )
 
+    @unittest.expectedFailure
     def testWcsAndPhotoCalibIsNoneForFailedAstrom(self):
         """Test the WCS and photoCalib objects attached to failed WCS exposure.
 
@@ -61,6 +64,7 @@ class TestAstrometryFails(lsst.utils.tests.TestCase):
         pviPhotoCalib = self.butler.get("initial_pvi.photoCalib", self.pviMinimalDataId)
         self.assertTrue(pviPhotoCalib is None)
 
+    @unittest.expectedFailure
     def testSrcCoordsAreNanForFailedAstrom(self):
         """Test coord values in all source catalogs.
 
@@ -76,11 +80,12 @@ class TestAstrometryFails(lsst.utils.tests.TestCase):
         sourceCat = self.butler.get("initial_stars_footprints_detector", self.pviMinimalDataId)
         self.assertTrue(np.all(np.isnan(sourceCat["coord_ra"])))
         self.assertTrue(np.all(np.isnan(sourceCat["coord_dec"])))
-        for catStr in ["source", "sourceTable"]:
+        for catStr in ["sources", "sourceTable"]:
             sourceCat = self.butler.get(catStr, self.pviMinimalDataId)
             self.assertFalse(np.all(np.isnan(sourceCat["coord_ra"])))
             self.assertFalse(np.all(np.isnan(sourceCat["coord_dec"])))
 
+    @unittest.expectedFailure
     def testCentroidsAreNotNanForFailedAstrom(self):
         """Test that at least some catalog centroids have finite values.
 
@@ -99,6 +104,7 @@ class TestAstrometryFails(lsst.utils.tests.TestCase):
             self.assertFalse(np.all(np.isnan(sourceCat["x"])))
             self.assertFalse(np.all(np.isnan(sourceCat["y"])))
 
+    @unittest.expectedFailure
     def testVisitCoordsAreNanForFailedAstrom(self):
         """Test coord and astrom values for visitTable and visitSummary.
 

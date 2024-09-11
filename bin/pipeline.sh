@@ -55,12 +55,14 @@ HIPS_QGRAPH_FILE=$(mktemp)_hips.qgraph
 trap 'rm -f $QGRAPH_FILE $INJECTION_QGRAPH_FILE $FARO_QGRAPH_FILE $RESOURCE_USAGE_QGRAPH_FILE \
 $HIPS_QGRAPH_FILE' EXIT
 
+# DM-46272: Change maxMeanDistanceArcsec to something smaller, so that it fails;
+# even better, move those settings into DRP-ci_hsc.yaml!
 pipetask --long-log --log-level="$loglevel" qgraph \
     -d "skymap='discrete/ci_hsc' AND tract=0 AND patch=69" \
     -b "$repo"/butler.yaml \
     --input "$INPUTCOLL" --output "$COLLECTION" \
     -p "$DRP_PIPE_DIR/pipelines/HSC/DRP-ci_hsc.yaml" \
-    -c calibrateImage:astrometry.maxMeanDistanceArcsec=0.020 \
+    -c calibrateImage:astrometry.maxMeanDistanceArcsec=0.20 \
     -c makeWarp:select.maxPsfTraceRadiusDelta=0.2 \
     --save-qgraph "$QGRAPH_FILE"
 
