@@ -90,7 +90,7 @@ env.Alias("instrument", instrument)
 # Write curated calibrations
 curatedCalibrations = env.Command(os.path.join(REPO_ROOT, "HSC", "calib"), instrument,
                                   [getExecutableCmd("daf_butler", "butler", "write-curated-calibrations",
-                                                    REPO_ROOT, "HSC")])
+                                                    REPO_ROOT, "HSC", "--collection", "HSC/calib")])
 env.Alias("curatedCalibrations", curatedCalibrations)
 
 skymap = env.Command(os.path.join(REPO_ROOT, "skymaps"), curatedCalibrations,
