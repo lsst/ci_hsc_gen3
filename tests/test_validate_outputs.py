@@ -197,21 +197,10 @@ class TestValidateOutputs(unittest.TestCase, MockCheckMixin):
         self.check_pipetasks(["makeCcdVisitTable", "makeVisitTable"], 1, 1)
         self.check_datasets(["ccdVisitTable", "visitTable"], 1)
 
-    # TODO: Remove this test in DM-44612.
     def test_make_warp(self):
         """Test existence of warps."""
         self.check_pipetasks(["makeWarp"], self._num_visits, self._num_visits)
         self.check_datasets(["deepCoadd_directWarp"], self._num_visits)
-
-    def test_make_direct_warp(self):
-        """Test existence of direct warps."""
-        self.check_pipetasks(["makeDirectWarp"], self._num_visits, self._num_visits)
-        self.check_datasets(["deepCoadd_directWarp"], self._num_visits)
-
-    def test_make_psfMatched_warp(self):
-        """Test existence of PSF-matched warps."""
-        self.check_pipetasks(["makePsfMatchedWarp"], self._num_visits, self._num_visits)
-        self.check_datasets(["deepCoadd_psfMatchedWarp"], self._num_visits)
 
     def test_assemble_coadd(self):
         """Test existence of coadds."""
