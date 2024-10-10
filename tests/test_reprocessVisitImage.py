@@ -29,10 +29,10 @@ from lsst.daf.butler import Butler
 from lsst.utils import getPackageDir
 
 
-class TestCalibrateOutputs(lsst.utils.tests.TestCase, MockCheckMixin):
-    """Test the output data products of calibrate task make sense
+class TestReprocessVisitImageOutputs(lsst.utils.tests.TestCase, MockCheckMixin):
+    """Test the output data products of reprocessVisitImage task make sense.
 
-    This is a regression test and not intended for scientific validation
+    This is a regression test and not intended for scientific validation.
     """
 
     def setUp(self):
@@ -40,44 +40,45 @@ class TestCalibrateOutputs(lsst.utils.tests.TestCase, MockCheckMixin):
                              writeable=False, collections=["HSC/runs/ci_hsc"])
         self.skip_mock()
         self.dataId = {"instrument": "HSC", "detector": 100, "visit": 903334}
-        self.calexp = self.butler.get("calexp", self.dataId)
-        self.src = self.butler.get("src", self.dataId)
+        self.exposure = self.butler.get("pvi", self.dataId)
+        self.catalog = self.butler.get("sources_footprints_detector", self.dataId)
 
     def testLocalPhotoCalibColumns(self):
-        """Check calexp's calibs are consistent with src's photocalib columns
+        """Check exposure's photometric calibration are consistent with the
+        catalog's photoCalib columns.
         """
         # Check that means are in the same ballpark
-        calexpCalib = self.calexp.getPhotoCalib().getCalibrationMean()
-        calexpCalibErr = self.calexp.getPhotoCalib().getCalibrationErr()
-        srcCalib = np.mean(self.src['base_LocalPhotoCalib'])
-        srcCalibErr = np.mean(self.src['base_LocalPhotoCalibErr'])
+        exposureCalib = self.exposure.photoCalib.getCalibrationMean()
+        exposureCalibErr = self.exposure.photoCalib.getCalibrationErr()
+        catalogCalib = np.mean(self.catalog['base_LocalPhotoCalib'])
+        catalogCalibErr = np.mean(self.catalog['base_LocalPhotoCalibErr'])
 
-        self.assertAlmostEqual(calexpCalib, srcCalib, places=3)
-        self.assertAlmostEqual(calexpCalibErr, srcCalibErr, places=3)
+        self.assertAlmostEqual(exposureCalib, catalogCalib, places=3)
+        self.assertAlmostEqual(exposureCalibErr, catalogCalibErr, places=3)
 
         # and that calibs evalutated at local positions match a few rows
         randomRows = [0, 8, 20]
         for rowNum in randomRows:
-            record = self.src[rowNum]
-            localEval = self.calexp.getPhotoCalib().getLocalCalibration(record.getCentroid())
+            record = self.catalog[rowNum]
+            localEval = self.exposure.getPhotoCalib().getLocalCalibration(record.getCentroid())
             self.assertAlmostEqual(localEval, record['base_LocalPhotoCalib'])
 
     def testLocalWcsColumns(self):
-        """Check the calexp's wcs match local wcs columns in src
+        """Check the exposure's wcs match local wcs columns in the catalog.
         """
         # Check a few rows:
         randomRows = [1, 9, 21]
         for rowNum in randomRows:
-            record = self.src[rowNum]
+            record = self.catalog[rowNum]
             centroid = record.getCentroid()
-            trueCdMatrix = np.radians(self.calexp.getWcs().getCdMatrix(centroid))
+            trueCdMatrix = np.radians(self.exposure.getWcs().getCdMatrix(centroid))
 
             self.assertAlmostEqual(record['base_LocalWcs_CDMatrix_1_1'], trueCdMatrix[0, 0])
             self.assertAlmostEqual(record['base_LocalWcs_CDMatrix_2_1'], trueCdMatrix[1, 0])
             self.assertAlmostEqual(record['base_LocalWcs_CDMatrix_1_2'], trueCdMatrix[0, 1])
             self.assertAlmostEqual(record['base_LocalWcs_CDMatrix_2_2'], trueCdMatrix[1, 1])
             self.assertAlmostEqual(
-                self.calexp.getWcs().getPixelScale(centroid).asRadians(),
+                self.exposure.getWcs().getPixelScale(centroid).asRadians(),
                 np.sqrt(np.fabs(record['base_LocalWcs_CDMatrix_1_1']*record['base_LocalWcs_CDMatrix_2_2']
                                 - record['base_LocalWcs_CDMatrix_2_1']*record['base_LocalWcs_CDMatrix_1_2'])))
 

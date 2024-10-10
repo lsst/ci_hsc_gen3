@@ -133,20 +133,21 @@ class TestValidateOutputs(unittest.TestCase, MockCheckMixin):
         "Test existence of raw exposures."""
         self.check_datasets(["raw"], self._num_exposures)
 
-    def test_isr_characterize_calibrate(self):
+    def test_isr_calibrateImage(self):
         """Test existence of isr/calibration related files."""
         self.check_pipetasks(
-            ["isr", "characterizeImage", "calibrate"],
+            ["isr", "calibrateImage"],
             self._num_exposures,
             self._num_exposures
         )
         self.check_datasets(
-            ["postISRCCD", "icExp", "icExpBackground", "icSrc", "calexp", "calexpBackground"],
+            ["postISRCCD", "initial_pvi", "initial_pvi_background", "initial_stars_detector",
+             "initial_psf_stars_detector"],
             self._num_exposures
         )
-        self.check_datasets(["icSrc_schema", "src_schema"], 1)
+        self.check_datasets(["initial_stars_schema"], 1)
         self.check_sources(
-            ["src"],
+            ["initial_stars_footprints_detector"],
             self._num_exposures,
             self._min_sources,
             additional_checks=[self.check_aperture_corrections,
@@ -156,7 +157,7 @@ class TestValidateOutputs(unittest.TestCase, MockCheckMixin):
     def test_source_tables(self):
         """Test existence of source tables."""
         self.check_pipetasks(
-            ["writeRecalibratedSourceTable", "transformSourceTable"],
+            ["reprocessVisitImage", "transformSourceTable"],
             self._num_exposures,
             self._num_exposures
         )
@@ -168,13 +169,6 @@ class TestValidateOutputs(unittest.TestCase, MockCheckMixin):
         """Test existence of visit summaries."""
         self.check_pipetasks(["consolidateVisitSummary"], self._num_visits, self._num_visits)
         self.check_datasets(["visitSummary"], self._num_visits)
-
-    def test_match_catalogs(self):
-        """Test existence of srcMatch and srcMatchFull catalogs."""
-        self.check_datasets(
-            ["srcMatch", "srcMatchFull"],
-            self._num_exposures - self._num_forced_astrom_failures
-        )
 
     def test_isolated_star_association(self):
         """Test existence of isolated star tables."""

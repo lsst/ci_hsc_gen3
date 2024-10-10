@@ -38,7 +38,7 @@ class MockCheckMixin:
     instance to each method."""
 
     def check_mock(
-        self, dataset_type: str = "calexp", butler: Optional[Butler] = None
+        self, dataset_type: str = "initial_pvi", butler: Optional[Butler] = None
     ) -> bool:
         """Check whether Butler contents correspond to a mock execution.
 
@@ -67,7 +67,7 @@ class MockCheckMixin:
             return False
 
     def skip_mock(
-        self, dataset_type: str = "calexp", butler: Optional[Butler] = None
+        self, dataset_type: str = "initial_pvi", butler: Optional[Butler] = None
     ) -> None:
         """Skip a unit test during mock execution.
 

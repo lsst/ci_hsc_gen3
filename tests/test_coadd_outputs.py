@@ -198,7 +198,7 @@ class TestCoaddOutputs(unittest.TestCase, MockCheckMixin):
             # We only need to test one input ccd
             det_record = coadd_inputs.ccds[0]
             exp_bbox = self.butler.get(
-                "calexp.bbox",
+                "initial_pvi.bbox",
                 visit=det_record["visit"],
                 detector=det_record["ccd"]
             )
@@ -251,7 +251,7 @@ class TestCoaddOutputs(unittest.TestCase, MockCheckMixin):
                 visit=det_record["visit"]
             )
             exp_bbox = self.butler.get(
-                "calexp.bbox",
+                "initial_pvi.bbox",
                 visit=det_record["visit"],
                 detector=det_record["ccd"]
             )
