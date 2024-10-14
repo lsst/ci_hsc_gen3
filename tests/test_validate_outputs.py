@@ -180,7 +180,7 @@ class TestValidateOutputs(unittest.TestCase, MockCheckMixin):
         """Test existence of isolated star tables."""
         self.check_pipetasks(["isolatedStarAssociation"], self._num_tracts, self._num_tracts)
         self.check_datasets(
-            ["isolated_star_cat", "isolated_star_sources"],
+            ["isolated_star_presource_associations", "isolated_star_presources"],
             self._num_tracts
         )
 
