@@ -70,3 +70,10 @@ ASTROMETRY_FAILURE_DATA_IDS = [
 PSF_MODEL_ROBUSTNESS_FAILURE_DATA_IDS = [
     {'visit': 903334, 'detector': 22, 'physical_filter': 'HSC-R'},
 ]
+# The following data IDs fail (with NoWorkFound) in subtractImages with
+# insufficient template coverage.  There are two other data IDs that succeed
+# despite also having less coverage than the threshold.
+INSUFFICIENT_TEMPLATE_COVERAGE_FAILURE_DATA_IDS = [
+    {'visit': 903342, 'detector': 100, 'physical_filter': 'HSC-R'},
+    {'visit': 904010, 'detector': 100, 'physical_filter': 'HSC-I'},
+]
