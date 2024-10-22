@@ -25,6 +25,7 @@ from lsst.ci.hsc.gen3 import (
     DATA_IDS,
     ASTROMETRY_FAILURE_DATA_IDS,
     INSUFFICIENT_TEMPLATE_COVERAGE_FAILURE_DATA_IDS,
+    FINAL_PSF_MODEL_FAILURE_DATA_IDS,
 )
 from lsst.ci.hsc.gen3.tests import MockCheckMixin
 from lsst.daf.butler import Butler
@@ -53,6 +54,9 @@ class TestValidateOutputs(unittest.TestCase, MockCheckMixin):
         self._insufficient_template_coverage_failures = to_set_of_tuples(
             INSUFFICIENT_TEMPLATE_COVERAGE_FAILURE_DATA_IDS
         )
+        # Two detectors fail second-stage PSF modeling, leaving those PSFs None
+        # in the final visit summary.
+        self._final_psf_model_failures = to_set_of_tuples(FINAL_PSF_MODEL_FAILURE_DATA_IDS)
         self._num_visits = len({data_id["visit"] for data_id in DATA_IDS})
         self._num_tracts = 1
         self._num_patches = 1
@@ -395,19 +399,21 @@ class TestValidateOutputs(unittest.TestCase, MockCheckMixin):
     def test_forced_phot_ccd(self):
         """Test existence of forced photometry tables (sources)."""
         self.check_pipetasks(["forcedPhotCcd"], len(self._raws), len(self._raws))
+        # Despite the two detectors with SFM astrometric failures, the external
+        # calibration files still exist for them, so the forced_src catalogs
+        # should indeed exist for all detectors.  This is not true for the
+        # final PSF modeling failures, which cause the PVI not to be created
+        # and forced photometry to skip with NoWorkFound.
         self.check_sources(
             ["forced_src"],
-            len(self._raws),
+            len(self._raws - self._final_psf_model_failures),
             self._min_sources,
             additional_checks=[self.check_aperture_corrections],
             # We only measure psfFlux in single-detector forced photometry.
             aperture_algorithms=("base_PsfFlux", ),
         )
         self.check_datasets(["forced_src_schema"], 1)
-        # Despite the two detectors with SFM astrometric failures, the external
-        # calibration files still exist for them, so the forced_src catalogs
-        # should indeed exist for all detectors.
-        self.check_datasets(["forced_src"], len(self._raws))
+        self.check_datasets(["forced_src"], len(self._raws - self._final_psf_model_failures))
 
     def test_forced_phot_coadd(self):
         """Test existence of forced photometry tables (objects)."""
@@ -427,13 +433,13 @@ class TestValidateOutputs(unittest.TestCase, MockCheckMixin):
             len(self._raws),
             len(self._raws),
         )
-        # No external calibrations are applied to the diffim forced
-        # measurements, so no tables should be produced the detectors with
-        # astrometry failures.
+        # External calibrations are applied to the diffim forced measurements,
+        # so the astrometry failures don't reduce the counts, but the PSF model
+        # failures do.
         # forced source counts depend on detector/tract overlap.
         self.check_sources(
             ["forced_diff", "forced_diff_diaObject"],
-            len(self._raws - self._insufficient_template_coverage_failures - self._forced_astrom_failures),
+            len(self._raws - self._insufficient_template_coverage_failures - self._final_psf_model_failures),
             self._min_diasources
         )
         self.check_datasets(["forced_diff_schema", "forced_diff_diaObject_schema"], 1)
@@ -460,12 +466,12 @@ class TestValidateOutputs(unittest.TestCase, MockCheckMixin):
             len(self._raws),
             len(self._raws)
         )
-        # No external calibrations are applied to the diffim forced
-        # measurements, so no tables should be produced the detectors with
-        # astrometry failures.
+        # External calibrations are applied to the diffim forced measurements,
+        # so the astrometry failures don't reduce the counts, but the PSF model
+        # failures do.
         self.check_datasets(
             ["goodSeeingDiff_differenceExp"],
-            len(self._raws - self._insufficient_template_coverage_failures - self._forced_astrom_failures)
+            len(self._raws - self._insufficient_template_coverage_failures - self._final_psf_model_failures)
         )
         self.check_datasets(["goodSeeingDiff_diaSrc_schema"], 1)
 
@@ -492,18 +498,19 @@ class TestValidateOutputs(unittest.TestCase, MockCheckMixin):
             1,
             1
         )
-        # No external calibrations are applied to the diffim forced
-        # measurements, so no tables should be produced the detectors with
-        # astrometry failures.
+        # External calibrations are applied to the diffim forced measurements,
+        # so the astrometry failures don't reduce the counts, but the PSF model
+        # failures do.
         self.check_sources(
             ["forced_diff_diaObject"],
-            len(self._raws - self._insufficient_template_coverage_failures - self._forced_astrom_failures),
+            len(self._raws - self._insufficient_template_coverage_failures - self._final_psf_model_failures),
             self._min_diasources
         )
         # There are fewer forced sources
-        self.check_sources(["forced_src_diaObject"], len(self._raws), self._min_diasources)
+        self.check_sources(["forced_src_diaObject"], len(self._raws - self._final_psf_model_failures),
+                           self._min_diasources)
         self.check_datasets(["forced_diff_diaObject_schema", "forced_src_diaObject_schema"], 1)
-        self.check_datasets(["forced_src_diaObject"], len(self._raws))
+        self.check_datasets(["forced_src_diaObject"], len(self._raws - self._final_psf_model_failures))
 
     def test_skymap(self):
         """Test existence of skymap."""
