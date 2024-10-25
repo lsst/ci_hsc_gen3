@@ -39,7 +39,6 @@ COLLECTION=HSC/runs/ci_hsc
 INPUTCOLL=HSC/defaults
 INJECTION_COLLECTION=HSC/runs/ci_hsc_injection
 INJECTION_INPUTCOLL=injection_catalogs
-FARO_COLLECTION=HSC/runs/ci_hsc_faro
 RESOURCE_USAGE_COLLECTION=HSC/runs/ci_hsc_resource_usage
 HIPS_COLLECTION=HSC/runs/ci_hsc_hips
 
@@ -48,11 +47,10 @@ export DYLD_LIBRARY_PATH="$LSST_LIBRARY_PATH"
 QGRAPH_FILE=$(mktemp).qgraph
 INJECTION_QGRAPH_FILE=$(mktemp)_injection.qgraph
 POST_INJECTION_QGRAPH_FILE=$(mktemp)_post_injection.qgraph
-FARO_QGRAPH_FILE=$(mktemp)_faro.qgraph
 RESOURCE_USAGE_QGRAPH_FILE=$(mktemp)_resource_usage.qgraph
 HIPS_QGRAPH_FILE=$(mktemp)_hips.qgraph
 
-trap 'rm -f $QGRAPH_FILE $INJECTION_QGRAPH_FILE $FARO_QGRAPH_FILE $RESOURCE_USAGE_QGRAPH_FILE \
+trap 'rm -f $QGRAPH_FILE $INJECTION_QGRAPH_FILE $RESOURCE_USAGE_QGRAPH_FILE \
 $HIPS_QGRAPH_FILE' EXIT
 
 pipetask --long-log --log-level="$loglevel" qgraph \
@@ -98,18 +96,6 @@ pipetask --long-log --log-level="$loglevel" run \
     --register-dataset-types $mock \
     --qgraph "$POST_INJECTION_QGRAPH_FILE"
 
-pipetask --long-log --log-level="$loglevel" qgraph \
-    -d "skymap='discrete/ci_hsc' AND tract=0 AND patch=69 AND band in ('r', 'i')" \
-    -b "$repo"/butler.yaml \
-    --input "$COLLECTION" --output "$FARO_COLLECTION" \
-    -p "$FARO_DIR"/pipelines/metrics_pipeline.yaml \
-    --save-qgraph "$FARO_QGRAPH_FILE"
-
-pipetask --long-log --log-level="$loglevel" run \
-    -j "$jobs" -b "$repo"/butler.yaml \
-    --input "$COLLECTION" --output "$FARO_COLLECTION" \
-    --register-dataset-types $mock \
-    --qgraph "$FARO_QGRAPH_FILE"
 
 build-gather-resource-usage-qg --output "$RESOURCE_USAGE_COLLECTION" "$repo" "$RESOURCE_USAGE_QGRAPH_FILE" "$COLLECTION"
 

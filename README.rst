@@ -54,15 +54,6 @@ After fixing any problems, the processing can be resumed with the following comm
 
     pipetask run -b DATA -j NPROCESS -i HSC/runs/ci_hsc -o HSC/runs/ci_hsc -p "${DRP_PIPE_DIR}/pipelines/HSC/DRP-ci_hsc.yaml#taskLabelToRerun.." -d "skymap='discrete/ci_hsc' AND tract=0 AND patch=69"
 
-Debugging Other Runs
---------------------
-
-If the problem occurs in the faro pipeline run, the following call may be of use.
-
-.. code-block:: bash
-
-   pipetask run -b DATA -j 1 -i HSC/runs/ci_hsc_faro -o u/$USER/testing -p "${FARO_DIR}/pipelines/metrics_pipeline.yaml#taskLabelToRerun" -d "skymap='discrete/ci_hsc' AND tract=0 AND patch=69"
-
 Cleaning up
 -----------
 After each run of this test (and, in particular, before re-running it), the repository should be cleaned as follows::
