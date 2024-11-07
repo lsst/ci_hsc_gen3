@@ -21,10 +21,22 @@
 import os
 import unittest
 
-from lsst.ci.hsc.gen3 import DATA_IDS, ASTROMETRY_FAILURE_DATA_IDS
+from lsst.ci.hsc.gen3 import (
+    DATA_IDS,
+    ASTROMETRY_FAILURE_DATA_IDS,
+    INSUFFICIENT_TEMPLATE_COVERAGE_FAILURE_DATA_IDS,
+    FINAL_PSF_MODEL_FAILURE_DATA_IDS,
+)
 from lsst.ci.hsc.gen3.tests import MockCheckMixin
 from lsst.daf.butler import Butler
 from lsst.utils import getPackageDir
+
+
+def to_set_of_tuples(list_of_dicts):
+    """Convert a list of dictionary {visit, detector} data IDs into a set of
+    (visit, detector) tuples
+    """
+    return {(d["visit"], d["detector"]) for d in list_of_dicts}
 
 
 class TestValidateOutputs(unittest.TestCase, MockCheckMixin):
@@ -35,12 +47,16 @@ class TestValidateOutputs(unittest.TestCase, MockCheckMixin):
                              instrument="HSC", skymap="discrete/ci_hsc",
                              writeable=False, collections=["HSC/runs/ci_hsc"])
 
-        self._num_exposures = len(DATA_IDS)
-        self._num_forced_astrom_failures = len(ASTROMETRY_FAILURE_DATA_IDS)
-        # Four detectors have template coverage < 0.2 soft limit
-        # Exposures with template cover > 0.2 (expected successes)
-        self._num_exposures_good_templates = 29
-        self._num_surprise_diffim_successes = 2
+        self._raws = to_set_of_tuples(DATA_IDS)
+        self._forced_astrom_failures = to_set_of_tuples(ASTROMETRY_FAILURE_DATA_IDS)
+        # Four detectors have template coverage < 0.2 soft limit, but two
+        # succeed anyway.  These are just the failures.
+        self._insufficient_template_coverage_failures = to_set_of_tuples(
+            INSUFFICIENT_TEMPLATE_COVERAGE_FAILURE_DATA_IDS
+        )
+        # Two detectors fail second-stage PSF modeling, leaving those PSFs None
+        # in the final visit summary.
+        self._final_psf_model_failures = to_set_of_tuples(FINAL_PSF_MODEL_FAILURE_DATA_IDS)
         self._num_visits = len({data_id["visit"] for data_id in DATA_IDS})
         self._num_tracts = 1
         self._num_patches = 1
@@ -131,23 +147,23 @@ class TestValidateOutputs(unittest.TestCase, MockCheckMixin):
 
     def test_raw(self):
         "Test existence of raw exposures."""
-        self.check_datasets(["raw"], self._num_exposures)
+        self.check_datasets(["raw"], len(self._raws))
 
     def test_isr_characterize_calibrate(self):
         """Test existence of isr/calibration related files."""
         self.check_pipetasks(
             ["isr", "characterizeImage", "calibrate"],
-            self._num_exposures,
-            self._num_exposures
+            len(self._raws),
+            len(self._raws)
         )
         self.check_datasets(
             ["postISRCCD", "icExp", "icExpBackground", "icSrc", "calexp", "calexpBackground"],
-            self._num_exposures
+            len(self._raws)
         )
         self.check_datasets(["icSrc_schema", "src_schema"], 1)
         self.check_sources(
             ["src"],
-            self._num_exposures,
+            len(self._raws),
             self._min_sources,
             additional_checks=[self.check_aperture_corrections,
                                self.check_psf_stars_and_flags]
@@ -157,11 +173,11 @@ class TestValidateOutputs(unittest.TestCase, MockCheckMixin):
         """Test existence of source tables."""
         self.check_pipetasks(
             ["writeRecalibratedSourceTable", "transformSourceTable"],
-            self._num_exposures,
-            self._num_exposures
+            len(self._raws),
+            len(self._raws)
         )
         self.check_pipetasks(["consolidateSourceTable"], self._num_visits, self._num_visits)
-        self.check_sources(["sourceTable"], self._num_exposures, self._min_sources)
+        self.check_sources(["sourceTable"], len(self._raws), self._min_sources)
         self.check_sources(["sourceTable_visit"], self._num_visits, self._min_sources)
 
     def test_visit_summary(self):
@@ -173,7 +189,7 @@ class TestValidateOutputs(unittest.TestCase, MockCheckMixin):
         """Test existence of srcMatch and srcMatchFull catalogs."""
         self.check_datasets(
             ["srcMatch", "srcMatchFull"],
-            self._num_exposures - self._num_forced_astrom_failures
+            len(self._raws - self._forced_astrom_failures)
         )
 
     def test_isolated_star_association(self):
@@ -382,20 +398,22 @@ class TestValidateOutputs(unittest.TestCase, MockCheckMixin):
 
     def test_forced_phot_ccd(self):
         """Test existence of forced photometry tables (sources)."""
-        self.check_pipetasks(["forcedPhotCcd"], self._num_exposures, self._num_exposures)
+        self.check_pipetasks(["forcedPhotCcd"], len(self._raws), len(self._raws))
+        # Despite the two detectors with SFM astrometric failures, the external
+        # calibration files still exist for them, so the forced_src catalogs
+        # should indeed exist for all detectors.  This is not true for the
+        # final PSF modeling failures, which cause the PVI not to be created
+        # and forced photometry to skip with NoWorkFound.
         self.check_sources(
             ["forced_src"],
-            self._num_exposures,
+            len(self._raws - self._final_psf_model_failures),
             self._min_sources,
             additional_checks=[self.check_aperture_corrections],
             # We only measure psfFlux in single-detector forced photometry.
             aperture_algorithms=("base_PsfFlux", ),
         )
         self.check_datasets(["forced_src_schema"], 1)
-        # Despite the two detectors with SFM astrometric failures, the external
-        # calibration files still exist for them, so the forced_src catalogs
-        # should indeed exist for all detectors.
-        self.check_datasets(["forced_src"], self._num_exposures)
+        self.check_datasets(["forced_src"], len(self._raws - self._final_psf_model_failures))
 
     def test_forced_phot_coadd(self):
         """Test existence of forced photometry tables (objects)."""
@@ -412,25 +430,23 @@ class TestValidateOutputs(unittest.TestCase, MockCheckMixin):
         """Test existence of forced photometry tables (diffim)."""
         self.check_pipetasks(
             ["forcedPhotDiffim", "forcedPhotCcdOnDiaObjects", "forcedPhotDiffOnDiaObjects"],
-            self._num_exposures,
-            self._num_exposures
+            len(self._raws),
+            len(self._raws),
         )
-        # No external calibrations are applied to the diffim forced
-        # measurements, so no tables should be produced the detectors with
-        # astrometry failures.
+        # External calibrations are applied to the diffim forced measurements,
+        # so the astrometry failures don't reduce the counts, but the PSF model
+        # failures do.
         # forced source counts depend on detector/tract overlap.
         self.check_sources(
             ["forced_diff", "forced_diff_diaObject"],
-            self._num_exposures_good_templates
-            + self._num_surprise_diffim_successes
-            - self._num_forced_astrom_failures,
+            len(self._raws - self._insufficient_template_coverage_failures - self._final_psf_model_failures),
             self._min_diasources
         )
         self.check_datasets(["forced_diff_schema", "forced_diff_diaObject_schema"], 1)
 
     def test_templates(self):
         """Test existence of templates."""
-        self.check_pipetasks(["getTemplate"], self._num_exposures, self._num_exposures)
+        self.check_pipetasks(["getTemplate"], len(self._raws), len(self._raws))
         self.check_pipetasks(
             ["templateGen", "selectGoodSeeingVisits"],
             self._num_patches*self._num_bands,
@@ -439,7 +455,7 @@ class TestValidateOutputs(unittest.TestCase, MockCheckMixin):
         # No templates get produced for the detectors with astrometry failures
         self.check_datasets(
             ["goodSeeingDiff_templateExp"],
-            self._num_exposures - self._num_forced_astrom_failures
+            len(self._raws - self._forced_astrom_failures),
         )
         self.check_datasets(["goodSeeingDiff_diaSrc_schema"], 1)
 
@@ -447,17 +463,15 @@ class TestValidateOutputs(unittest.TestCase, MockCheckMixin):
         """Test existence of image differences."""
         self.check_pipetasks(
             ["subtractImages", "detectAndMeasureDiaSources"],
-            self._num_exposures,
-            self._num_exposures
+            len(self._raws),
+            len(self._raws)
         )
-        # No external calibrations are applied to the diffim forced
-        # measurements, so no tables should be produced the detectors with
-        # astrometry failures.
+        # External calibrations are applied to the diffim forced measurements,
+        # so the astrometry failures don't reduce the counts, but the PSF model
+        # failures do.
         self.check_datasets(
             ["goodSeeingDiff_differenceExp"],
-            self._num_exposures_good_templates
-            + self._num_surprise_diffim_successes
-            - self._num_forced_astrom_failures
+            len(self._raws - self._insufficient_template_coverage_failures - self._final_psf_model_failures)
         )
         self.check_datasets(["goodSeeingDiff_diaSrc_schema"], 1)
 
@@ -473,8 +487,8 @@ class TestValidateOutputs(unittest.TestCase, MockCheckMixin):
         self.check_pipetasks(
             ["writeForcedSourceTable",
              "writeForcedSourceOnDiaObjectTable"],
-            self._num_exposures,
-            self._num_exposures
+            len(self._raws),
+            len(self._raws)
         )
         self.check_pipetasks(
             ["transformForcedSourceTable",
@@ -484,20 +498,19 @@ class TestValidateOutputs(unittest.TestCase, MockCheckMixin):
             1,
             1
         )
-        # No external calibrations are applied to the diffim forced
-        # measurements, so no tables should be produced the detectors with
-        # astrometry failures.
+        # External calibrations are applied to the diffim forced measurements,
+        # so the astrometry failures don't reduce the counts, but the PSF model
+        # failures do.
         self.check_sources(
             ["forced_diff_diaObject"],
-            self._num_exposures_good_templates
-            + self._num_surprise_diffim_successes
-            - self._num_forced_astrom_failures,
+            len(self._raws - self._insufficient_template_coverage_failures - self._final_psf_model_failures),
             self._min_diasources
         )
         # There are fewer forced sources
-        self.check_sources(["forced_src_diaObject"], self._num_exposures, self._min_diasources)
+        self.check_sources(["forced_src_diaObject"], len(self._raws - self._final_psf_model_failures),
+                           self._min_diasources)
         self.check_datasets(["forced_diff_diaObject_schema", "forced_src_diaObject_schema"], 1)
-        self.check_datasets(["forced_src_diaObject"], self._num_exposures)
+        self.check_datasets(["forced_src_diaObject"], len(self._raws - self._final_psf_model_failures))
 
     def test_skymap(self):
         """Test existence of skymap."""
@@ -506,7 +519,7 @@ class TestValidateOutputs(unittest.TestCase, MockCheckMixin):
     def test_skycorr(self):
         """Test existence of skycorr."""
         self.check_pipetasks(["skyCorr"], self._num_visits, self._num_visits)
-        self.check_datasets(["skyCorr"], self._num_exposures)
+        self.check_datasets(["skyCorr"], len(self._raws))
 
     def check_aperture_corrections(self, catalog, aperture_algorithms=("base_PsfFlux", "base_GaussianFlux"),
                                    **kwargs):
