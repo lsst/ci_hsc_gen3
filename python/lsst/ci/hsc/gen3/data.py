@@ -78,11 +78,3 @@ INSUFFICIENT_TEMPLATE_COVERAGE_FAILURE_DATA_IDS = [
     {'visit': 903342, 'detector': 100, 'physical_filter': 'HSC-R'},
     {'visit': 904010, 'detector': 100, 'physical_filter': 'HSC-I'},
 ]
-
-# The following data IDs fail with PSF modeling failures in
-# finalizeCharacterization.  This is not intentional, and would ideally be
-# fixed in the future.
-FINAL_PSF_MODEL_FAILURE_DATA_IDS = [
-    {'visit': 903344, 'detector': 0, 'physical_filter': 'HSC-R'},
-    {'visit': 903346, 'detector': 1, 'physical_filter': 'HSC-R'},
-]
