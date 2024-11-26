@@ -25,7 +25,6 @@ from lsst.ci.hsc.gen3 import (
     DATA_IDS,
     ASTROMETRY_FAILURE_DATA_IDS,
     INSUFFICIENT_TEMPLATE_COVERAGE_FAILURE_DATA_IDS,
-    FINAL_PSF_MODEL_FAILURE_DATA_IDS,
 )
 from lsst.ci.hsc.gen3.tests import MockCheckMixin
 from lsst.daf.butler import Butler
@@ -54,9 +53,6 @@ class TestValidateOutputs(unittest.TestCase, MockCheckMixin):
         self._insufficient_template_coverage_failures = to_set_of_tuples(
             INSUFFICIENT_TEMPLATE_COVERAGE_FAILURE_DATA_IDS
         )
-        # Two detectors fail second-stage PSF modeling, leaving those PSFs None
-        # in the final visit summary.
-        self._final_psf_model_failures = to_set_of_tuples(FINAL_PSF_MODEL_FAILURE_DATA_IDS)
         self._num_visits = len({data_id["visit"] for data_id in DATA_IDS})
         self._num_tracts = 1
         self._num_patches = 1
@@ -149,18 +145,18 @@ class TestValidateOutputs(unittest.TestCase, MockCheckMixin):
         "Test existence of raw exposures."""
         self.check_datasets(["raw"], len(self._raws))
 
-    def test_isr_characterize_calibrate(self):
+    def test_isr_calibrateImage(self):
         """Test existence of isr/calibration related files."""
         self.check_pipetasks(
-            ["isr", "characterizeImage", "calibrate"],
+            ["isr", "calibrateImage"],
             len(self._raws),
             len(self._raws)
         )
         self.check_datasets(
-            ["postISRCCD", "icExp", "icExpBackground", "icSrc", "calexp", "calexpBackground"],
+            ["postISRCCD", "calexp", "calexpBackground"],
             len(self._raws)
         )
-        self.check_datasets(["icSrc_schema", "src_schema"], 1)
+        self.check_datasets(["src_schema"], 1)
         self.check_sources(
             ["src"],
             len(self._raws),
@@ -172,7 +168,7 @@ class TestValidateOutputs(unittest.TestCase, MockCheckMixin):
     def test_source_tables(self):
         """Test existence of source tables."""
         self.check_pipetasks(
-            ["writeRecalibratedSourceTable", "transformSourceTable"],
+            ["reprocessVisitImage", "transformSourceTable"],
             len(self._raws),
             len(self._raws)
         )
@@ -184,13 +180,6 @@ class TestValidateOutputs(unittest.TestCase, MockCheckMixin):
         """Test existence of visit summaries."""
         self.check_pipetasks(["consolidateVisitSummary"], self._num_visits, self._num_visits)
         self.check_datasets(["visitSummary"], self._num_visits)
-
-    def test_match_catalogs(self):
-        """Test existence of srcMatch and srcMatchFull catalogs."""
-        self.check_datasets(
-            ["srcMatch", "srcMatchFull"],
-            len(self._raws - self._forced_astrom_failures)
-        )
 
     def test_isolated_star_association(self):
         """Test existence of isolated star tables."""
@@ -406,14 +395,14 @@ class TestValidateOutputs(unittest.TestCase, MockCheckMixin):
         # and forced photometry to skip with NoWorkFound.
         self.check_sources(
             ["forced_src"],
-            len(self._raws - self._final_psf_model_failures),
+            len(self._raws),
             self._min_sources,
             additional_checks=[self.check_aperture_corrections],
             # We only measure psfFlux in single-detector forced photometry.
             aperture_algorithms=("base_PsfFlux", ),
         )
         self.check_datasets(["forced_src_schema"], 1)
-        self.check_datasets(["forced_src"], len(self._raws - self._final_psf_model_failures))
+        self.check_datasets(["forced_src"], len(self._raws))
 
     def test_forced_phot_coadd(self):
         """Test existence of forced photometry tables (objects)."""
@@ -439,7 +428,7 @@ class TestValidateOutputs(unittest.TestCase, MockCheckMixin):
         # forced source counts depend on detector/tract overlap.
         self.check_sources(
             ["forced_diff", "forced_diff_diaObject"],
-            len(self._raws - self._insufficient_template_coverage_failures - self._final_psf_model_failures),
+            len(self._raws - self._insufficient_template_coverage_failures),
             self._min_diasources
         )
         self.check_datasets(["forced_diff_schema", "forced_diff_diaObject_schema"], 1)
@@ -471,7 +460,7 @@ class TestValidateOutputs(unittest.TestCase, MockCheckMixin):
         # failures do.
         self.check_datasets(
             ["goodSeeingDiff_differenceExp"],
-            len(self._raws - self._insufficient_template_coverage_failures - self._final_psf_model_failures)
+            len(self._raws - self._insufficient_template_coverage_failures)
         )
         self.check_datasets(["goodSeeingDiff_diaSrc_schema"], 1)
 
@@ -503,14 +492,14 @@ class TestValidateOutputs(unittest.TestCase, MockCheckMixin):
         # failures do.
         self.check_sources(
             ["forced_diff_diaObject"],
-            len(self._raws - self._insufficient_template_coverage_failures - self._final_psf_model_failures),
+            len(self._raws - self._insufficient_template_coverage_failures),
             self._min_diasources
         )
         # There are fewer forced sources
-        self.check_sources(["forced_src_diaObject"], len(self._raws - self._final_psf_model_failures),
+        self.check_sources(["forced_src_diaObject"], len(self._raws),
                            self._min_diasources)
         self.check_datasets(["forced_diff_diaObject_schema", "forced_src_diaObject_schema"], 1)
-        self.check_datasets(["forced_src_diaObject"], len(self._raws - self._final_psf_model_failures))
+        self.check_datasets(["forced_src_diaObject"], len(self._raws))
 
     def test_skymap(self):
         """Test existence of skymap."""
