@@ -136,6 +136,11 @@ external = env.Command([Dir(os.path.join(REPO_ROOT, "HSC", "masks")),
                                          "--export-file", os.path.join(PKG_ROOT, "resources",
                                                                        "external_jointcal.yaml")),
 
+                        getExecutableCmd("daf_butler", "butler", "import", REPO_ROOT,
+                                         env.ProductDir("testdata_ci_hsc"),
+                                         "--export-file", os.path.join(PKG_ROOT, "resources",
+                                                                       "external_pretrained_models.yaml")),
+
                         getExecutableCmd("daf_butler", "butler", "register-dataset-type", REPO_ROOT,
                                          "injection_catalog", "ArrowAstropy", "band", "htm7"),
 
@@ -152,6 +157,7 @@ external = env.Command([Dir(os.path.join(REPO_ROOT, "HSC", "masks")),
                                                             "pipelines", "inject_coadd.yaml"),
                                          "-f", os.path.join(REPO_ROOT, "DRP-ci_hsc+injection.yaml"),
                                          "--overwrite"),
+
                         ])
 env.Alias("external", external)
 

@@ -1,0 +1,26 @@
+description: Butler Data Repository Export
+version: 1.0.2
+universe_version: 7
+universe_namespace: daf_butler
+data:
+- type: collection
+  collection_type: RUN
+  name: HSC/external
+  host: null
+  timespan_begin: null
+  timespan_end: null
+- type: dataset_type
+  name: pretrainedModelPackage
+  dimensions: []
+  storage_class: NNModelPackagePayload
+  is_calibration: false
+- type: dataset
+  dataset_type: pretrainedModelPackage
+  run: HSC/external
+  records:
+  - dataset_id:
+    - !uuid '3c2f1a51-0f8c-424d-bd6f-e0138cedce22'
+    data_id:
+    - {}
+    path: pretrained_models/tac_cnn_dc2_2024-11-14/pretrainedModelPackage/pretrainedModelPackage_pretrained_models_tac_cnn_dc2_2024-11-14.zip
+    formatter: lsst.meas.transiNet.modelPackages.formatters.NNModelPackageFormatter
