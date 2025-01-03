@@ -27,6 +27,7 @@ import lsst.utils.tests
 
 from lsst.daf.butler import Butler, DataCoordinate
 from lsst.utils import getPackageDir
+from lsst.ci.hsc.gen3 import ASTROMETRY_FAILURE_DATA_IDS
 
 
 class TestAstrometryFails(lsst.utils.tests.TestCase):
@@ -38,8 +39,8 @@ class TestAstrometryFails(lsst.utils.tests.TestCase):
         # The dataId here represents one of the astrometry fit failures
         # imposed by setting astrometry.maxMeanDistanceArcsec: 0.020 in
         # the pipeline.
-        self.detector = 0
-        self.visit = 903344
+        self.detector = ASTROMETRY_FAILURE_DATA_IDS[0]["detector"]
+        self.visit = ASTROMETRY_FAILURE_DATA_IDS[0]["visit"]
         self.calexpMinimalDataId = DataCoordinate.standardize(
             instrument="HSC", detector=self.detector, visit=self.visit,
             universe=self.butler.dimensions,
