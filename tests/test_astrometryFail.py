@@ -113,10 +113,11 @@ class TestAstrometryFails(lsst.utils.tests.TestCase):
         self.assertTrue(np.all(np.isfinite(visitTable["ra"])))
 
         visitSummary = self.butler.get("visitSummary", self.calexpMinimalDataId)
-        self.assertTrue(np.isfinite(visitSummary["id" == self.detector]["astromOffsetMean"]))
-        self.assertTrue(np.isfinite(visitSummary["id" == self.detector]["astromOffsetStd"]))
-        self.assertTrue(np.all(np.isnan(visitSummary["id" == 1]["raCorners"])))
-        self.assertTrue(np.all(np.isnan(visitSummary["id" == 1]["decCorners"])))
+        row = visitSummary.find(self.detector)
+        self.assertTrue(np.isfinite(row["astromOffsetMean"]))
+        self.assertTrue(np.isfinite(row["astromOffsetStd"]))
+        self.assertTrue(np.all(np.isnan(row["raCorners"])))
+        self.assertTrue(np.all(np.isnan(row["decCorners"])))
 
     def testMetadataForFailedAstrom(self):
         """Test that the metadata for a failed astrometic fit is set properly.
