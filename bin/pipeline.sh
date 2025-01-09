@@ -61,7 +61,7 @@ pipetask --long-log --log-level="$loglevel" qgraph \
     --input "$INPUTCOLL" --output "$COLLECTION" \
     -p "$DRP_PIPE_DIR/pipelines/HSC/DRP-ci_hsc.yaml" \
     -c calibrateImage:astrometry.maxMeanDistanceArcsec=0.20 \
-    -c makeWarp:select.maxPsfTraceRadiusDelta=0.2 \
+    -c makeDirectWarp:select.maxPsfTraceRadiusDelta=0.2 \
     --save-qgraph "$QGRAPH_FILE"
 
 pipetask --long-log --log-level="$loglevel" run \
