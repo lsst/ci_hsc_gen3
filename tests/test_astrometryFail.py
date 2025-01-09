@@ -27,10 +27,9 @@ import lsst.utils.tests
 
 from lsst.daf.butler import Butler, DataCoordinate
 from lsst.utils import getPackageDir
+from lsst.ci.hsc.gen3 import ASTROMETRY_FAILURE_DATA_IDS
 
 
-# DM-46272: not forcing these failures until we can handle partial outputs;
-# remove the expectedFailures as that ticket is sorted out.
 class TestAstrometryFails(lsst.utils.tests.TestCase):
     """Tests the outputs of the forced astrometry failures.
     """
@@ -40,14 +39,13 @@ class TestAstrometryFails(lsst.utils.tests.TestCase):
         # The dataId here represents one of the astrometry fit failures
         # imposed by setting astrometry.maxMeanDistanceArcsec: 0.020 in
         # the pipeline.
-        self.detector = 0
-        self.visit = 903344
+        self.detector = ASTROMETRY_FAILURE_DATA_IDS[0]["detector"]
+        self.visit = ASTROMETRY_FAILURE_DATA_IDS[0]["visit"]
         self.calexpMinimalDataId = DataCoordinate.standardize(
             instrument="HSC", detector=self.detector, visit=self.visit,
             universe=self.butler.dimensions,
         )
 
-    @unittest.expectedFailure
     def testWcsAndPhotoCalibIsNoneForFailedAstrom(self):
         """Test the WCS and photoCalib objects attached to failed WCS exposure.
 
@@ -64,7 +62,6 @@ class TestAstrometryFails(lsst.utils.tests.TestCase):
         calexpPhotoCalib = self.butler.get("calexp.photoCalib", self.calexpMinimalDataId)
         self.assertTrue(calexpPhotoCalib is None)
 
-    @unittest.expectedFailure
     def testSrcCoordsAreNanForFailedAstrom(self):
         """Test coord values in all source catalogs.
 
@@ -103,7 +100,6 @@ class TestAstrometryFails(lsst.utils.tests.TestCase):
             self.assertFalse(np.all(np.isnan(sourceCat["x"])))
             self.assertFalse(np.all(np.isnan(sourceCat["y"])))
 
-    @unittest.expectedFailure
     def testVisitCoordsAreNanForFailedAstrom(self):
         """Test coord and astrom values for visitTable and visitSummary.
 
@@ -117,10 +113,11 @@ class TestAstrometryFails(lsst.utils.tests.TestCase):
         self.assertTrue(np.all(np.isfinite(visitTable["ra"])))
 
         visitSummary = self.butler.get("visitSummary", self.calexpMinimalDataId)
-        self.assertTrue(np.isfinite(visitSummary["id" == self.detector]["astromOffsetMean"]))
-        self.assertTrue(np.isfinite(visitSummary["id" == self.detector]["astromOffsetStd"]))
-        self.assertTrue(np.all(np.isnan(visitSummary["id" == 1]["raCorners"])))
-        self.assertTrue(np.all(np.isnan(visitSummary["id" == 1]["decCorners"])))
+        row = visitSummary.find(self.detector)
+        self.assertTrue(np.isfinite(row["astromOffsetMean"]))
+        self.assertTrue(np.isfinite(row["astromOffsetStd"]))
+        self.assertTrue(np.all(np.isnan(row["raCorners"])))
+        self.assertTrue(np.all(np.isnan(row["decCorners"])))
 
     def testMetadataForFailedAstrom(self):
         """Test that the metadata for a failed astrometic fit is set properly.

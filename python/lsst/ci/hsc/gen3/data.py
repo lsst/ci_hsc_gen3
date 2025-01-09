@@ -54,14 +54,12 @@ DATA_IDS = [
     {'visit': 903988, 'detector': 24, 'physical_filter': 'HSC-I'},
 ]
 # The following lists the dataIds that fail the astrometry check with
-# the config override calibrate.astrometry.maxMeanDistanceArcsec=0.020
+# the config override calibrateImage.astrometry.maxMeanDistanceArcsec=0.02398
 # set.  This list is sensitive to the astrometry algorithms and dataset
 # under consideration, so may require updating if either of those change
 # in the context of this repository.
-# DM-46272: not forcing these failures until we can handle partial outputs;
-# uncomment this line as that ticket is sorted out.
 ASTROMETRY_FAILURE_DATA_IDS = [
-    # {'visit': 903344, 'detector': 0, 'physical_filter': 'HSC-R'},
+    {'visit': 903988, 'detector': 23, 'physical_filter': 'HSC-I'},
 ]
 # The following lists the dataIds that fail the PSF Model robustness check
 # with the config override makeWarp.select.maxPsfTraceRadiusDelta=0.2 set.

@@ -390,24 +390,41 @@ class TestValidateOutputs(unittest.TestCase, MockCheckMixin):
             self._num_tracts
         )
 
+    def test_reprocess_visit_image(self):
+        """Test the existence of ReprocessVisitImageTask's outputs."""
+        # While the external WCS files might someday let us recover from the
+        # forced astrometry failures at this stage, at present that failure
+        # prevents isolated star association for generating matches for this
+        # detector, and that prevents the second round of PSF determination and
+        # aperture correction from working.  This manifests as an
+        # UpstreamFailureNoWorkFound, and hence we expect metadata outputs but
+        # not source catalogs or PVIs for the forced-failure data IDs.
+        self.check_pipetasks(["reprocessVisitImage"], len(self._raws), len(self._raws))
+        self.check_sources(
+            ["sources_footprints_detector"],
+            len(self._raws - self._forced_astrom_failures),
+            self._min_sources,
+            additional_checks=[self.check_aperture_corrections]
+        )
+        self.check_datasets(["sources_schema"], 1)
+        self.check_datasets(["pvi", "pvi_background"], len(self._raws - self._forced_astrom_failures))
+
     def test_forced_phot_ccd(self):
         """Test existence of forced photometry tables (sources)."""
+        # Lack of PVI (from reprocessVisitImage) leads to NoWorkFound for the
+        # forced astrometry failure data IDs, which affects regular-output
+        # counts, but not logs or metadata.
         self.check_pipetasks(["forcedPhotCcd"], len(self._raws), len(self._raws))
-        # Despite the two detectors with SFM astrometric failures, the external
-        # calibration files still exist for them, so the forced_src catalogs
-        # should indeed exist for all detectors.  This is not true for the
-        # final PSF modeling failures, which cause the PVI not to be created
-        # and forced photometry to skip with NoWorkFound.
         self.check_sources(
             ["forced_src"],
-            len(self._raws),
+            len(self._raws - self._forced_astrom_failures),
             self._min_sources,
             additional_checks=[self.check_aperture_corrections],
             # We only measure psfFlux in single-detector forced photometry.
             aperture_algorithms=("base_PsfFlux", ),
         )
         self.check_datasets(["forced_src_schema"], 1)
-        self.check_datasets(["forced_src"], len(self._raws))
+        self.check_datasets(["forced_src"], len(self._raws - self._forced_astrom_failures))
 
     def test_forced_phot_coadd(self):
         """Test existence of forced photometry tables (objects)."""
@@ -422,18 +439,17 @@ class TestValidateOutputs(unittest.TestCase, MockCheckMixin):
 
     def test_forced_phot_diffim(self):
         """Test existence of forced photometry tables (diffim)."""
+        # Lack of PVI (from reprocessVisitImage) leads to NoWorkFound for the
+        # forced astrometry failure data IDs, which affects regular-output
+        # counts, but not logs or metadata.
         self.check_pipetasks(
             ["forcedPhotDiffim", "forcedPhotCcdOnDiaObjects", "forcedPhotDiffOnDiaObjects"],
             len(self._raws),
             len(self._raws),
         )
-        # External calibrations are applied to the diffim forced measurements,
-        # so the astrometry failures don't reduce the counts, but the PSF model
-        # failures do.
-        # forced source counts depend on detector/tract overlap.
         self.check_sources(
             ["forced_diff", "forced_diff_diaObject"],
-            len(self._raws - self._insufficient_template_coverage_failures),
+            len(self._raws - self._insufficient_template_coverage_failures - self._forced_astrom_failures),
             self._min_diasources
         )
         self.check_datasets(["forced_diff_schema", "forced_diff_diaObject_schema"], 1)
@@ -460,12 +476,12 @@ class TestValidateOutputs(unittest.TestCase, MockCheckMixin):
             len(self._raws),
             len(self._raws)
         )
-        # External calibrations are applied to the diffim forced measurements,
-        # so the astrometry failures don't reduce the counts, but the PSF model
-        # failures do.
+        # Lack of PVI (from reprocessVisitImage) leads to NoWorkFound for the
+        # forced astrometry failure data IDs, which affects regular-output
+        # counts, but not logs or metadata.
         self.check_datasets(
             ["goodSeeingDiff_differenceExp"],
-            len(self._raws - self._insufficient_template_coverage_failures)
+            len(self._raws - self._insufficient_template_coverage_failures - self._forced_astrom_failures)
         )
         self.check_datasets(["goodSeeingDiff_diaSrc_schema"], 1)
 
@@ -492,19 +508,19 @@ class TestValidateOutputs(unittest.TestCase, MockCheckMixin):
             1,
             1
         )
-        # External calibrations are applied to the diffim forced measurements,
-        # so the astrometry failures don't reduce the counts, but the PSF model
-        # failures do.
+        # Lack of PVI (from reprocessVisitImage) leads to NoWorkFound for the
+        # forced astrometry failure data IDs, which affects regular-output
+        # counts, but not logs or metadata.
         self.check_sources(
             ["forced_diff_diaObject"],
-            len(self._raws - self._insufficient_template_coverage_failures),
+            len(self._raws - self._insufficient_template_coverage_failures - self._forced_astrom_failures),
             self._min_diasources
         )
         # There are fewer forced sources
-        self.check_sources(["forced_src_diaObject"], len(self._raws),
+        self.check_sources(["forced_src_diaObject"], len(self._raws - self._forced_astrom_failures),
                            self._min_diasources)
         self.check_datasets(["forced_diff_diaObject_schema", "forced_src_diaObject_schema"], 1)
-        self.check_datasets(["forced_src_diaObject"], len(self._raws))
+        self.check_datasets(["forced_src_diaObject"], len(self._raws - self._forced_astrom_failures))
 
     def test_skymap(self):
         """Test existence of skymap."""
