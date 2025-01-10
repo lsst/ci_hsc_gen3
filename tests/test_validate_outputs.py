@@ -26,7 +26,6 @@ from lsst.ci.hsc.gen3 import (
     ASTROMETRY_FAILURE_DATA_IDS,
     INSUFFICIENT_TEMPLATE_COVERAGE_FAILURE_DATA_IDS,
 )
-from lsst.ci.hsc.gen3.tests import MockCheckMixin
 from lsst.daf.butler import Butler
 from lsst.utils import getPackageDir
 
@@ -38,7 +37,7 @@ def to_set_of_tuples(list_of_dicts):
     return {(d["visit"], d["detector"]) for d in list_of_dicts}
 
 
-class TestValidateOutputs(unittest.TestCase, MockCheckMixin):
+class TestValidateOutputs(unittest.TestCase):
     """Check that ci_hsc_gen3 outputs are as expected."""
 
     def setUp(self):
@@ -94,8 +93,6 @@ class TestValidateOutputs(unittest.TestCase, MockCheckMixin):
         """
         for dataset_type in dataset_types:
 
-            self.skip_mock(dataset_type)
-
             datasets = set(self.butler.registry.queryDatasets(dataset_type))
 
             self.assertEqual(len(datasets), n_expected, msg=f"Number of {dataset_type}")
@@ -127,8 +124,6 @@ class TestValidateOutputs(unittest.TestCase, MockCheckMixin):
             Additional keywords to send to ``additional_checks``.
         """
         for source_dataset_type in source_dataset_types:
-
-            self.skip_mock(source_dataset_type)
 
             datasets = set(self.butler.registry.queryDatasets(source_dataset_type))
 

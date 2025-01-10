@@ -23,19 +23,17 @@ import unittest
 import os
 import re
 
-from lsst.ci.hsc.gen3.tests import MockCheckMixin
 from lsst.daf.butler import Butler
 from lsst.utils import getPackageDir
 from lsst.resources import ResourcePath
 
 
-class TestHipsOutputs(unittest.TestCase, MockCheckMixin):
+class TestHipsOutputs(unittest.TestCase):
     """Check that HIPS outputs are as expected."""
     def setUp(self):
         self.butler = Butler(os.path.join(getPackageDir("ci_hsc_gen3"), "DATA"),
                              instrument="HSC", skymap="discrete/ci_hsc",
                              writeable=False, collections=["HSC/runs/ci_hsc_hips"])
-        self.skip_mock()
         self._bands = ['r', 'i']
         self.hips_uri_base = ResourcePath(os.path.join(getPackageDir("ci_hsc_gen3"), "DATA", "hips"))
 

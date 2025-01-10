@@ -4,26 +4,23 @@ set -e
 
 usage() {
     cat <<USAGE
-Usage: $0 [-j N] [-m] [-l level] repo
+Usage: $0 [-j N] [-l level] repo
 
 Options:
     -h          Print usage information.
     -j N        Run pipetask with N processes, default is 1.
-    -m          Run mock pipeline.
     -l level    Logging level, default is INFO.
 USAGE
 }
 
 jobs=1
-mock=
 loglevel=INFO
 
-while getopts hj:ml: opt
+while getopts hj:l: opt
 do
     case $opt in
         h) usage; exit;;
         j) jobs=$OPTARG;;
-        m) mock="--mock";;
         l) loglevel=$OPTARG;;
         \?) usage 1>&2; exit 1;;
     esac
@@ -63,7 +60,7 @@ pipetask --long-log --log-level="$loglevel" run \
     -j "$jobs" -b "$repo"/butler.yaml \
     --input "$INPUTCOLL" --output "$COLLECTION" \
     --no-raise-on-partial-outputs \
-    --register-dataset-types $mock \
+    --register-dataset-types \
     --qgraph "$QGRAPH_FILE"
 
 pipetask --long-log --log-level="$loglevel" qgraph \
@@ -76,7 +73,7 @@ pipetask --long-log --log-level="$loglevel" qgraph \
 pipetask --long-log --log-level="$loglevel" run \
     -j "$jobs" -b "$repo"/butler.yaml \
     --input "$COLLECTION","$INJECTION_INPUTCOLL" --output "$INJECTION_COLLECTION" \
-    --register-dataset-types $mock \
+    --register-dataset-types \
     --qgraph "$INJECTION_QGRAPH_FILE"
 
 pipetask --long-log --log-level="$loglevel" qgraph \
@@ -89,7 +86,7 @@ pipetask --long-log --log-level="$loglevel" qgraph \
 pipetask --long-log --log-level="$loglevel" run \
     -j "$jobs" -b "$repo"/butler.yaml \
     --output "$INJECTION_COLLECTION" \
-    --register-dataset-types $mock \
+    --register-dataset-types \
     --qgraph "$POST_INJECTION_QGRAPH_FILE"
 
 
@@ -98,7 +95,7 @@ build-gather-resource-usage-qg --output "$RESOURCE_USAGE_COLLECTION" "$repo" "$R
 pipetask --long-log --log-level="$loglevel" run \
     -j "$jobs" -b "$repo"/butler.yaml \
     --output "$RESOURCE_USAGE_COLLECTION" \
-    --register-dataset-types $mock \
+    --register-dataset-types \
     -g "$RESOURCE_USAGE_QGRAPH_FILE"
 
 # The output from this is unused, but this will exercise that the code runs.
@@ -112,7 +109,7 @@ build-high-resolution-hips-qg build \
 pipetask --long-log --log-level="$loglevel" run \
     -j "$jobs" -b "$repo"/butler.yaml \
     --output "$HIPS_COLLECTION" \
-    --register-dataset-types $mock \
+    --register-dataset-types \
     -g "$HIPS_QGRAPH_FILE"
 
 pipetask --long-log --log-level="$loglevel" run \
@@ -122,4 +119,4 @@ pipetask --long-log --log-level="$loglevel" run \
     -p "$CI_HSC_GEN3_DIR/resources/gen_hips.yaml" \
     -c "generateHips:hips_base_uri=$repo/hips" \
     -c "generateColorHips:hips_base_uri=$repo/hips" \
-    --register-dataset-types $mock
+    --register-dataset-types

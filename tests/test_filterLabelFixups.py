@@ -23,13 +23,12 @@ import os
 import unittest
 
 import lsst.utils.tests
-from lsst.ci.hsc.gen3.tests import MockCheckMixin
 from lsst.daf.butler import Butler, DataCoordinate
 from lsst.geom import Box2I, Point2I
 from lsst.utils import getPackageDir
 
 
-class TestFilterLabelFixups(lsst.utils.tests.TestCase, MockCheckMixin):
+class TestFilterLabelFixups(lsst.utils.tests.TestCase):
     """Tests for the logic in
     lsst.obs.base.formatters.fitsExposure.FitsExposureFormatter._fixFilterLabels
     that uses the data ID passed to a formatter to fix and/or check the
@@ -97,7 +96,6 @@ class TestFilterLabelFixups(lsst.utils.tests.TestCase, MockCheckMixin):
         reader should recognize that it can't check the filters and just trust
         the file.
         """
-        self.skip_mock()
         calexp = self.butler.get("calexp", self.calexpMinimalDataId)
         calexpFilterLabel = self.butler.get("calexp.filter", self.calexpMinimalDataId)
         self.assertTrue(calexp.getFilter().hasPhysicalLabel())
@@ -111,7 +109,6 @@ class TestFilterLabelFixups(lsst.utils.tests.TestCase, MockCheckMixin):
         should check the filters in the file for consistency with the data ID
         (and in this case, find them consistent).
         """
-        self.skip_mock()
         calexpFullDataId = self.butler.registry.expandDataId(self.calexpMinimalDataId)
         calexp = self.butler.get("calexp", calexpFullDataId)
         self.assertEqual(calexp.getFilter().bandLabel, calexpFullDataId["band"])
@@ -128,7 +125,6 @@ class TestFilterLabelFixups(lsst.utils.tests.TestCase, MockCheckMixin):
         (and in this case, find them inconsistent, which should result in
         warnings and returning what's in the data ID).
         """
-        self.skip_mock()
         calexpBadDataId = DataCoordinate.standardize(
             self.calexpMinimalDataId,
             band="g",

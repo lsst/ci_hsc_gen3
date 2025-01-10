@@ -24,12 +24,11 @@ import unittest
 
 import lsst.utils.tests
 import numpy as np
-from lsst.ci.hsc.gen3.tests import MockCheckMixin
 from lsst.daf.butler import Butler
 from lsst.utils import getPackageDir
 
 
-class TestReprocessVisitImageOutputs(lsst.utils.tests.TestCase, MockCheckMixin):
+class TestReprocessVisitImageOutputs(lsst.utils.tests.TestCase):
     """Test the output data products of reprocessVisitImage task make sense.
 
     This is a regression test and not intended for scientific validation.
@@ -38,7 +37,6 @@ class TestReprocessVisitImageOutputs(lsst.utils.tests.TestCase, MockCheckMixin):
     def setUp(self):
         self.butler = Butler(os.path.join(getPackageDir("ci_hsc_gen3"), "DATA"),
                              writeable=False, collections=["HSC/runs/ci_hsc"])
-        self.skip_mock()
         self.dataId = {"instrument": "HSC", "detector": 100, "visit": 903334}
         self.exposure = self.butler.get("pvi", self.dataId)
         self.catalog = self.butler.get("sources_footprints_detector", self.dataId)
