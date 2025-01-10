@@ -19,3 +19,4 @@ gen3.sqlite3
 DATA
 *.pyc
 python/*.dist-info/
+*.qgraph
