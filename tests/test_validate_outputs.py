@@ -26,8 +26,9 @@ from lsst.ci.hsc.gen3 import (
     ASTROMETRY_FAILURE_DATA_IDS,
     INSUFFICIENT_TEMPLATE_COVERAGE_FAILURE_DATA_IDS,
 )
-from lsst.ci.hsc.gen3.tests import MockCheckMixin
-from lsst.daf.butler import Butler
+from lsst.daf.butler import Butler, DataCoordinate
+from lsst.pipe.base import QuantumGraph
+import lsst.pipe.base.quantum_provenance_graph as qpg
 from lsst.utils import getPackageDir
 
 
@@ -38,7 +39,7 @@ def to_set_of_tuples(list_of_dicts):
     return {(d["visit"], d["detector"]) for d in list_of_dicts}
 
 
-class TestValidateOutputs(unittest.TestCase, MockCheckMixin):
+class TestValidateOutputs(unittest.TestCase):
     """Check that ci_hsc_gen3 outputs are as expected."""
 
     def setUp(self):
@@ -94,8 +95,6 @@ class TestValidateOutputs(unittest.TestCase, MockCheckMixin):
         """
         for dataset_type in dataset_types:
 
-            self.skip_mock(dataset_type)
-
             datasets = set(self.butler.registry.queryDatasets(dataset_type))
 
             self.assertEqual(len(datasets), n_expected, msg=f"Number of {dataset_type}")
@@ -127,8 +126,6 @@ class TestValidateOutputs(unittest.TestCase, MockCheckMixin):
             Additional keywords to send to ``additional_checks``.
         """
         for source_dataset_type in source_dataset_types:
-
-            self.skip_mock(source_dataset_type)
 
             datasets = set(self.butler.registry.queryDatasets(source_dataset_type))
 
@@ -558,6 +555,55 @@ class TestValidateOutputs(unittest.TestCase, MockCheckMixin):
                 psf_stars_used.sum() + psf_stars_reserved.sum(),
                 msg="Number of candidate PSF stars >= sum of used and reserved stars"
             )
+
+    def test_qg_datasets(self):
+        """Test that the datasets predicted by the QG were actually produced,
+        except in the few cases where we expect NoWorkFound to have been
+        raised.
+        """
+        qg = QuantumGraph.loadUri("ci_hsc.qgraph")
+        prov = qpg.QuantumProvenanceGraph()
+        prov.assemble_quantum_provenance_graph(self.butler, [qg])
+        # Identify the quanta that we expect to be affected by the expected
+        # success caveats (NoWorkFound etc): quanta downstream of the failures
+        # themselves that have the same {visit, detector}; note that this does
+        # not include visit-level aggregates that are downstream (or any other
+        # kind of downstream aggregate).
+        expected_keys_with_caveats: set[qpg.QuantumKey | qpg.DatasetKey] = set()
+        for task_label, dict_data_ids in [
+            ("calibrateImage", ASTROMETRY_FAILURE_DATA_IDS),
+            ("subtractImages", INSUFFICIENT_TEMPLATE_COVERAGE_FAILURE_DATA_IDS),
+        ]:
+            dimensions = qg.pipeline_graph.tasks[task_label].dimensions
+            for dict_data_id in dict_data_ids:
+                data_id = DataCoordinate.standardize(dict_data_id, dimensions=dimensions, instrument="HSC")
+                quantum_key = qpg.QuantumKey(task_label, data_id.required_values)
+                expected_keys_with_caveats.add(quantum_key)
+                for downstream_key, downstream_info in prov.iter_downstream(quantum_key):
+                    downstream_data_id = downstream_info["data_id"]
+                    if (
+                        "visit" in downstream_data_id.dimensions.names
+                        and "detector" in downstream_data_id
+                        and downstream_data_id["visit"] == data_id["visit"]
+                        and downstream_data_id["detector"] == data_id["detector"]
+                    ):
+                        expected_keys_with_caveats.add(downstream_key)
+        for task_label, quanta in prov.quanta.items():
+            for quantum_key in quanta:
+                quantum_info = prov.get_quantum_info(quantum_key)
+                if quantum_info["caveats"] and quantum_key not in expected_keys_with_caveats:
+                    not_produced = [
+                        f"{dataset_key.dataset_type_name}@{dataset_info['data_id']}"
+                        for dataset_key in prov.iter_outputs_of(quantum_key)
+                        if (
+                            (dataset_info := prov.get_dataset_info(dataset_key))["status"]
+                            == qpg.DatasetInfoStatus.PREDICTED_ONLY
+                        )
+                    ]
+                    raise AssertionError(
+                        f"{quantum_key.task_label}@{quantum_info['data_id']} should not have caveats "
+                        f"{quantum_info['caveats']}; missing datasets: {', '.join(not_produced)}."
+                    )
 
 
 if __name__ == "__main__":

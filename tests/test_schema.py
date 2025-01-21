@@ -24,12 +24,11 @@ import unittest
 
 import lsst.utils.tests
 import yaml
-from lsst.ci.hsc.gen3.tests import MockCheckMixin
 from lsst.daf.butler import Butler
 from lsst.utils import getPackageDir
 
 
-class TestSchemaMatch(lsst.utils.tests.TestCase, MockCheckMixin):
+class TestSchemaMatch(lsst.utils.tests.TestCase):
     """Check the schema of the parquet outputs match the DDL in sdm_schemas"""
 
     def setUp(self):
@@ -43,9 +42,6 @@ class TestSchemaMatch(lsst.utils.tests.TestCase, MockCheckMixin):
         """Check the schema of the parquet dataset match that in the DDL.
         Only the column names are checked currently.
         """
-        # skip the test in mock execution
-        self.skip_mock(dataset)
-
         sdmSchema = [table for table in self.schema if table['name'] == tableName]
         self.assertEqual(len(sdmSchema), 1)
         expectedColumnNames = set(column['name'] for column in sdmSchema[0]['columns'])
