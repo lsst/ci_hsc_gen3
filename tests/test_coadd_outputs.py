@@ -141,8 +141,8 @@ class TestCoaddOutputs(unittest.TestCase):
 
             to_check = ctx.choice(len(cat), size=n_object_test, replace=False)
             for index in to_check:
-                coadd_coord = geom.SpherePoint(cat["coord_ra"].values[index]*geom.degrees,
-                                               cat["coord_dec"].values[index]*geom.degrees)
+                coadd_coord = geom.SpherePoint(np.asarray(cat["coord_ra"][index])*geom.degrees,
+                                               np.asarray(cat["coord_dec"][index])*geom.degrees)
                 summed_throughput = np.zeros(wavelengths.shape, dtype=np.float64)
                 weight_sum = 0.0
                 for rec in coadd_inputs.subsetContaining(coadd_coord, includeValidPolygon=True):
@@ -328,7 +328,7 @@ class TestCoaddOutputs(unittest.TestCase):
             to_check = ctx.choice(len(star_cat), size=n_object_test, replace=False)
             n_good = 0
             for index in to_check:
-                position = geom.Point2D(star_cat["x"].values[index], star_cat["y"].values[index])
+                position = geom.Point2D(np.asarray(star_cat["x"])[index], np.asarray(star_cat["y"])[index])
                 psf_image = coadd_psf.computeImage(position)
                 psf_image_bbox = psf_image.getBBox()
                 star_image = lsst.afw.image.ImageF(
