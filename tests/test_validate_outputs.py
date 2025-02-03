@@ -570,14 +570,19 @@ class TestValidateOutputs(unittest.TestCase):
         # not include visit-level aggregates that are downstream (or any other
         # kind of downstream aggregate).
         expected_keys_with_caveats: set[qpg.QuantumKey | qpg.DatasetKey] = set()
-        for task_label, dict_data_ids in [
-            ("calibrateImage", ASTROMETRY_FAILURE_DATA_IDS),
-            ("subtractImages", INSUFFICIENT_TEMPLATE_COVERAGE_FAILURE_DATA_IDS),
+        for task_label, exc_type, dict_data_ids in [
+            ("calibrateImage", "lsst.meas.astrom.exceptions.BadAstrometryFit", ASTROMETRY_FAILURE_DATA_IDS),
+            ("subtractImages", None, INSUFFICIENT_TEMPLATE_COVERAGE_FAILURE_DATA_IDS),
         ]:
             dimensions = qg.pipeline_graph.tasks[task_label].dimensions
             for dict_data_id in dict_data_ids:
                 data_id = DataCoordinate.standardize(dict_data_id, dimensions=dimensions, instrument="HSC")
                 quantum_key = qpg.QuantumKey(task_label, data_id.required_values)
+                _, quantum_run = qpg.QuantumRun.find_final(prov.get_quantum_info(quantum_key))
+                if exc_type is not None:
+                    self.assertEqual(quantum_run.exception.type_name, exc_type)
+                else:
+                    self.assertIsNone(quantum_run.exception)
                 expected_keys_with_caveats.add(quantum_key)
                 for downstream_key, downstream_info in prov.iter_downstream(quantum_key):
                     downstream_data_id = downstream_info["data_id"]
@@ -591,7 +596,8 @@ class TestValidateOutputs(unittest.TestCase):
         for task_label, quanta in prov.quanta.items():
             for quantum_key in quanta:
                 quantum_info = prov.get_quantum_info(quantum_key)
-                if quantum_info["caveats"] and quantum_key not in expected_keys_with_caveats:
+                _, quantum_run = qpg.QuantumRun.find_final(prov.get_quantum_info(quantum_key))
+                if quantum_run.caveats and quantum_key not in expected_keys_with_caveats:
                     not_produced = [
                         f"{dataset_key.dataset_type_name}@{dataset_info['data_id']}"
                         for dataset_key in prov.iter_outputs_of(quantum_key)
