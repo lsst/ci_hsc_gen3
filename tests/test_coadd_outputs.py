@@ -183,11 +183,6 @@ class TestCoaddOutputs(unittest.TestCase):
                 visit=visit_record.getId(),
                 tract=self._tract
             )
-            photocalib_cat = self.butler.get(
-                "jointcalPhotoCalibCatalog",
-                visit=visit_record.getId(),
-                tract=self._tract
-            )
             final_psf_cat = self.butler.get(
                 "finalized_psf_ap_corr_catalog",
                 visit=visit_record.getId()
@@ -203,7 +198,7 @@ class TestCoaddOutputs(unittest.TestCase):
             self.assertEqual(det_record.getWcs(), wcs_cat.find(det_record["ccd"]).getWcs())
             self.assertEqual(
                 det_record.getPhotoCalib(),
-                photocalib_cat.find(det_record["ccd"]).getPhotoCalib()
+                lsst.afw.image.PhotoCalib(1.0),
             )
             self.assertEqual(det_record.getBBox(), exp_bbox)
             self.assertIsNotNone(det_record.getTransmissionCurve())
@@ -239,11 +234,6 @@ class TestCoaddOutputs(unittest.TestCase):
                 visit=det_record["visit"],
                 tract=self._tract
             )
-            photocalib_cat = self.butler.get(
-                "jointcalPhotoCalibCatalog",
-                visit=det_record["visit"],
-                tract=self._tract
-            )
             final_psf_cat = self.butler.get(
                 "finalized_psf_ap_corr_catalog",
                 visit=det_record["visit"]
@@ -256,7 +246,7 @@ class TestCoaddOutputs(unittest.TestCase):
             self.assertEqual(det_record.getWcs(), wcs_cat.find(det_record["ccd"]).getWcs())
             self.assertEqual(
                 det_record.getPhotoCalib(),
-                photocalib_cat.find(det_record["ccd"]).getPhotoCalib()
+                lsst.afw.image.PhotoCalib(1.0),
             )
             self.assertEqual(det_record.getBBox(), exp_bbox)
             self.assertIsNotNone(det_record.getTransmissionCurve())
