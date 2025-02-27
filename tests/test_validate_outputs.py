@@ -79,7 +79,7 @@ class TestValidateOutputs(unittest.TestCase):
             self.check_datasets([f"{name}_metadata"], n_metadata)
             self.check_datasets([f"{name}_log"], n_log)
 
-    def check_datasets(self, dataset_types, n_expected, additional_checks=[], **kwargs):
+    def check_datasets(self, dataset_types, n_expected, max_expected=None, additional_checks=[], **kwargs):
         """Check dataset existence, and run additional checks.
 
         Parameters
@@ -88,6 +88,10 @@ class TestValidateOutputs(unittest.TestCase):
             List of dataset types to check.
         n_expected : `int`
             Number of each dataset_type expected in repo.
+            If `max_expected` is not `None` then this is the lower
+            bound on the number of datasets.
+        max_expected : `int`
+            Maximum number of each dataset_type expected in repo.
         additional_checks : `list` [`func`], optional
             List of additional check functions to run on each dataset.
         **kwargs : `dict`, optional
@@ -97,7 +101,11 @@ class TestValidateOutputs(unittest.TestCase):
 
             datasets = set(self.butler.registry.queryDatasets(dataset_type))
 
-            self.assertEqual(len(datasets), n_expected, msg=f"Number of {dataset_type}")
+            if max_expected is not None:
+                self.assertGreaterEqual(len(datasets), n_expected, msg=f"Number of {dataset_type}")
+                self.assertLessEqual(len(datasets), max_expected, msg=f"Number of {dataset_type}")
+            else:
+                self.assertEqual(len(datasets), n_expected, msg=f"Number of {dataset_type}")
 
             stored = self.butler.stored_many(datasets)
             for dataset in datasets:
@@ -108,7 +116,8 @@ class TestValidateOutputs(unittest.TestCase):
                     for additional_check in additional_checks:
                         additional_check(data, **kwargs)
 
-    def check_sources(self, source_dataset_types, n_expected, min_src, additional_checks=[], **kwargs):
+    def check_sources(self, source_dataset_types, n_expected, min_src,
+                      max_expected=None, additional_checks=[], **kwargs):
         """Check that the source catalogs have enough sources and
         run additional checks.
 
@@ -118,6 +127,10 @@ class TestValidateOutputs(unittest.TestCase):
             List of dataset types to check.
         n_expected : `int`
             Number of each dataset_type expected in repo.
+            If `max_expected` is not `None` then this is the lower
+            bound on the number of datasets.
+        max_expected : `int`
+            Maximum number of each dataset_type expected in repo.
         min_src : `int`
             Minimum number of sources for each dataset.
         additional_checks : `list` [`func`], optional
@@ -129,7 +142,11 @@ class TestValidateOutputs(unittest.TestCase):
 
             datasets = set(self.butler.registry.queryDatasets(source_dataset_type))
 
-            self.assertEqual(len(datasets), n_expected, msg=f"Number of {source_dataset_type}")
+            if max_expected is None:
+                self.assertEqual(len(datasets), n_expected, msg=f"Number of {source_dataset_type}")
+            else:
+                self.assertGreaterEqual(len(datasets), n_expected, msg=f"Number of {source_dataset_type}")
+                self.assertLessEqual(len(datasets), max_expected, msg=f"Number of {source_dataset_type}")
 
             for dataset in datasets:
                 catalog = self.butler.get(dataset)
@@ -447,7 +464,8 @@ class TestValidateOutputs(unittest.TestCase):
         self.check_sources(
             ["forced_diff", "forced_diff_diaObject"],
             len(self._raws - self._insufficient_template_coverage_failures - self._forced_astrom_failures),
-            self._min_diasources
+            self._min_diasources,
+            max_expected=len(self._raws - self._forced_astrom_failures),
         )
         self.check_datasets(["forced_diff_schema", "forced_diff_diaObject_schema"], 1)
 
@@ -478,7 +496,8 @@ class TestValidateOutputs(unittest.TestCase):
         # counts, but not logs or metadata.
         self.check_datasets(
             ["goodSeeingDiff_differenceExp"],
-            len(self._raws - self._insufficient_template_coverage_failures - self._forced_astrom_failures)
+            len(self._raws - self._insufficient_template_coverage_failures - self._forced_astrom_failures),
+            max_expected=len(self._raws - self._forced_astrom_failures),
         )
         self.check_datasets(["goodSeeingDiff_diaSrc_schema"], 1)
 
@@ -511,7 +530,8 @@ class TestValidateOutputs(unittest.TestCase):
         self.check_sources(
             ["forced_diff_diaObject"],
             len(self._raws - self._insufficient_template_coverage_failures - self._forced_astrom_failures),
-            self._min_diasources
+            self._min_diasources,
+            max_expected=len(self._raws - self._forced_astrom_failures),
         )
         # There are fewer forced sources
         self.check_sources(["forced_src_diaObject"], len(self._raws - self._forced_astrom_failures),
