@@ -156,7 +156,7 @@ class TestValidateOutputs(unittest.TestCase):
                     additional_check(catalog, **kwargs)
 
     def test_raw(self):
-        "Test existence of raw exposures."""
+        """Test existence of raw exposures."""
         self.check_datasets(["raw"], len(self._raws))
 
     def test_isr_calibrateImage(self):
