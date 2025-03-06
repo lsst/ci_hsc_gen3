@@ -203,9 +203,9 @@ class TestValidateOutputs(unittest.TestCase):
             self._num_tracts
         )
 
-    def test_finalize_characterization(self):
+    def test_consolidate_finalize_characterization(self):
         """Test existence of finalized characterization outputs."""
-        self.check_pipetasks(["finalizeCharacterization"], self._num_visits, self._num_visits)
+        self.check_pipetasks(["consolidateFinalizeCharacterization"], self._num_visits, self._num_visits)
         self.check_datasets(
             ["finalized_psf_ap_corr_catalog", "finalized_src_table"],
             self._num_visits
