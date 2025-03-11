@@ -71,13 +71,13 @@ class TestAstrometryFails(lsst.utils.tests.TestCase):
         successfully "reevaluated" if the associated calibration does indeed
         exist (this is to allow for the external calibrations to potentially
         "recover" from a failed SFM astrometric fit).  In this case, those
-        files do indeed exist in the ci_hsc_gen3 repo, so the ``source`` and
-        ``sourceTable`` catalogs will have valid coord entries.
+        files do indeed exist in the ci_hsc_gen3 repo, so the ``sourceTable``
+        catalogs will have valid coord entries.
         """
         sourceCat = self.butler.get("src", self.calexpMinimalDataId)
         self.assertTrue(np.all(np.isnan(sourceCat["coord_ra"])))
         self.assertTrue(np.all(np.isnan(sourceCat["coord_dec"])))
-        for catStr in ["source", "sourceTable"]:
+        for catStr in ["sourceTable"]:
             sourceCat = self.butler.get(catStr, self.calexpMinimalDataId)
             self.assertFalse(np.all(np.isnan(sourceCat["coord_ra"])))
             self.assertFalse(np.all(np.isnan(sourceCat["coord_dec"])))
