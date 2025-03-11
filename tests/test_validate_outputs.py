@@ -156,7 +156,7 @@ class TestValidateOutputs(unittest.TestCase):
                     additional_check(catalog, **kwargs)
 
     def test_raw(self):
-        "Test existence of raw exposures."""
+        """Test existence of raw exposures."""
         self.check_datasets(["raw"], len(self._raws))
 
     def test_isr_calibrateImage(self):
@@ -203,9 +203,9 @@ class TestValidateOutputs(unittest.TestCase):
             self._num_tracts
         )
 
-    def test_finalize_characterization(self):
+    def test_consolidate_finalize_characterization(self):
         """Test existence of finalized characterization outputs."""
-        self.check_pipetasks(["finalizeCharacterization"], self._num_visits, self._num_visits)
+        self.check_pipetasks(["consolidateFinalizeCharacterization"], self._num_visits, self._num_visits)
         self.check_datasets(
             ["finalized_psf_ap_corr_catalog", "finalized_src_table"],
             self._num_visits
