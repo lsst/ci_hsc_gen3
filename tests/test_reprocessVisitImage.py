@@ -46,6 +46,10 @@ class TestReprocessVisitImageOutputs(lsst.utils.tests.TestCase):
         schema_cat = self.butler.get("sources_schema")
         self.assertEqual(schema_cat.schema, self.catalog.schema)
 
+    def test_bunit(self):
+        """Test that the BUNIT metadata key is set to nJy."""
+        self.assertEqual(self.exposure.metadata["BUNIT"], "nJy")
+
     def testLocalPhotoCalibColumns(self):
         """Check that the catalog's photoCalib columns are consistent with the
         ratio of its instFlux and flux columns.
