@@ -45,7 +45,6 @@ QGRAPH_FILE=ci_hsc.qgraph
 INJECTION_QGRAPH_FILE=ci_hsc_injection.qgraph
 POST_INJECTION_QGRAPH_FILE=ci_hsc_post_injection.qgraph
 RESOURCE_USAGE_QGRAPH_FILE=ci_hsc_resource_usage.qgraph
-HIPS_QGRAPH_FILE=ci_hsc_hips.qgraph
 
 pipetask --long-log --log-level="$loglevel" qgraph \
     -d "skymap='discrete/ci_hsc' AND tract=0 AND patch=69" \
@@ -98,25 +97,11 @@ pipetask --long-log --log-level="$loglevel" run \
     --register-dataset-types \
     -g "$RESOURCE_USAGE_QGRAPH_FILE"
 
-# The output from this is unused, but this will exercise that the code runs.
-build-high-resolution-hips-qg segment -b "$repo" -p "$CI_HSC_GEN3_DIR/resources/highres_hips.yaml" -i "$COLLECTION"
-
-build-high-resolution-hips-qg build \
-    -b "$repo" -p "$CI_HSC_GEN3_DIR/resources/highres_hips.yaml" \
-    -i "$COLLECTION" --output "$HIPS_COLLECTION" \
-    --pixels 18 -q "$HIPS_QGRAPH_FILE"
-
 pipetask --long-log --log-level="$loglevel" run \
     -j "$jobs" -b "$repo"/butler.yaml \
+    -i "$COLLECTION" \
     --output "$HIPS_COLLECTION" \
-    --register-dataset-types \
-    -g "$HIPS_QGRAPH_FILE"
-
-pipetask --long-log --log-level="$loglevel" run \
-    -j "$jobs" -b "$repo"/butler.yaml \
-    -i "$HIPS_COLLECTION" \
-    --output "$HIPS_COLLECTION" \
-    -p "$CI_HSC_GEN3_DIR/resources/gen_hips.yaml" \
+    -p "$CI_HSC_GEN3_DIR/resources/hips.yaml" \
     -c "generateHips:hips_base_uri=$repo/hips" \
     -c "generateColorHips:hips_base_uri=$repo/hips" \
     --register-dataset-types
