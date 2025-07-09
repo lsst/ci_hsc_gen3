@@ -1,6 +1,8 @@
-description: Run GenerateHipsTask
+description: Build HiPS maps
 instrument: lsst.obs.subaru.HyperSuprimeCam
 tasks:
+  highResolutionHips9:
+    class: lsst.pipe.tasks.hips.HighResolutionHipsTask
   generateHips:
     class: lsst.pipe.tasks.hips.GenerateHipsTask
     config:
