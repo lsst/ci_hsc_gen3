@@ -423,22 +423,21 @@ class TestValidateOutputs(unittest.TestCase):
         self.check_datasets(["sources_schema"], 1)
         self.check_datasets(["pvi", "pvi_background"], len(self._raws - self._forced_astrom_failures))
 
-    def test_forced_phot_ccd(self):
+    def test_forced_phot_detector(self):
         """Test existence of forced photometry tables (sources)."""
         # Lack of PVI (from reprocessVisitImage) leads to NoWorkFound for the
         # forced astrometry failure data IDs, which affects regular-output
         # counts, but not logs or metadata.
-        self.check_pipetasks(["forcedPhotCcd"], len(self._raws), len(self._raws))
+        self.check_pipetasks(["forcedPhotObjectDetector"], len(self._raws), len(self._raws))
         self.check_sources(
-            ["forced_src"],
+            ["mergedForcedSource"],
             len(self._raws - self._forced_astrom_failures),
             self._min_sources,
-            additional_checks=[self.check_aperture_corrections],
+            additional_checks=[self.check_dataframe_aperture_corrections],
             # We only measure psfFlux in single-detector forced photometry.
             aperture_algorithms=("base_PsfFlux", ),
         )
-        self.check_datasets(["forced_src_schema"], 1)
-        self.check_datasets(["forced_src"], len(self._raws - self._forced_astrom_failures))
+        self.check_datasets(["mergedForcedSource"], len(self._raws - self._forced_astrom_failures))
 
     def test_forced_phot_coadd(self):
         """Test existence of forced photometry tables (objects)."""
@@ -451,23 +450,22 @@ class TestValidateOutputs(unittest.TestCase):
             additional_checks=[self.check_aperture_corrections]
         )
 
-    def test_forced_phot_diffim(self):
-        """Test existence of forced photometry tables (diffim)."""
+    def test_forced_phot_dia(self):
+        """Test existence of forced photometry tables (dia)."""
         # Lack of PVI (from reprocessVisitImage) leads to NoWorkFound for the
         # forced astrometry failure data IDs, which affects regular-output
         # counts, but not logs or metadata.
         self.check_pipetasks(
-            ["forcedPhotDiffim", "forcedPhotCcdOnDiaObjects", "forcedPhotDiffOnDiaObjects"],
+            ["forcedPhotDiaObjectDetector"],
             len(self._raws),
             len(self._raws),
         )
         self.check_sources(
-            ["forced_diff", "forced_diff_diaObject"],
+            ["mergedForcedSourceOnDiaObject"],
             len(self._raws - self._insufficient_template_coverage_failures - self._forced_astrom_failures),
             self._min_diasources,
             max_expected=len(self._raws - self._forced_astrom_failures),
         )
-        self.check_datasets(["forced_diff_schema", "forced_diff_diaObject_schema"], 1)
 
     def test_templates(self):
         """Test existence of templates."""
@@ -511,12 +509,6 @@ class TestValidateOutputs(unittest.TestCase):
     def test_forced_source_tables(self):
         """Test existence of forces source tables."""
         self.check_pipetasks(
-            ["writeForcedSourceTable",
-             "writeForcedSourceOnDiaObjectTable"],
-            len(self._raws),
-            len(self._raws)
-        )
-        self.check_pipetasks(
             ["transformForcedSourceTable",
              "transformForcedSourceOnDiaObjectTable",
              "consolidateForcedSourceTable",
@@ -524,20 +516,6 @@ class TestValidateOutputs(unittest.TestCase):
             1,
             1
         )
-        # Lack of PVI (from reprocessVisitImage) leads to NoWorkFound for the
-        # forced astrometry failure data IDs, which affects regular-output
-        # counts, but not logs or metadata.
-        self.check_sources(
-            ["forced_diff_diaObject"],
-            len(self._raws - self._insufficient_template_coverage_failures - self._forced_astrom_failures),
-            self._min_diasources,
-            max_expected=len(self._raws - self._forced_astrom_failures),
-        )
-        # There are fewer forced sources
-        self.check_sources(["forced_src_diaObject"], len(self._raws - self._forced_astrom_failures),
-                           self._min_diasources)
-        self.check_datasets(["forced_diff_diaObject_schema", "forced_src_diaObject_schema"], 1)
-        self.check_datasets(["forced_src_diaObject"], len(self._raws - self._forced_astrom_failures))
 
     def test_skymap(self):
         """Test existence of skymap."""
@@ -554,6 +532,26 @@ class TestValidateOutputs(unittest.TestCase):
             self.assertTrue(f"{alg}_apCorr" in catalog.schema, msg=f"{alg}_apCorr in schema")
             self.assertTrue(f"{alg}_apCorrErr" in catalog.schema, msg=f"{alg}_apCorrErr in schema")
             self.assertTrue(f"{alg}_flag_apCorr" in catalog.schema, msg=f"{alg}_flag_apCorr in schema")
+
+    def check_dataframe_aperture_corrections(
+        self,
+        dataframe,
+        aperture_algorithms=("base_PsfFlux", "base_GaussianFlux"),
+        **kwargs,
+    ):
+        for alg in aperture_algorithms:
+            self.assertTrue(
+                f"{alg}_apCorr" in dataframe.columns.levels[1],
+                msg=f"{alg}_apCorr in columns",
+            )
+            self.assertTrue(
+                f"{alg}_apCorrErr" in dataframe.columns.levels[1],
+                msg=f"{alg}_apCorrErr in columns",
+            )
+            self.assertTrue(
+                f"{alg}_flag_apCorr" in dataframe.columns.levels[1],
+                msg=f"{alg}_flag_apCorr in columns",
+            )
 
     def check_psf_stars_and_flags(self, catalog, min_stellar_fraction=0.95, do_check_flags=True, **kwargs):
         primary = catalog["detect_isPrimary"]

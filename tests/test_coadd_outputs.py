@@ -60,11 +60,21 @@ class TestCoaddOutputs(unittest.TestCase):
         self.assertIn("parent", coadd_schema)
         self.assertNotIn("objectId", coadd_schema)
         self.assertNotIn("parentObjectId", coadd_schema)
-        ccd_schema = self.butler.get("forced_src_schema").schema
-        self.assertIn("id", ccd_schema)
-        self.assertIn("parent", ccd_schema)
-        self.assertIn("objectId", ccd_schema)
-        self.assertIn("parentObjectId", ccd_schema)
+        # Use a specific visit, detector catalog to ensure that the
+        # correct columns exist
+        visit = DATA_IDS[0]["visit"]
+        detector = DATA_IDS[0]["detector"]
+        multi_index = self.butler.get(
+            "mergedForcedSource.columns",
+            tract=self._tract,
+            visit=visit,
+            detector=detector,
+        )
+        columns = multi_index.levels[1]
+        self.assertIn("id", columns)
+        self.assertIn("parent", columns)
+        self.assertIn("objectId", columns)
+        self.assertIn("parentObjectId", columns)
 
     def test_alg_metadata_output(self):
         """Test that the algorithm metadata is persisted correctly
@@ -100,7 +110,6 @@ class TestCoaddOutputs(unittest.TestCase):
         mergeDet_schema = self.butler.get("deepCoadd_mergeDet_schema").schema
         ref_schema = self.butler.get("deepCoadd_ref_schema").schema
         coadd_forced_schema = self.butler.get("deepCoadd_forced_src_schema").schema
-        ccd_forced_schema = self.butler.get("forced_src_schema").schema
         for band in self._bands:
             det = self.butler.get("deepCoadd_det", band=band, tract=self._tract, patch=self._patch)
             self.assertEqual(det.schema, det_schema)
@@ -117,13 +126,6 @@ class TestCoaddOutputs(unittest.TestCase):
                 patch=self._patch
             )
             self.assertEqual(coadd_forced_src.schema, coadd_forced_schema)
-        ccd_forced_src = self.butler.get(
-            "forced_src",
-            tract=self._tract,
-            visit=DATA_IDS[0]["visit"],
-            detector=DATA_IDS[0]["detector"]
-        )
-        self.assertEqual(ccd_forced_src.schema, ccd_forced_schema)
 
     def test_coadd_transmission_curves(self):
         """Test that coadded TransmissionCurves agree with the inputs."""
