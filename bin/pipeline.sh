@@ -41,10 +41,10 @@ HIPS_COLLECTION=HSC/runs/ci_hsc_hips
 
 export DYLD_LIBRARY_PATH="$LSST_LIBRARY_PATH"
 # exercise saving of the generated quantum graph to a file and reading it back
-QGRAPH_FILE=ci_hsc.qgraph
-INJECTION_QGRAPH_FILE=ci_hsc_injection.qgraph
-POST_INJECTION_QGRAPH_FILE=ci_hsc_post_injection.qgraph
-RESOURCE_USAGE_QGRAPH_FILE=ci_hsc_resource_usage.qgraph
+QGRAPH_FILE=ci_hsc.qg
+INJECTION_QGRAPH_FILE=ci_hsc_injection.qg
+POST_INJECTION_QGRAPH_FILE=ci_hsc_post_injection.qg
+RESOURCE_USAGE_QGRAPH_FILE=ci_hsc_resource_usage.qg
 
 pipetask --long-log --log-level="$loglevel" qgraph \
     -d "skymap='discrete/ci_hsc' AND tract=0 AND patch=69" \
