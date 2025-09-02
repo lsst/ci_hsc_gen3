@@ -431,13 +431,16 @@ class TestValidateOutputs(unittest.TestCase):
         self.check_pipetasks(["forcedPhotObjectDetector"], len(self._raws), len(self._raws))
         self.check_sources(
             ["mergedForcedSource"],
-            len(self._raws - self._forced_astrom_failures),
+            len(self._raws - self._insufficient_template_coverage_failures - self._forced_astrom_failures),
             self._min_sources,
             additional_checks=[self.check_dataframe_aperture_corrections],
             # We only measure psfFlux in single-detector forced photometry.
             aperture_algorithms=("base_PsfFlux", ),
         )
-        self.check_datasets(["mergedForcedSource"], len(self._raws - self._forced_astrom_failures))
+        self.check_datasets(
+            ["mergedForcedSource"],
+            len(self._raws - self._forced_astrom_failures - self._insufficient_template_coverage_failures)
+        )
 
     def test_forced_phot_coadd(self):
         """Test existence of forced photometry tables (objects)."""
