@@ -589,7 +589,7 @@ class TestValidateOutputs(unittest.TestCase):
         except in the few cases where we expect NoWorkFound to have been
         raised.
         """
-        qg = QuantumGraph.loadUri("ci_hsc.qgraph")
+        qg = QuantumGraph.loadUri("ci_hsc.qg")
         prov = qpg.QuantumProvenanceGraph()
         prov.assemble_quantum_provenance_graph(self.butler, [qg])
         # Identify the quanta that we expect to be affected by the expected
