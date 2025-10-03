@@ -66,7 +66,7 @@ pipetask --long-log --log-level="$loglevel" qgraph \
     -d "skymap='discrete/ci_hsc' AND tract=0 AND patch=69" \
     -b "$repo"/butler.yaml \
     --input "$COLLECTION","$INJECTION_INPUTCOLL" --output "$INJECTION_COLLECTION" \
-    -p "$repo"/DRP-ci_hsc+injection.yaml \
+    -p "$repo"/DRP-ci_hsc+injection.yaml#injected_coaddition,injected_multiband,injected_objectTable,injected_forced,injected_analysis_tools \
     --save-qgraph "$INJECTION_QGRAPH_FILE"
 
 pipetask --long-log --log-level="$loglevel" run \
