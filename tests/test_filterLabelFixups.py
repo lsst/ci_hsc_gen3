@@ -70,12 +70,18 @@ class TestFilterLabelFixups(lsst.utils.tests.TestCase):
         get a warning.  It is unspecified what the FilterLabel will have in
         this case, so we don't check that.
         """
+        ref = self.butler.find_dataset("flat", self.flatMinimalDataId)
+        # find_dataset() looks up the extra "implied" data ID values, so we
+        # need to strip them back out to allow the warning to trigger.
+        ref = ref.expanded(
+            DataCoordinate.standardize(self.flatMinimalDataId.required, universe=self.butler.dimensions)
+        )
         with self.assertWarns(Warning):
-            self.butler.get("flat", self.flatMinimalDataId)
+            self.butler.get(ref)
         with self.assertWarns(Warning):
-            self.butler.get("flat", self.flatMinimalDataId, parameters=self.parameters)
+            self.butler.get(ref, parameters=self.parameters)
         with self.assertWarns(Warning):
-            self.butler.get("flat.filter", self.flatMinimalDataId)
+            self.butler.get(ref.makeComponentRef("filter"))
 
     def testFixingReadingOldFile(self):
         """If we read an old flat with a complete data ID, we fix the
@@ -142,18 +148,22 @@ class TestFilterLabelFixups(lsst.utils.tests.TestCase):
         _, components = self.butler.getURIs("calexp", calexpBadDataId)
         if components:
             raise unittest.SkipTest("Test not relevant because composite has been disassembled")
-
+        ref = self.butler.find_dataset("calexp", calexpBadDataId)
+        # find_dataset() replaces the bad dimension values with the correct
+        # dimensions looked up from the DB, so we need to put the bad ones
+        # back.
+        ref = ref.expanded(calexpBadDataId)
         with self.assertWarns(Warning):
-            calexp = self.butler.get("calexp", calexpBadDataId)
+            calexp = self.butler.get(ref)
         with self.assertWarns(Warning):
-            calexpFilterLabel = self.butler.get("calexp.filter", calexpBadDataId)
+            calexpFilterLabel = self.butler.get(ref.makeComponentRef("filter"))
         self.assertEqual(calexp.getFilter(), calexpFilterLabel)
         self.assertEqual(calexp.getFilter().bandLabel, calexpBadDataId["band"])
         self.assertEqual(calexp.getFilter().physicalLabel, calexpBadDataId["physical_filter"])
         self.assertEqual(calexpFilterLabel.bandLabel, calexpBadDataId["band"])
         self.assertEqual(calexpFilterLabel.physicalLabel, calexpBadDataId["physical_filter"])
         with self.assertWarns(Warning):
-            calexpSub = self.butler.get("calexp", calexpBadDataId, parameters=self.parameters)
+            calexpSub = self.butler.get(ref, parameters=self.parameters)
         self.assertEqual(calexp.getFilter(), calexpSub.getFilter())
 
 
