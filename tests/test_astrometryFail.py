@@ -37,7 +37,7 @@ class TestAstrometryFails(lsst.utils.tests.TestCase):
         self.butler = Butler(os.path.join(getPackageDir("ci_hsc_gen3"), "DATA"), writeable=False,
                              collections=["HSC/calib/2013-06-17", "HSC/runs/ci_hsc"])
         # The dataId here represents one of the astrometry fit failures
-        # imposed by setting astrometry.maxMeanDistanceArcsec: 0.0228 in
+        # imposed by setting astrometry.maxMeanDistanceArcsec: 0.02 in
         # the pipeline.
         self.detector = ASTROMETRY_FAILURE_DATA_IDS[0]["detector"]
         self.visit = ASTROMETRY_FAILURE_DATA_IDS[0]["visit"]
