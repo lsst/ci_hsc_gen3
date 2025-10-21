@@ -479,7 +479,7 @@ class TestValidateOutputs(unittest.TestCase):
 
     def test_templates(self):
         """Test existence of templates."""
-        self.check_pipetasks(["getTemplate"], len(self._raws), len(self._raws))
+        self.check_pipetasks(["buildTemplate"], len(self._raws), len(self._raws))
         self.check_pipetasks(
             ["templateGen", "selectGoodSeeingVisits"],
             self._num_patches*self._num_bands,
