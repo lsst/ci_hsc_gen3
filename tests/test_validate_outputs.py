@@ -636,7 +636,7 @@ class TestValidateOutputs(unittest.TestCase):
                     ]
                     raise AssertionError(
                         f"{quantum_key.task_label}@{quantum_info['data_id']} should not have caveats "
-                        f"{quantum_info.caveats}; missing datasets: {', '.join(not_produced)}."
+                        f"{quantum_run.caveats}; missing datasets: {', '.join(not_produced)}."
                     )
 
 
