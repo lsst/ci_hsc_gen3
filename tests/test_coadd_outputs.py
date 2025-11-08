@@ -309,6 +309,7 @@ class TestCoaddOutputs(unittest.TestCase):
         for band in self._bands:
             exp = self.butler.get("deepCoadd_calexp", band=band, tract=self._tract, patch=self._patch)
             coadd_psf = exp.getPsf()
+            wcs = exp.wcs
             cat = self.butler.get("objectTable", band=band, tract=self._tract, patch=self._patch)
 
             star_cat = cat[(cat["i_extendedness"] < 0.5)
@@ -320,7 +321,10 @@ class TestCoaddOutputs(unittest.TestCase):
             to_check = ctx.choice(len(star_cat), size=n_object_test, replace=False)
             n_good = 0
             for index in to_check:
-                position = geom.Point2D(np.asarray(star_cat["x"])[index], np.asarray(star_cat["y"])[index])
+                skyPos = geom.SpherePoint(np.asarray(star_cat["coord_ra"])[index],
+                                          np.asarray(star_cat["coord_dec"])[index],
+                                          geom.degrees)
+                position = wcs.skyToPixel(skyPos)
                 psf_image = coadd_psf.computeImage(position)
                 psf_image_bbox = psf_image.getBBox()
                 star_image = lsst.afw.image.ImageF(
