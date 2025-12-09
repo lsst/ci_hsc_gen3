@@ -197,7 +197,11 @@ class TestCoaddOutputs(unittest.TestCase):
                 visit=det_record["visit"],
                 detector=det_record["ccd"]
             )
-            self.assertEqual(det_record.getWcs(), wcs_cat.find(det_record["ccd"]).getWcs())
+            # The WCS attached to the warp has a FITS approximation attached to
+            # it while the one in wcs_cat does not, so we have to drop that
+            # FITS approximation for them to compare as equal.
+            self.assertEqual(det_record.getWcs().copyWithFitsApproximation(None),
+                             wcs_cat.find(det_record["ccd"]).getWcs())
             self.assertEqual(
                 det_record.getPhotoCalib(),
                 lsst.afw.image.PhotoCalib(1.0),
@@ -245,7 +249,11 @@ class TestCoaddOutputs(unittest.TestCase):
                 visit=det_record["visit"],
                 detector=det_record["ccd"]
             )
-            self.assertEqual(det_record.getWcs(), wcs_cat.find(det_record["ccd"]).getWcs())
+            # The WCS attached to the coadd has a FITS approximation attached
+            # to it while the one in wcs_cat does not, so we have to drop that
+            # FITS approximation for them to compare as equal.
+            self.assertEqual(det_record.getWcs().copyWithFitsApproximation(None),
+                             wcs_cat.find(det_record["ccd"]).getWcs())
             self.assertEqual(
                 det_record.getPhotoCalib(),
                 lsst.afw.image.PhotoCalib(1.0),
