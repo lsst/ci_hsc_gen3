@@ -19,8 +19,8 @@ data:
   run: HSC/external
   records:
   - dataset_id:
-    - !uuid 'a83d850a-0094-417c-ac9c-64d0f7b98048'
+    - !uuid '019c6747-9f1c-71f2-b088-57879bd8856d'
     data_id:
     - {}
-    path: pretrained_models/tac_cnn_comcam_2025-02-18/pretrainedModelPackage/pretrainedModelPackage_pretrained_models_tac_cnn_comcam_2025-02-18.zip
+    path: pretrained_models/tac_cnn_lsstcam_2026-02-13/pretrainedModelPackage/pretrainedModelPackage_pretrained_models_tac_cnn_lsstcam_2026-02-13.zip
     formatter: lsst.meas.transiNet.modelPackages.formatters.NNModelPackageFormatter
