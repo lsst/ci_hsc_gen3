@@ -22,29 +22,32 @@
 import os
 import unittest
 
-import lsst.utils.tests
-import yaml
+from felis import Schema
+
 from lsst.daf.butler import Butler
 from lsst.utils import getPackageDir
+import lsst.utils.tests
 
 
 class TestSchemaMatch(lsst.utils.tests.TestCase):
     """Check the schema of the parquet outputs match the DDL in sdm_schemas"""
 
     def setUp(self):
-        self.butler = Butler(os.path.join(getPackageDir("ci_hsc_gen3"), "DATA"),
-                             writeable=False, collections=["HSC/runs/ci_hsc"])
-        schemaFile = os.path.join(getPackageDir("sdm_schemas"), 'yml', 'hsc.yaml')
-        with open(schemaFile, "r") as f:
-            self.schema = yaml.safe_load(f)['tables']
+        self.butler = Butler(
+            os.path.join(getPackageDir("ci_hsc_gen3"), "DATA"),
+            writeable=False,
+            collections=["HSC/runs/ci_hsc"],
+        )
+        schemaFile = os.path.join(getPackageDir("sdm_schemas"), "yml", "hsc.yaml")
+        self.schema = Schema.from_uri(schemaFile, context={"id_generation": True})
 
     def _validateSchema(self, dataset, dataId, tableName):
         """Check the schema of the parquet dataset match that in the DDL.
         Only the column names are checked currently.
         """
-        sdmSchema = [table for table in self.schema if table['name'] == tableName]
-        self.assertEqual(len(sdmSchema), 1)
-        expectedColumnNames = set(column['name'] for column in sdmSchema[0]['columns'])
+        tables = [table for table in self.schema.tables if table.name == tableName]
+        self.assertEqual(len(tables), 1)
+        expectedColumnNames = set(column.name for column in tables[0].columns)
 
         df = self.butler.get(dataset, dataId, storageClass="ArrowAstropy")
         outputColumnNames = set(df.colnames)
