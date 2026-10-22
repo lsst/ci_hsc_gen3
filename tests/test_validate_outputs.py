@@ -21,6 +21,8 @@
 import os
 import unittest
 
+import numpy as np
+
 from lsst.ci.hsc.gen3 import (
     DATA_IDS,
     ASTROMETRY_FAILURE_DATA_IDS,
@@ -392,6 +394,45 @@ class TestValidateOutputs(unittest.TestCase):
              "deepCoadd_ref_schema"],
             1
         )
+
+    def test_merge_peak_counts(self):
+        """Test that detection peaks survive merging and measurement.
+
+        Every merged detection peak comes from a per-band detection, so the
+        per-band detection peaks are an upper bound on the merged peaks flagged
+        for that band. Each merged source then becomes one measurement source
+        in every band, so the merged peaks flagged for a band must equal the
+        measurement peaks flagged for that band.
+        """
+        # Group the coadd detection data IDs by (tract, patch) so a single
+        # mergeDet catalog can be checked against every band.
+        bands_by_patch = {}
+        for ref in set(self.butler.registry.queryDatasets("deepCoadd_det")):
+            data_id = ref.dataId
+            bands_by_patch.setdefault((data_id["tract"], data_id["patch"]), set()).add(data_id["band"])
+
+        self.assertGreater(len(bands_by_patch), 0, msg="deepCoadd_det data IDs found")
+
+        for (tract, patch), bands in bands_by_patch.items():
+            merged = self.butler.get("deepCoadd_mergeDet", tract=tract, patch=patch)
+            for band in bands:
+                det = self.butler.get("deepCoadd_det", band=band, tract=tract, patch=patch)
+                meas = self.butler.get("deepCoadd_meas", band=band, tract=tract, patch=patch)
+
+                det_peaks = sum(len(src.getFootprint().peaks) for src in det)
+                merged_peaks = sum(
+                    np.sum(src.getFootprint().peaks["merge_peak_" + band]) for src in merged
+                )
+                meas_peaks = np.sum(meas["merge_peak_" + band])
+
+                self.assertGreaterEqual(
+                    det_peaks, merged_peaks,
+                    msg=f"detection peaks >= merged peaks for band {band}, tract {tract}, patch {patch}"
+                )
+                self.assertEqual(
+                    merged_peaks, meas_peaks,
+                    msg=f"merged peaks == measurement peaks for band {band}, tract {tract}, patch {patch}"
+                )
 
     def test_object_tables(self):
         """Test existence of object tables."""
